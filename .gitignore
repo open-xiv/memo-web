@@ -1,0 +1,19 @@
+# Build
+dist/
+
+# Tailwind JIT cache
+.tailwind/
+
+# Vite
+.cache/
+vite.svg
+
+# Logs
+*.log
+
+# Mac
+.DS_Store
+
+# Env
+.env
+.env.local
