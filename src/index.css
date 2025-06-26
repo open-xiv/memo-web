@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans+SC:wght@100..900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -43,6 +44,8 @@
 
 :root {
     --radius: 0.625rem;
+    --font-sans: "Noto Sans SC", ui-sans-serif;
+    --font-mono: "Noto Sans Mono", ui-monospace;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);

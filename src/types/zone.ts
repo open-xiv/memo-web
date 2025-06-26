@@ -1,0 +1,20 @@
+export interface Zone {
+    zone_id: number;
+    name: string;
+    description: string;
+    phases: Phase[];
+}
+
+export interface Phase {
+    phase_id: number;
+    name: string;
+    description: string;
+    subphases: Subphase[];
+}
+
+export interface Subphase {
+    subphase_id: number;
+    name: string;
+    description: string;
+    action_id: number[];
+}

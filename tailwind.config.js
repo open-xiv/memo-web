@@ -1,3 +1,5 @@
+import twAnimate from "tw-animate-css";
+
 export default {
     content: [
         "./index.html",
@@ -6,5 +8,7 @@ export default {
     theme: {
         extend: {},
     },
-    plugins: [],
+    plugins: [
+        twAnimate,
+    ],
 };
