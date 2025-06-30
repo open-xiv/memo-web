@@ -26,5 +26,6 @@ export const getZoneNameByID = async (zoneID: number): Promise<string> => {
 
 export const getMemberZoneProgress = async (memberIdentifier: string, zoneID: number): Promise<MemberZoneProgress> => {
     const res = await axios.get<MemberZoneProgress>(`${BASE_URL}/member/${memberIdentifier}/progress/${zoneID}`);
+    console.info(res.data);
     return res.data;
 };
