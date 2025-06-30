@@ -31,9 +31,11 @@ export default function Member() {
         // fetch member's best fights
         const fetchBestFights = async () => {
             try {
+                const encodedName = encodeURIComponent(nameParts[0]) + "@" + encodeURIComponent(nameParts[1]);
+                
                 // fetch all interest zones
                 const progressPromises = ZONES_INTEREST.map(zoneId =>
-                    getMemberZoneProgress(name, zoneId)
+                    getMemberZoneProgress(encodedName, zoneId)
                 );
                 const progressResults = await Promise.all(progressPromises);
 
