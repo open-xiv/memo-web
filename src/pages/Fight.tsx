@@ -33,7 +33,7 @@ export default function Fight() {
                 }
             } catch (err) {
                 // zone not found
-                console.error("Error fetching fight or zone data:", err);
+                console.error("error fetching fight or zone data:", err);
                 setZoneInfo(undefined, undefined);
             }
         };

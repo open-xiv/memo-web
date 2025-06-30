@@ -11,14 +11,5 @@ export default defineConfig({
         alias: {
             "@": path.resolve(__dirname, "./src"),
         },
-    },
-    // server: {
-    //     proxy: {
-    //         "/api": {
-    //             target: "https://api.sumemo.dev",
-    //             changeOrigin: true,
-    //             rewrite: (path) => path.replace(/^\/api/, ""),
-    //         }
-    //     }
-    // }
+    }
 });

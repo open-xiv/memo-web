@@ -55,7 +55,7 @@ export default function Member() {
                 setFights(bestFightsData);
 
             } catch (error) {
-                console.error("Failed to fetch member's best fights:", error);
+                console.error("failed to fetch member's best fights:", error);
                 setFights([]);
             } finally {
                 setIsLoading(false);
@@ -78,7 +78,7 @@ export default function Member() {
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <DevIcon className="h-6 w-6"/>
                     <span className="text-amber-950 text-base font-medium"> 正在开发中的界面 </span>
-                    <span className="text-amber-600 text-base font-medium"> 别急 </span>
+                    <span className="text-amber-600 text-base font-medium"> 产能不足 </span>
                 </div>
             </div>
 
@@ -89,7 +89,7 @@ export default function Member() {
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <TargetIcon className="h-6 w-6"/>
                         <span className="text-amber-950 text-base font-medium"> 数据加载中 </span>
-                        <span className="text-amber-600 text-base font-medium"> 别急 </span>
+                        <span className="text-amber-600 text-base font-medium"> 没有算法 纯靠遍历 </span>
                     </div>
                 </div>
                 : fights.length > 0 ?
@@ -104,8 +104,8 @@ export default function Member() {
                             className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                             <ErrIcon className="h-6 w-6"/>
-                            <span className="text-red-950 text-base font-medium"> 无有效记录 </span>
-                            <span className="text-red-600 text-base font-medium"> 和我的钱包一样空 </span>
+                            <span className="text-red-950 text-base font-medium"> 未记录 </span>
+                            <span className="text-red-600 text-base font-medium"> 请通过其他途径验证 </span>
                         </div>
                     </div>
             }

@@ -29,7 +29,6 @@ export default function FightCard({fight}: FightCardProps) {
     // time string
     const timeString = getTimeString(fight.timestamp);
 
-
     // fight has
     const hashString = fight.hash.substring(0, 4);
 
@@ -48,7 +47,7 @@ export default function FightCard({fight}: FightCardProps) {
             }
         }
     }
-    progressString = fight.clear ? `All Clear` : progressString;
+    progressString = fight.clear ? `已完成` : progressString;
 
     useEffect(() => {
         const fetchZone = async () => {
