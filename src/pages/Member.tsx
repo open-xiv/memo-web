@@ -1,4 +1,4 @@
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import FightCard from "@/components/custom/FightCard";
 import type {Fight} from "@/types/fight.ts";
@@ -80,9 +80,10 @@ export default function Member() {
             {fights.length > 0 ?
                 <div className="flex flex-wrap justify-start gap-3 w-full">
                     {fights.map((fight) => (
-                        <Link key={fight.id} to={`/fight/${fight.id}`} className="block hover:opacity-80 transition-opacity">
-                            <FightCard fight={fight}/>
-                        </Link>
+                        <FightCard fight={fight}/>
+                        // <Link key={fight.id} to={`/fight/${fight.id}`} className="block hover:opacity-80 transition-opacity">
+                        //     <FightCard fight={fight}/>
+                        // </Link>
                     ))}
                 </div> : <div/>}
         </div>

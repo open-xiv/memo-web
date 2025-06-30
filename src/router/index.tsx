@@ -4,6 +4,7 @@ import Member from "../pages/Member";
 import Fight from "../pages/Fight";
 import Header from "@/components/custom/Header";
 import {HeaderProvider} from "@/provider/HeaderProvider.tsx";
+import ErrorPage from "@/pages/ErrorPage";
 
 const AppLayout = () => {
     return (
@@ -21,6 +22,7 @@ const AppLayout = () => {
 const router = createBrowserRouter([
     {
         element: <AppLayout/>,
+        errorElement: <ErrorPage/>,
         children: [
             {
                 path: "/",

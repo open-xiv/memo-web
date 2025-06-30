@@ -1,5 +1,4 @@
-import {Link, useLocation, useParams} from "react-router-dom";
-import HomeIcon from "@/assets/home.svg?react";
+import {useLocation, useParams} from "react-router-dom";
 import UserIcon from "@/assets/user.svg?react";
 import FightIcon from "@/assets/fight.svg?react";
 import {useHeaderContext} from "@/context/HeaderContext";
@@ -18,12 +17,12 @@ export default function Header() { // Remove props from function signature
         <header className="p-4">
             <nav className="container mx-auto flex items-center space-x-3">
                 {/* Home */}
-                <div className="w-10 h-10 relative flex items-center justify-center">
-                    <div className="w-full h-full absolute bg-pink-50 rounded-lg border border-pink-300 blur-[2px] z-10"/>
-                    <Link to="/" className="hover:text-primary transition-colors z-20">
-                        <HomeIcon className="h-6 w-6"/>
-                    </Link>
-                </div>
+                {/*<div className="w-10 h-10 relative flex items-center justify-center">*/}
+                {/*    <div className="w-full h-full absolute bg-pink-50 rounded-lg border border-pink-300 blur-[2px] z-10"/>*/}
+                {/*    <Link to="/" className="hover:text-primary transition-colors z-20">*/}
+                {/*        <HomeIcon className="h-6 w-6"/>*/}
+                {/*    </Link>*/}
+                {/*</div>*/}
 
                 {/* Member */}
                 <div className={`h-10 relative flex items-center ${isMemberPage ? "justify-start" : "w-10 justify-center"}`}>
