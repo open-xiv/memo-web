@@ -2,7 +2,7 @@ import axios from "axios";
 import type {Zone} from "@/types/zone.ts";
 import type {Fight, MemberFight, MemberZoneProgress} from "@/types/fight.ts";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://api.sumemo.dev";
 
 export const getMemberFights = async (name: string): Promise<MemberFight> => {
     const res = await axios.get(`${BASE_URL}/member/${name}/fight`);
