@@ -1,11 +1,11 @@
 import axios from "axios";
 import type {Zone} from "@/types/zone.ts";
-import type {Fight, MemberFight} from "@/types/fight.ts";
+import type {Fight, MemberFight, MemberZoneProgress} from "@/types/fight.ts";
 
-const BASE_URL = "http://localhost:2025/public";
+const BASE_URL = "http://localhost:8080";
 
 export const getMemberFights = async (name: string): Promise<MemberFight> => {
-    const res = await axios.get(`${BASE_URL}/member/${name}/fights`);
+    const res = await axios.get(`${BASE_URL}/member/${name}/fight`);
     return res.data;
 };
 
@@ -22,4 +22,9 @@ export const getZoneByID = async (zoneID: number): Promise<Zone> => {
 export const getZoneNameByID = async (zoneID: number): Promise<string> => {
     const res = await axios.get(`${BASE_URL}/zone/${zoneID}/name`);
     return res.data.name;
+};
+
+export const getMemberZoneProgress = async (memberIdentifier: string, zoneID: number): Promise<MemberZoneProgress> => {
+    const res = await axios.get<MemberZoneProgress>(`${BASE_URL}/member/${memberIdentifier}/progress/${zoneID}`);
+    return res.data;
 };
