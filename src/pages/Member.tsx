@@ -77,8 +77,8 @@ export default function Member() {
                 <div className="w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <DevIcon className="h-6 w-6"/>
-                    <span className="text-amber-950 text-base font-medium"> 正在开发中的界面 </span>
-                    <span className="text-amber-600 text-base font-medium"> 产能不足 </span>
+                    <span className="text-amber-950 text-base font-medium"> 正在适配更多副本 </span>
+                    <span className="text-amber-600 text-base font-medium"> 中量级进度将在次周可用 </span>
                 </div>
             </div>
 
@@ -89,7 +89,7 @@ export default function Member() {
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <TargetIcon className="h-6 w-6"/>
                         <span className="text-amber-950 text-base font-medium"> 数据加载中 </span>
-                        <span className="text-amber-600 text-base font-medium"> 没有算法 纯靠遍历 </span>
+                        <span className="text-amber-600 text-base font-medium">  </span>
                     </div>
                 </div>
                 : fights.length > 0 ?
@@ -105,7 +105,7 @@ export default function Member() {
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                             <ErrIcon className="h-6 w-6"/>
                             <span className="text-red-950 text-base font-medium"> 未记录 </span>
-                            <span className="text-red-600 text-base font-medium"> 请通过其他途径验证 </span>
+                            <span className="text-red-600 text-base font-medium"> 请通过其他途径判断 </span>
                         </div>
                     </div>
             }
