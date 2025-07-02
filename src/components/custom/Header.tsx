@@ -80,6 +80,7 @@ export default function Header() {
     return (
         <header className="p-4">
             <nav className="container mx-auto flex items-center space-x-3">
+
                 {/* Member */}
                 <div className={`h-10 relative inline-flex items-center justify-start`}>
                     <div className={`w-full h-full absolute bg-violet-50 rounded-lg border border-violet-300 blur-[2px] z-10`}/>
