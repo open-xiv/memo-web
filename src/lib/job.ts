@@ -90,6 +90,15 @@ for (const jobID in jobDefinitions) {
  * @param jobID The numerical identifier of the job.
  * @returns The Job object, or null if not found.
  */
+export function getJobByID(jobID: number): Job | null {
+    return fullJobMap[jobID] || null;
+}
+
+/**
+ * Retrieves the complete job object based on its identifier.
+ * @param jobID The numerical identifier of the job.
+ * @returns The Job object, or null if not found.
+ */
 // export function getJobByID(jobID: number): Job | null {
 //     return fullJobMap[jobID] || null;
 // }
