@@ -93,14 +93,16 @@ export default function FightCard({fight}: FightCardProps) {
                 {/* party job icons */}
                 <div className="flex items-center justify-start gap-1">
                     {partyJobIcons.map((icon, index) => (
-                        <HoverCard>
-                            <HoverCardTrigger>
-                                <img key={index} src={icon} alt={`job ${index}`} className="w-6 h-6"/>
-                            </HoverCardTrigger>
-                            <HoverCardContent className={`w-auto h-auto p-0`} sideOffset={12}>
-                                <NamePlate player={partyPlayers[index]}/>
-                            </HoverCardContent>
-                        </HoverCard>
+                        <div key={index}>
+                            <HoverCard>
+                                <HoverCardTrigger>
+                                    <img src={icon} alt={`job ${index}`} className="w-6 h-6"/>
+                                </HoverCardTrigger>
+                                <HoverCardContent className={`w-auto h-auto p-0`} sideOffset={12}>
+                                    <NamePlate player={partyPlayers[index]}/>
+                                </HoverCardContent>
+                            </HoverCard>
+                        </div>
                     ))}
                 </div>
                 {/*  progress  */}

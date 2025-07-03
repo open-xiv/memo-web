@@ -127,7 +127,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                 </div>
             </div>
             {latestFights.length > 0 && (
-                <div className="mx-1 w-full flex flex-wrap gap-x-2 gap-y-1">
+                <div className="mx-1 w-full flex flex-wrap gap-2">
                     {latestFights.map((fight) => (
                         <div key={fight.id} className="flex-shrink-0">
                             <FightCard fight={fight}/>
