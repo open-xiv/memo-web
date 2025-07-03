@@ -15,12 +15,17 @@ export const getZoneByID = async (zoneID: number): Promise<Zone> => {
     return res.data;
 };
 
-// export const getZoneNameByID = async (zoneID: number): Promise<string> => {
-//     const res = await axios.get(`${BASE_URL}/zone/${zoneID}/name`);
-//     return res.data.name;
-// };
+export const getZoneNameByID = async (zoneID: number): Promise<string> => {
+    const res = await axios.get(`${BASE_URL}/zone/${zoneID}/name`);
+    return res.data.name;
+};
 
-export const getMemberZoneProgress = async (name: string, server: string, zoneID: number): Promise<MemberZoneProgress> => {
-    const res = await axios.get<MemberZoneProgress>(`${BASE_URL}/member/${name}@${server}/progress/${zoneID}`);
+export const getMemberZoneBestProgress = async (name: string, server: string, zoneID: number): Promise<MemberZoneProgress> => {
+    const res = await axios.get<MemberZoneProgress>(`${BASE_URL}/member/${name}@${server}/${zoneID}/best`);
+    return res.data;
+};
+
+export const getMemberZoneLatestProgresses = async (name: string, server: string, zoneID: number): Promise<[MemberZoneProgress]> => {
+    const res = await axios.get<[MemberZoneProgress]>(`${BASE_URL}/member/${name}@${server}/${zoneID}/latest?limit=3`);
     return res.data;
 };

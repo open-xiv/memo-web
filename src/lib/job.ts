@@ -6,7 +6,7 @@ interface Job {
     iconUrl: string | null;
 }
 
-type JobRole = "Tank" | "Healer" | "DPS" | "Crafter" | "Gatherer" | "Limited";
+export type JobRole = "Tank" | "Healer" | "DPS" | "Crafter" | "Gatherer" | "Limited";
 
 const jobDefinitions: Record<number, Omit<Job, "iconUrl">> = {
     1: {name: "gladiator", role: "Tank"},

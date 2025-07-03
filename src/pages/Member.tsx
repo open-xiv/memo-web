@@ -1,12 +1,9 @@
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import FightCard from "@/components/custom/FightCard";
-import type {Fight} from "@/types/fight.ts";
-import {getFightByID, getMemberZoneProgress} from "@/api";
+import {useEffect} from "react";
 import {useHeaderContext} from "@/context/HeaderContext.ts";
-import DevIcon from "@/assets/dev.svg?react";
 import ErrIcon from "@/assets/error.svg?react";
-import TargetIcon from "@/assets/target.svg?react";
+import LockIcon from "@/assets/lock.svg?react";
+import ZoneProgressRow from "@/components/custom/ZoneProgressRow.tsx";
 
 const ZONES_INTEREST = [1271];
 
@@ -14,101 +11,44 @@ export default function Member() {
     const {name} = useParams();
     const {setMemberInfo} = useHeaderContext();
 
-    const [fights, setFights] = useState<Fight[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const nameParts = name ? name.split("@") : [];
+    const playerName = nameParts[0];
+    const playerServer = nameParts[1];
 
     useEffect(() => {
-        if (!name) {
-            return;
-        }
-
-        setIsLoading(true);
-
-        // update header context with member info
-        const nameParts = name.split("@");
-        setMemberInfo(nameParts[0], nameParts[1]);
-
-        // fetch member's best fights
-        const fetchBestFights = async () => {
-            try {
-                // fetch all interest zones
-                const progressPromises = ZONES_INTEREST.map(zoneId =>
-                    getMemberZoneProgress(nameParts[0], nameParts[1], zoneId)
-                );
-                const progressResults = await Promise.all(progressPromises);
-
-                // filter valid fights
-                const validFightIds = progressResults
-                    .map(p => p.fight_id)
-                    .filter((id): id is number => id !== undefined && id !== 0);
-
-                if (validFightIds.length === 0) {
-                    setFights([]);
-                    return;
-                }
-
-                // fetch fight details
-                const fightPromises = validFightIds.map(id => getFightByID(id));
-                const bestFightsData = await Promise.all(fightPromises);
-
-                // update fight data
-                setFights(bestFightsData);
-
-            } catch (error) {
-                console.error("failed to fetch member's best fights:", error);
-                setFights([]);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchBestFights();
-
-        // cleanup function to reset member info
-        return () => {
-            setMemberInfo(undefined, undefined);
-        };
-    }, [name, setMemberInfo]);
+        if (!name) return;
+        setMemberInfo(playerName, playerServer);
+        return () => setMemberInfo(undefined, undefined);
+    }, [name, playerName, playerServer, setMemberInfo]);
 
     return (
-        <div className="flex flex-col gap-4">
-            {/* Dev Notice */}
-            <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10"/>
-                <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                    <DevIcon className="h-6 w-6"/>
-                    <span className="text-amber-950 text-base font-medium"> 正在适配更多副本 </span>
-                    <span className="text-amber-600 text-base font-medium"> 中量级进度将在次周可用 </span>
-                </div>
-            </div>
+        <div className="flex flex-col gap-6">
 
             {/* Fight Records */}
-            {isLoading ?
+            {playerName && playerServer ? (
+                ZONES_INTEREST.map(zoneID => (
+                    <ZoneProgressRow key={zoneID} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
+                ))
+            ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10"/>
+                    <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <TargetIcon className="h-6 w-6"/>
-                        <span className="text-amber-950 text-base font-medium"> 数据加载中 </span>
-                        <span className="text-amber-600 text-base font-medium">  </span>
+                        <ErrIcon className="h-6 w-6"/>
+                        <span className="text-red-950 text-base font-medium"> 无效信息 </span>
+                        <span className="text-red-600 text-base font-medium">  </span>
                     </div>
                 </div>
-                : fights.length > 0 ?
-                    <div className="flex flex-wrap justify-start gap-3 w-full">
-                        {fights.map((fight) => (
-                            <FightCard key={fight.id} fight={fight}/>
-                        ))}
-                    </div>
-                    :
-                    <div className="w-full relative flex items-center justify-center p-3">
-                        <div
-                            className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
-                        <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                            <ErrIcon className="h-6 w-6"/>
-                            <span className="text-red-950 text-base font-medium"> 未记录 </span>
-                            <span className="text-red-600 text-base font-medium"> 请通过其他途径判断 </span>
-                        </div>
-                    </div>
-            }
+            )}
+
+            {/* Dev Notice */}
+            <div className="w-full relative flex items-center justify-center p-3">
+                <div className="w-full h-full absolute bg-purple-50 rounded-lg border border-purple-300 blur-[2px] z-10"/>
+                <div className="w-full h-full flex items-center justify-start gap-2 z-20">
+                    <LockIcon className="h-6 w-6"/>
+                    <span className="text-purple-950 text-base font-medium"> 阿卡狄亚零式登天斗技场 中量级 </span>
+                    <span className="text-purple-600 text-base font-medium"> 将在下周可用 </span>
+                </div>
+            </div>
         </div>
     );
 }
