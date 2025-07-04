@@ -22,7 +22,7 @@ export default function Member() {
     }, [name, playerName, playerServer, setMemberInfo]);
 
     return (
-        <div className="flex flex-col gap-6 mx-4">
+        <div className="flex flex-col gap-6">
 
             {/* Fight Records */}
             {playerName && playerServer ? (

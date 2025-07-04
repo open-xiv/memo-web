@@ -11,8 +11,10 @@ const AppLayout = () => {
         <HeaderProvider>
             <div className="min-h-screen flex flex-col bg-slate-50">
                 <Header/>
-                <main className="flex-grow container mt-1">
-                    <Outlet/>
+                <main className="flex-grow m-4 mt-1">
+                    <div className={`mx-auto container`}>
+                        <Outlet/>
+                    </div>
                 </main>
             </div>
         </HeaderProvider>

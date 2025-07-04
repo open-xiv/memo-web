@@ -79,7 +79,7 @@ export default function Header() {
 
     return (
         <header className="m-4">
-            <nav className="container flex items-center space-x-3">
+            <nav className="mx-auto container flex items-center space-x-3">
 
                 {/* Member */}
                 <div className={`h-10 relative inline-flex items-center justify-start`}>
