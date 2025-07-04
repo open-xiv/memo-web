@@ -78,7 +78,7 @@ export default function Header() {
     };
 
     return (
-        <header className="m-4">
+        <header className="m-4 mt-8">
             <nav className="mx-auto container flex items-center space-x-3">
 
                 {/* Member */}

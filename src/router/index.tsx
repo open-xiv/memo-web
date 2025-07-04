@@ -1,7 +1,6 @@
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Home from "../pages/Home";
 import Member from "../pages/Member";
-import Fight from "../pages/Fight";
 import Header from "@/components/custom/Header";
 import {HeaderProvider} from "@/provider/HeaderProvider.tsx";
 import ErrorPage from "@/pages/ErrorPage";
@@ -33,11 +32,7 @@ const router = createBrowserRouter([
             {
                 path: "/member/:name",
                 element: <Member/>,
-            },
-            {
-                path: "/fight/:id",
-                element: <Fight/>,
-            },
+            }
         ],
     },
 ]);
