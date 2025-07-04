@@ -77,8 +77,10 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                 <div className="w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <TargetIcon className="h-6 w-6"/>
-                    <span className="text-amber-950 text-base font-medium"> 数据加载中 </span>
-                    <span className="text-amber-600 text-base font-medium">  </span>
+                    <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
+                        <span className="text-amber-950 text-base font-medium"> 数据加载中 </span>
+                        <span className="text-amber-600 text-base font-medium">  </span>
+                    </div>
                 </div>
             </div>
         );
@@ -90,8 +92,10 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                 <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <ErrIcon className="h-6 w-6"/>
-                    <span className="text-red-950 text-base font-medium"> 未记录 </span>
-                    <span className="text-red-600 text-base font-medium"> 请通过其他途径判断 </span>
+                    <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
+                        <span className="text-red-950 text-base font-medium"> 未记录 </span>
+                        <span className="text-red-600 text-base font-medium"> 请通过其他途径判断 </span>
+                    </div>
                 </div>
             </div>
         );
@@ -105,25 +109,27 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                 <div className="w-full h-full absolute bg-teal-50 rounded-lg border border-teal-300 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <FightIcon className="h-6 w-6"/>
-                    <span className="text-teal-950 text-base font-medium"> {zoneName} </span>
-                    <span className="text-teal-600 text-base font-medium">  </span>
+                    <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
+                        <span className="text-teal-950 text-base font-medium"> {zoneName} </span>
+                        <span className="text-teal-600 text-base font-medium">  </span>
+                    </div>
                 </div>
             </div>
 
             <div className={`mx-0.5 flex justify-start gap-2`}>
                 <div className={`w-0.5 bg-zinc-400`}/>
-                <div className="w-full h-full flex items-baseline justify-start gap-2 z-20">
+                <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
                     <span className="text-red-950 text-base font-medium"> 最优记录 </span>
-                    <span className="text-red-800 text-sm font-medium"> 初次完成 / 最远进度 </span>
+                    <span className="text-red-800 text-sm font-medium"> 最远进度 </span>
                 </div>
             </div>
             {bestFight && <div className={`mx-1`}><FightCard fight={bestFight}/></div>}
 
             <div className={`mx-0.5 flex justify-start gap-2`}>
                 <div className={`w-0.5 bg-indigo-400`}/>
-                <div className="w-full h-full flex items-baseline justify-start gap-2 z-20">
+                <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
                     <span className="text-indigo-950 text-base font-medium"> 近期记录 </span>
-                    <span className="text-indigo-800 text-sm font-medium"> 最近的五次进度 </span>
+                    <span className="text-indigo-800 text-sm font-medium"> 最近的三次进度 </span>
                 </div>
             </div>
             {latestFights.length > 0 && (

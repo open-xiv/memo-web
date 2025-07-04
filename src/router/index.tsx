@@ -11,7 +11,7 @@ const AppLayout = () => {
         <HeaderProvider>
             <div className="min-h-screen flex flex-col bg-slate-50">
                 <Header/>
-                <main className="flex-grow container mx-auto mt-1">
+                <main className="flex-grow container mt-1">
                     <Outlet/>
                 </main>
             </div>

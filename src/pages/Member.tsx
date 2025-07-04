@@ -22,7 +22,7 @@ export default function Member() {
     }, [name, playerName, playerServer, setMemberInfo]);
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 mx-4">
 
             {/* Fight Records */}
             {playerName && playerServer ? (
@@ -34,8 +34,10 @@ export default function Member() {
                     <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <ErrIcon className="h-6 w-6"/>
-                        <span className="text-red-950 text-base font-medium"> 无效信息 </span>
-                        <span className="text-red-600 text-base font-medium">  </span>
+                        <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
+                            <span className="text-red-950 text-base font-medium"> 无效信息 </span>
+                            <span className="text-red-600 text-base font-medium">  </span>
+                        </div>
                     </div>
                 </div>
             )}
@@ -45,8 +47,10 @@ export default function Member() {
                 <div className="w-full h-full absolute bg-purple-50 rounded-lg border border-purple-300 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <LockIcon className="h-6 w-6"/>
-                    <span className="text-purple-950 text-base font-medium"> 阿卡狄亚零式登天斗技场 中量级 </span>
-                    <span className="text-purple-600 text-base font-medium"> 将在下周可用 </span>
+                    <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
+                        <span className="text-purple-950 text-base font-medium">阿卡狄亚零式登天斗技场 中量级</span>
+                        <span className="text-purple-600 text-base font-medium">将在下周可用</span>
+                    </div>
                 </div>
             </div>
         </div>
