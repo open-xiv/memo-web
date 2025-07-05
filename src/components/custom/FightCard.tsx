@@ -31,7 +31,7 @@ export default function FightCard({fight}: FightCardProps) {
     // time string
     const timeString = getTimeString(fight.timestamp);
 
-    // fight has
+    // fight hash
     const hashString = fight.hash.substring(0, 4);
 
     // progress
@@ -50,6 +50,9 @@ export default function FightCard({fight}: FightCardProps) {
         }
     }
     progressString = fight.clear ? `已完成` : progressString;
+
+    // name or alias
+    const zoneAlias = zone?.code || zone?.name.split(" ").at(-1) || `Zone ${fight.zone_id}`;
 
     useEffect(() => {
         const fetchZone = async () => {
@@ -77,7 +80,7 @@ export default function FightCard({fight}: FightCardProps) {
                     {localJobIcon ? (<img src={localJobIcon} alt={`job ${localPlayer?.job_id}`} className="w-9 h-9"/>) : (<div/>)}
                     {/* zone */}
                     <div className="flex flex-col items-start justify-center gap-0.5 ">
-                        <span className="text-zinc-950 text-sm font-medium">{zone?.name ? zone.name : `Zone ${fight.zone_id}`}</span>
+                        <span className="text-zinc-950 text-sm font-medium">{zoneAlias}</span>
                         <span className="text-zinc-400 text-xs font-normal font-mono">#{hashString}</span>
                     </div>
                 </div>
