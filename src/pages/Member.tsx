@@ -3,8 +3,10 @@ import {useEffect} from "react";
 import {useHeaderContext} from "@/context/HeaderContext.ts";
 import ErrIcon from "@/assets/error.svg?react";
 import ZoneProgressRow from "@/components/custom/ZoneProgressRow.tsx";
+import GameIcon from "@/assets/gamepad.svg?react";
 
-const ZONES_INTEREST = [1271, 1257, 1259, 1261];
+const ULTIMATES_INTEREST = [1271];
+const SAVAGE_INTEREST = [1257, 1259, 1261];
 
 export default function Member() {
     const {name} = useParams();
@@ -23,9 +25,20 @@ export default function Member() {
     return (
         <div className="flex flex-col gap-6">
 
-            {/* Fight Records */}
+            {/* ultimates */}
+            <div className="w-full relative flex items-center justify-center p-3">
+                <div className="w-full h-full absolute bg-purple-50 rounded-lg border border-purple-300 blur-[2px] z-10"/>
+                <div className="w-full h-full flex items-center justify-start gap-2 z-20">
+                    <GameIcon className="h-6 w-6"/>
+                    <div className={`flex flex-wrap gap-x-1 gap-y-1 items-baseline`}>
+                        <span className="text-purple-950 font-medium">极神</span>
+                        <span className="text-purple-600 font-medium text-xs uppercase">Ultimates</span>
+                    </div>
+                </div>
+            </div>
+
             {playerName && playerServer ? (
-                ZONES_INTEREST.map(zoneID => (
+                ULTIMATES_INTEREST.map(zoneID => (
                     <ZoneProgressRow key={zoneID} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
                 ))
             ) : (
@@ -41,17 +54,36 @@ export default function Member() {
                 </div>
             )}
 
-            {/* Dev Notice */}
-            {/*<div className="w-full relative flex items-center justify-center p-3">*/}
-            {/*    <div className="w-full h-full absolute bg-purple-50 rounded-lg border border-purple-300 blur-[2px] z-10"/>*/}
-            {/*    <div className="w-full h-full flex items-center justify-start gap-2 z-20">*/}
-            {/*        <LockIcon className="h-6 w-6"/>*/}
-            {/*        <div className={`flex flex-wrap gap-x-2 gap-y-1`}>*/}
-            {/*            <span className="text-purple-950 text-base font-medium">阿卡狄亚零式登天斗技场 中量级</span>*/}
-            {/*            <span className="text-purple-600 text-base font-medium">将在下周可用</span>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <div/>
+
+            {/* savage */}
+            <div className="w-full relative flex items-center justify-center p-3">
+                <div className="w-full h-full absolute bg-purple-50 rounded-lg border border-purple-300 blur-[2px] z-10"/>
+                <div className="w-full h-full flex items-center justify-start gap-2 z-20">
+                    <GameIcon className="h-6 w-6"/>
+                    <div className={`flex flex-wrap gap-x-1 gap-y-1 items-baseline`}>
+                        <span className="text-purple-950 font-medium">零式</span>
+                        <span className="text-purple-600 font-medium text-xs uppercase">Savage</span>
+                    </div>
+                </div>
+            </div>
+
+            {playerName && playerServer ? (
+                SAVAGE_INTEREST.map(zoneID => (
+                    <ZoneProgressRow key={zoneID} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
+                ))
+            ) : (
+                <div className="w-full relative flex items-center justify-center p-3">
+                    <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
+                    <div className="w-full h-full flex items-center justify-start gap-2 z-20">
+                        <ErrIcon className="h-6 w-6"/>
+                        <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
+                            <span className="text-red-950 text-base font-medium">无效信息</span>
+                            <span className="text-red-600 text-base font-medium"></span>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

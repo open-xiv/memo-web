@@ -90,7 +90,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
     function fightContent() {
         if (!bestFight && latestFights.length === 0) {
             return (
-                <div className="w-full relative flex items-center justify-center p-3">
+                <div className="w-full md:w-1/3 relative flex items-center justify-center p-3 opacity-70">
                     <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <ErrIcon className="h-6 w-6"/>
@@ -137,7 +137,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
         <div className="flex flex-col items-start gap-4 w-full">
 
             {/* Zone Name */}
-            <div className="w-full relative flex items-center justify-center p-3">
+            <div className="w-full md:w-2/5 relative flex items-center justify-center p-3">
                 <div className="w-full h-full absolute bg-teal-50 rounded-lg border border-teal-300 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <FightIcon className="h-6 w-6"/>
