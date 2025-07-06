@@ -70,7 +70,7 @@ export default function FightCard({fight}: FightCardProps) {
 
 
     return (
-        <div className="w-80 relative flex flex-col items-center p-4 gap-2">
+        <div className="w-96 relative flex flex-col items-center p-4 gap-2">
             <div className="w-full h-full absolute inset-0 bg-zinc-50 rounded-lg border border-zinc-500 blur-[2px] z-10"></div>
 
             {/* local job icon - zone - time */}
