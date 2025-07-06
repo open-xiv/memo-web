@@ -39,7 +39,7 @@ export default function Member() {
 
             {playerName && playerServer ? (
                 ULTIMATES_INTEREST.map(zoneID => (
-                    <ZoneProgressRow key={zoneID} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
+                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
                 ))
             ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
@@ -70,7 +70,7 @@ export default function Member() {
 
             {playerName && playerServer ? (
                 SAVAGE_INTEREST.map(zoneID => (
-                    <ZoneProgressRow key={zoneID} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
+                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
                 ))
             ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
