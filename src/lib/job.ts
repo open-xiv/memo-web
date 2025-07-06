@@ -3,6 +3,7 @@ import type {Fight} from "@/types/fight.ts";
 interface Job {
     name: string;
     role: JobRole;
+    order?: number;
     iconUrl: string | null;
 }
 
@@ -10,12 +11,12 @@ export type JobRole = "Tank" | "Healer" | "DPS" | "Crafter" | "Gatherer" | "Limi
 
 const jobDefinitions: Record<number, Omit<Job, "iconUrl">> = {
     1: {name: "gladiator", role: "Tank"},
-    2: {name: "pugilist", role: "DPS"},
+    2: {name: "pugilist", role: "DPS", order: 1},
     3: {name: "marauder", role: "Tank"},
-    4: {name: "lancer", role: "DPS"},
-    5: {name: "archer", role: "DPS"},
-    6: {name: "conjurer", role: "Healer"},
-    7: {name: "thaumaturge", role: "DPS"},
+    4: {name: "lancer", role: "DPS", order: 1},
+    5: {name: "archer", role: "DPS", order: 3},
+    6: {name: "conjurer", role: "Healer", order: 1},
+    7: {name: "thaumaturge", role: "DPS", order: 2},
     8: {name: "carpenter", role: "Crafter"},
     9: {name: "blacksmith", role: "Crafter"},
     10: {name: "armorer", role: "Crafter"},
@@ -28,29 +29,29 @@ const jobDefinitions: Record<number, Omit<Job, "iconUrl">> = {
     17: {name: "botanist", role: "Gatherer"},
     18: {name: "fisher", role: "Gatherer"},
     19: {name: "paladin", role: "Tank"},
-    20: {name: "monk", role: "DPS"},
+    20: {name: "monk", role: "DPS", order: 1},
     21: {name: "warrior", role: "Tank"},
-    22: {name: "dragoon", role: "DPS"},
-    23: {name: "bard", role: "DPS"},
-    24: {name: "whitemage", role: "Healer"},
-    25: {name: "blackmage", role: "DPS"},
-    26: {name: "arcanist", role: "DPS"},
-    27: {name: "summoner", role: "DPS"},
-    28: {name: "scholar", role: "Healer"},
-    29: {name: "rogue", role: "DPS"},
-    30: {name: "ninja", role: "DPS"},
-    31: {name: "machinist", role: "DPS"},
+    22: {name: "dragoon", role: "DPS", order: 1},
+    23: {name: "bard", role: "DPS", order: 3},
+    24: {name: "whitemage", role: "Healer", order: 1},
+    25: {name: "blackmage", role: "DPS", order: 2},
+    26: {name: "arcanist", role: "DPS", order: 4},
+    27: {name: "summoner", role: "DPS", order: 4},
+    28: {name: "scholar", role: "Healer", order: 2},
+    29: {name: "rogue", role: "DPS", order: 1},
+    30: {name: "ninja", role: "DPS", order: 1},
+    31: {name: "machinist", role: "DPS", order: 3},
     32: {name: "darkknight", role: "Tank"},
-    33: {name: "astrologian", role: "Healer"},
-    34: {name: "samurai", role: "DPS"},
-    35: {name: "redmage", role: "DPS"},
+    33: {name: "astrologian", role: "Healer", order: 1},
+    34: {name: "samurai", role: "DPS", order: 1},
+    35: {name: "redmage", role: "DPS", order: 4},
     36: {name: "bluemage", role: "Limited"},
     37: {name: "gunbreaker", role: "Tank"},
-    38: {name: "dancer", role: "DPS"},
-    39: {name: "reaper", role: "DPS"},
-    40: {name: "sage", role: "DPS"},
-    41: {name: "viper", role: "DPS"},
-    42: {name: "pictomancer", role: "DPS"},
+    38: {name: "dancer", role: "DPS", order: 3},
+    39: {name: "reaper", role: "DPS", order: 2},
+    40: {name: "sage", role: "Healer", order: 2},
+    41: {name: "viper", role: "DPS", order: 1},
+    42: {name: "pictomancer", role: "DPS", order: 4},
 };
 
 const jobRoleOrder: Record<JobRole, number> = {
@@ -113,33 +114,6 @@ export function getJobIconByID(jobID: number): string | null {
 }
 
 /**
- * Sorts an array of job IDs based on a predefined role hierarchy (Tank, Healer, DPS, etc.)
- * and then by job ID for jobs within the same role.
- * @param jobIDs An array of numerical job identifiers to be sorted.
- * @returns A new array of sorted job identifiers.
- */
-// export function sortJobsByRole(jobIDs: number[]): number[] {
-//     return [...jobIDs].sort((a, b) => {
-//         const jobA = fullJobMap[a];
-//         const jobB = fullJobMap[b];
-//
-//         // Handle cases where jobID might not be in fullJobMap
-//         if (!jobA && !jobB) return 0;
-//         if (!jobA) return 1;
-//         if (!jobB) return -1;
-//
-//         const orderA = jobRoleOrder[jobA.role] || Infinity;
-//         const orderB = jobRoleOrder[jobB.role] || Infinity;
-//
-//         if (orderA === orderB) {
-//             return a - b;
-//         }
-//
-//         return orderA - orderB;
-//     });
-// }
-
-/**
  * Sorts the players within a Fight object based on their job role and then by job ID.
  *
  * @param fight The Fight object containing the players to be sorted.
@@ -154,14 +128,16 @@ export function sortPlayersInFight(fight: Fight): Fight {
         if (!jobA) return 1;
         if (!jobB) return -1;
 
-        const orderA = jobRoleOrder[jobA.role] || Infinity;
-        const orderB = jobRoleOrder[jobB.role] || Infinity;
+        const jobOrderA = jobRoleOrder[jobA.role] || Infinity;
+        const jobOrderB = jobRoleOrder[jobB.role] || Infinity;
 
-        if (orderA === orderB) {
-            return playerA.job_id - playerB.job_id;
+        if (jobOrderA === jobOrderB) {
+            const orderA = jobA.order || Infinity;
+            const orderB = jobB.order || Infinity;
+            return orderA - orderB;
         }
 
-        return orderA - orderB;
+        return jobOrderA - jobOrderB;
     });
 
     return {
