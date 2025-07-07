@@ -34,21 +34,14 @@ export default function FightCard({fight}: FightCardProps) {
     // fight hash
     const hashString = fight.hash.substring(0, 4);
 
-    // progress
+    // phase
+    const currentPhase = zone ? zone.phases.find(p => p.phase_id === fight.progress.phase) : null;
+    const currentSubphase = currentPhase ? currentPhase.subphases.find(sp => sp.subphase_id === fight.progress.subphase) : null;
+    const phaseName = currentPhase ? currentPhase.name : "";
+    const subphaseName = currentSubphase ? `${currentSubphase.name}` : "";
+
+    // progress for dynamic color
     let progressString = `${fight.progress.phase} - ${fight.progress.subphase}`;
-    if (zone && zone.phases) {
-        const currentPhase = zone.phases.find(p => p.phase_id === fight.progress.phase);
-        if (currentPhase) {
-            const currentSubphase = currentPhase.subphases.find(sp => sp.subphase_id === fight.progress.subphase);
-            if (currentSubphase) {
-                // use zone information
-                progressString = `${currentPhase.name} - ${currentSubphase.name}`;
-            } else {
-                // fallback x - y
-                progressString = `${currentPhase.name} - ${fight.progress.subphase}`;
-            }
-        }
-    }
     progressString = fight.clear ? `已完成` : progressString;
 
     // name or alias
@@ -70,7 +63,7 @@ export default function FightCard({fight}: FightCardProps) {
 
 
     return (
-        <div className="w-96 relative flex flex-col items-center p-4 gap-2">
+        <div className="w-80 relative flex flex-col items-center p-4 gap-2">
             <div className="w-full h-full absolute inset-0 bg-zinc-50 rounded-lg border border-zinc-500 blur-[2px] z-10"></div>
 
             {/* local job icon - zone - time */}
@@ -109,7 +102,11 @@ export default function FightCard({fight}: FightCardProps) {
                     ))}
                 </div>
                 {/*  progress  */}
-                <span className={`text-right justify-start text-sm font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{progressString}</span>
+                <div className={`flex flex-wrap gap-x-1 gap-y-1 items-baseline`}>
+                    <span className={`text-right justify-start text-sm font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{phaseName}</span>
+                    <span
+                        className={`text-right justify-start text-xs font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{subphaseName}</span>
+                </div>
             </div>
         </div>
     );
