@@ -8,6 +8,7 @@ import {getTimeString} from "@/lib/time.ts";
 import {getTextGradient} from "@/lib/gradient.ts";
 import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card.tsx";
 import NamePlate from "@/components/custom/NamePlate.tsx";
+import {Link} from "react-router-dom";
 
 interface FightCardProps {
     fight: Fight;
@@ -92,7 +93,9 @@ export default function FightCard({fight}: FightCardProps) {
                         <div key={index}>
                             <HoverCard>
                                 <HoverCardTrigger>
-                                    <img src={icon} alt={`job ${index}`} className="w-6 h-6"/>
+                                    <Link to={`/member/${partyPlayers[index].name}@${partyPlayers[index].server}`} className="flex items-center justify-center">
+                                        <img src={icon} alt={`job ${index}`} className="w-6 h-6"/>
+                                    </Link>
                                 </HoverCardTrigger>
                                 <HoverCardContent className={`w-auto h-auto p-0`} sideOffset={12}>
                                     <NamePlate player={partyPlayers[index]}/>
