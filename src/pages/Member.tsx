@@ -6,7 +6,7 @@ import ZoneProgressRow from "@/components/custom/ZoneProgressRow.tsx";
 import GameIcon from "@/assets/gamepad.svg?react";
 
 const ULTIMATES_INTEREST = [1271];
-const SAVAGE_INTEREST = [1257, 1259, 1261];
+const SAVAGE_INTEREST = [1257, 1259, 1261, 1263];
 
 export default function Member() {
     const {name} = useParams();
