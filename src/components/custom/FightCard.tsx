@@ -105,11 +105,15 @@ export default function FightCard({fight}: FightCardProps) {
                     ))}
                 </div>
                 {/*  progress  */}
-                <div className={`flex flex-wrap gap-x-1 gap-y-1 items-baseline`}>
-                    <span className={`text-right justify-start text-sm font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{phaseName}</span>
-                    <span
-                        className={`text-right justify-start text-xs font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{subphaseName}</span>
-                </div>
+                {fight.clear ? (
+                    <span className={`text-right justify-start text-sm font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{progressString}</span>
+                ) : (
+                    <div className={`flex flex-wrap gap-x-1 gap-y-1 items-baseline`}>
+                        <span className={`text-right justify-start text-sm font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{phaseName}</span>
+                        <span
+                            className={`text-right justify-start text-xs font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{subphaseName}</span>
+                    </div>
+                )}
             </div>
         </div>
     );
