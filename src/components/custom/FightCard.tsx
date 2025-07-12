@@ -9,6 +9,7 @@ import {getTextGradient} from "@/lib/gradient.ts";
 import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card.tsx";
 import NamePlate from "@/components/custom/NamePlate.tsx";
 import {Link} from "react-router-dom";
+import LinkIcon from "@/assets/link.svg?react";
 
 interface FightCardProps {
     fight: Fight;
@@ -62,9 +63,11 @@ export default function FightCard({fight}: FightCardProps) {
         fetchZone();
     }, [fight.zone_id]);
 
+    // fflogs link
+    const logsLink = `https://www.fflogs.com/reports/${fight.logs.report_id}?fight=${fight.logs.fight_id}`;
 
     return (
-        <div className="w-80 relative flex flex-col items-center p-4 gap-2">
+        <div className="w-80 h-[102px] relative flex flex-col items-center p-4 gap-2">
             <div className="w-full h-full absolute inset-0 bg-zinc-50 rounded-lg border border-zinc-500 blur-[2px] z-10"></div>
 
             {/* local job icon - zone - time */}
@@ -73,8 +76,15 @@ export default function FightCard({fight}: FightCardProps) {
                     {/* local job icon */}
                     {localJobIcon ? (<img src={localJobIcon} alt={`job ${localPlayer?.job_id}`} className="w-9 h-9"/>) : (<div/>)}
                     {/* zone */}
-                    <div className="flex flex-col items-start justify-center gap-0.5 ">
-                        <span className="text-zinc-950 text-sm font-medium">{zoneAlias}</span>
+                    <div className="flex flex-col items-start justify-center gap-0.5">
+                        <div className={`flex gap-0.5 items-center`}>
+                            <span className="text-zinc-950 text-sm font-medium">{zoneAlias}</span>
+                            {fight.logs.report_id ? (
+                                <a href={logsLink} target={"_blank"} rel={"noreferrer noopener"}>
+                                    <LinkIcon className={`h-4 w-4`}/>
+                                </a>
+                            ) : (<></>)}
+                        </div>
                         <span className="text-zinc-400 text-xs font-normal font-mono">#{hashString}</span>
                     </div>
                 </div>
@@ -88,22 +98,30 @@ export default function FightCard({fight}: FightCardProps) {
             {/*  party job icon - progress  */}
             <div className="w-full flex items-end justify-between z-20">
                 {/* party job icons */}
-                <div className="flex items-center justify-start gap-1">
-                    {partyJobIcons.map((icon, index) => (
-                        <div key={index}>
-                            <HoverCard>
-                                <HoverCardTrigger>
-                                    <Link to={`/member/${partyPlayers[index].name}@${partyPlayers[index].server}`} className="flex items-center justify-center">
-                                        <img src={icon} alt={`job ${index}`} className="w-6 h-6"/>
-                                    </Link>
-                                </HoverCardTrigger>
-                                <HoverCardContent className={`w-auto h-auto p-0`} sideOffset={12}>
-                                    <NamePlate player={partyPlayers[index]}/>
-                                </HoverCardContent>
-                            </HoverCard>
+                {fight.is_logs_only ? (
+                    <a href={logsLink} target={"_blank"} rel={"noreferrer noopener"}>
+                        <div className={`px-0.5 text-zinc-400 text-sm font-medium`}>
+                            来自 FFLogs 的记录
                         </div>
-                    ))}
-                </div>
+                    </a>
+                ) : (
+                    <div className="flex items-center justify-start gap-1">
+                        {partyJobIcons.map((icon, index) => (
+                            <div key={index}>
+                                <HoverCard>
+                                    <HoverCardTrigger asChild>
+                                        <Link to={`/member/${partyPlayers[index].name}@${partyPlayers[index].server}`} className="flex items-center justify-center">
+                                            <img src={icon} alt={`job ${index}`} className="w-6 h-6"/>
+                                        </Link>
+                                    </HoverCardTrigger>
+                                    <HoverCardContent className={`w-auto h-auto p-0`} sideOffset={12}>
+                                        <NamePlate player={partyPlayers[index]}/>
+                                    </HoverCardContent>
+                                </HoverCard>
+                            </div>
+                        ))}
+                    </div>
+                )}
                 {/*  progress  */}
                 {fight.clear ? (
                     <span className={`text-right justify-start text-sm font-medium ${getTextGradient(progressString)} bg-clip-text text-transparent`}>{progressString}</span>

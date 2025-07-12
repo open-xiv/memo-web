@@ -1,9 +1,11 @@
 import {useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useHeaderContext} from "@/context/HeaderContext.ts";
 import ErrIcon from "@/assets/error.svg?react";
 import ZoneProgressRow from "@/components/custom/ZoneProgressRow.tsx";
 import GameIcon from "@/assets/gamepad.svg?react";
+import TargetIcon from "@/assets/target.svg?react";
+import {getTaskStatus, requestSyncLogs} from "@/api";
 
 const ULTIMATES_INTEREST = [1271];
 const SAVAGE_INTEREST = [1257, 1259, 1261, 1263];
@@ -16,6 +18,53 @@ export default function Member() {
     const playerName = nameParts[0];
     const playerServer = nameParts[1];
 
+    const [isSyncing, setIsSyncing] = useState<boolean>(false);
+    const [taskID, setTaskID] = useState<string | null>(null);
+    const [syncStatus, setSyncStatus] = useState<string | null>("");
+
+    useEffect(() => {
+        const handleSync = async () => {
+            if (!playerName || !playerServer) return;
+            setIsSyncing(true);
+            setSyncStatus("正在与 FFLogs 同步");
+            try {
+                const newTaskID = await requestSyncLogs(playerName, playerServer);
+                setTaskID(newTaskID);
+            } catch {
+                setSyncStatus("同步失败");
+                setIsSyncing(false);
+            }
+        };
+
+        handleSync();
+    }, [playerName, playerServer]);
+
+    useEffect(() => {
+        if (!taskID) return;
+
+        const interval = setInterval(async () => {
+            try {
+                const status = await getTaskStatus(taskID);
+                setSyncStatus(status || "正在与 FFLogs 同步");
+                if (status.startsWith("skip") || status.startsWith("complete")) {
+                    clearInterval(interval);
+                    setIsSyncing(false);
+                    setTaskID(null);
+                    if (status.startsWith("complete")) {
+                        window.location.reload();
+                    }
+                }
+            } catch {
+                setSyncStatus("获取状态失败");
+                clearInterval(interval);
+                setIsSyncing(false);
+                setTaskID(null);
+            }
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [taskID]);
+
     useEffect(() => {
         if (!name) return;
         setMemberInfo(playerName, playerServer);
@@ -24,6 +73,20 @@ export default function Member() {
 
     return (
         <div className="flex flex-col gap-6">
+
+            {/*{ sync }*/}
+            {isSyncing ? (
+                <div className="w-full relative flex items-center justify-center p-3">
+                    <div className="w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10"/>
+                    <div className="w-full h-full flex items-center justify-start gap-2 z-20">
+                        <TargetIcon className="h-6 w-6"/>
+                        <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
+                            <span className="text-amber-950 text-base font-medium"> {syncStatus} </span>
+                            <span className="text-amber-600 text-base font-medium">  </span>
+                        </div>
+                    </div>
+                </div>
+            ) : (<></>)}
 
             {/* ultimates */}
             <div className="w-full relative flex items-center justify-center p-3">
