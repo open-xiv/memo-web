@@ -1,8 +1,13 @@
+export interface LogsZone {
+    encounter: number;
+}
+
 export interface Zone {
     zone_id: number;
     name: string;
     code: string;
     description: string;
+    logs: LogsZone;
     phases: Phase[];
 }
 
