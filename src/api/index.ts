@@ -29,3 +29,13 @@ export const getMemberZoneLatestProgresses = async (name: string, server: string
     const res = await axios.get<[MemberZoneProgress]>(`${BASE_URL}/member/${name}@${server}/${zoneID}/latest?limit=3`);
     return res.data;
 };
+
+export const requestSyncLogs = async (name: string, server: string): Promise<string> => {
+    const res = await axios.post(`${BASE_URL}/member/${name}@${server}/sync`);
+    return res.data.task_id;
+};
+
+export const getTaskStatus = async (taskId: string): Promise<string> => {
+    const res = await axios.get(`${BASE_URL}/sync/status/${taskId}`);
+    return res.data.status;
+};

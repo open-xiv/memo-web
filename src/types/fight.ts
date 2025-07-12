@@ -11,6 +11,13 @@ export interface FightProgress {
     subphase: number;
 }
 
+export interface LogsFight {
+    start_time: number;
+    duration: number;
+    report_id: string;
+    fight_id: number;
+}
+
 export interface Fight {
     id: number;
     zone_id: number;
@@ -22,6 +29,9 @@ export interface Fight {
     progress: FightProgress;
 
     hash: string,
+
+    logs: LogsFight;
+    is_logs_only: boolean;
 }
 
 export interface MemberFight {
