@@ -10,6 +10,7 @@ interface Job {
 export type JobRole = "Tank" | "Healer" | "DPS" | "Crafter" | "Gatherer" | "Limited";
 
 const jobDefinitions: Record<number, Omit<Job, "iconUrl">> = {
+    0: {name: "none", role: "Limited"},
     1: {name: "gladiator", role: "Tank"},
     2: {name: "pugilist", role: "DPS", order: 1},
     3: {name: "marauder", role: "Tank"},
