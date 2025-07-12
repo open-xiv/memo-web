@@ -1,10 +1,12 @@
-import {getFightByID, getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneNameByID} from "@/api";
+import {getFightByID, getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID} from "@/api";
 import type {Fight} from "@/types/fight.ts";
 import {useEffect, useState} from "react";
 import ErrIcon from "@/assets/error.svg?react";
 import TargetIcon from "@/assets/target.svg?react";
 import FightIcon from "@/assets/fight.svg?react";
 import FightCard from "@/components/custom/FightCard.tsx";
+import LinkIcon from "@/assets/link.svg?react";
+import type {Zone} from "@/types/zone.ts";
 
 interface ZoneProgressRowProps {
     zoneID: number,
@@ -16,8 +18,23 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
     const [bestFight, setBestFight] = useState<Fight | null>(null);
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
     const [zoneName, setZoneName] = useState<string | null>(null);
+    const [zone, setZone] = useState<Zone | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchZone = async () => {
+            try {
+                const zoneData = await getZoneByID(zoneID);
+                setZone(zoneData);
+            } catch (error) {
+                console.error("Error fetching zone data:", error);
+                setZone(null);
+            }
+        };
+
+        fetchZone();
+    }, [zoneID]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -87,18 +104,32 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
         );
     }
 
+    const logsLink = `https://fflogs.com/character/cn/${playerServer}/${playerName}?boss=${zone?.logs.encounter}`;
+
     function fightContent() {
         if (!bestFight && latestFights.length === 0) {
             return (
-                <div className="w-full md:w-1/3 relative flex items-center justify-center p-3 opacity-70">
-                    <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
-                    <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <ErrIcon className="h-6 w-6"/>
-                        <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
-                            <span className="text-red-950 text-base font-medium"> 未记录 </span>
-                            <span className="text-red-600 text-base font-medium"> 请通过其他途径判断 </span>
+                <div className={`w-full flex gap-2 flex-wrap`}>
+                    <div className="w-full md:w-1/3 relative flex items-center justify-center p-3 opacity-70">
+                        <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
+                        <div className="w-full h-full flex items-center justify-start gap-2 z-20">
+                            <ErrIcon className="h-6 w-6"/>
+                            <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center`}>
+                                <span className="text-red-950 text-base font-medium"> 未记录 </span>
+                                <span className="text-red-600 text-base font-medium"> 请通过其他途径判断 </span>
+                            </div>
                         </div>
                     </div>
+                    <a href={logsLink} className="relative flex items-center justify-center p-3 opacity-80 px-4">
+                        <div className="w-full h-full absolute bg-pink-50 rounded-lg border border-pink-300 blur-[2px] z-10"/>
+                        <div className="w-full h-full flex items-center justify-center gap-2 z-20">
+                            <LinkIcon className="h-6 w-6"/>
+                            <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center`}>
+                                <span className="text-pink-950 text-base font-medium"> 快速跳转 </span>
+                                <span className="text-pink-600 text-base font-medium"> FFLogs </span>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             );
         }
