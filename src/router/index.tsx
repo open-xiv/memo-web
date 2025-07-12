@@ -4,6 +4,7 @@ import Member from "../pages/Member";
 import Header from "@/components/custom/Header";
 import {HeaderProvider} from "@/provider/HeaderProvider.tsx";
 import ErrorPage from "@/pages/ErrorPage";
+import Help from "@/pages/Help.tsx";
 
 const AppLayout = () => {
     return (
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             {
                 path: "/member/:name",
                 element: <Member/>,
+            },
+            {
+                path: "/help",
+                element: <Help/>
             }
         ],
     },

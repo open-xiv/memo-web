@@ -74,7 +74,7 @@ export default function Member() {
     return (
         <div className="flex flex-col gap-6">
 
-            {/*{ sync }*/}
+            {/* sync */}
             {isSyncing ? (
                 <div className="w-full relative flex items-center justify-center p-3">
                     <div className="w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10"/>

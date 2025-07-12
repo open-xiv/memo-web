@@ -1,10 +1,11 @@
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import UserIcon from "@/assets/user.svg?react";
 import SearchIcon from "@/assets/search.svg?react";
 import {Input} from "@/components/ui/input.tsx";
 import type {KeyboardEvent} from "react";
 import {useEffect, useRef, useState} from "react";
 import {Badge} from "@/components/ui/badge.tsx";
+import HelpIcon from "@/assets/help.svg?react";
 
 export default function Header() {
     const location = useLocation();
@@ -149,6 +150,14 @@ export default function Header() {
                 {/*        </div>*/}
                 {/*    </div>*/}
                 {/*</div>*/}
+
+                {/* Help */}
+                <Link to={"/help"} className={`w-10 h-10 relative inline-flex items-center justify-center`}>
+                    <div className={`w-full h-full absolute bg-zinc-100 rounded-lg border border-zinc-400 blur-[2px] z-10`}/>
+                    <div className={`relative flex items-center h-full z-20 justify-center gap-2`}>
+                        <HelpIcon className={`h-6 w-6 shrink-0`}/>
+                    </div>
+                </Link>
             </nav>
         </header>
     );
