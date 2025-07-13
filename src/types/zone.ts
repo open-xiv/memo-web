@@ -1,4 +1,5 @@
 export interface LogsZone {
+    zone: number;
     encounter: number;
 }
 

@@ -104,7 +104,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
         );
     }
 
-    const logsLink = `https://fflogs.com/character/cn/${playerServer}/${playerName}?boss=${zone?.logs.encounter}`;
+    const logsLink = `https://fflogs.com/character/cn/${playerServer}/${playerName}?zone=${zone?.logs.zone}&boss=${zone?.logs.encounter}`;
 
     function fightContent() {
         if (!bestFight && latestFights.length === 0) {
