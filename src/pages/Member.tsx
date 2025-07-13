@@ -51,6 +51,7 @@ export default function Member() {
                     setIsSyncing(false);
                     setTaskID(null);
                     if (status.startsWith("complete")) {
+                        setSyncStatus("同步完成");
                         window.location.reload();
                     }
                 } else if (status.startsWith("fail")) {
