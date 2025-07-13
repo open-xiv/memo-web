@@ -94,8 +94,8 @@ export default function Header() {
                         <Icon
                             icon={UserIcon}
                             className={`h-6 w-6 shrink-0`}
-                            primary={`var(${theme === "light" ? "--color-violet-600" : "--color-violet-400"})`}
-                            secondary={`var(${theme === "light" ? "--color-violet-950" : "--color-violet-200"})`}
+                            primary={`var(${theme !== "dark" ? "--color-violet-600" : "--color-violet-400"})`}
+                            secondary={`var(${theme !== "dark" ? "--color-violet-950" : "--color-violet-200"})`}
                         />
                         <div className={`
                     flex justify-start items-baseline gap-1 text-violet-950 dark:text-violet-200
@@ -122,8 +122,8 @@ export default function Header() {
                         <Icon
                             icon={SearchIcon}
                             className={`h-6 w-6 shrink-0 cursor-pointer`}
-                            primary={`var(${theme === "light" ? "--color-amber-500" : "--color-amber-400"})`}
-                            secondary={`var(${theme === "light" ? "--color-amber-950" : "--color-amber-200"})`}
+                            primary={`var(${theme !== "dark" ? "--color-amber-500" : "--color-amber-400"})`}
+                            secondary={`var(${theme !== "dark" ? "--color-amber-950" : "--color-amber-200"})`}
                             onClick={() => setIsSearching(!isSearching)}
                         />
                         {!isSearching &&
@@ -171,8 +171,8 @@ export default function Header() {
                         <Icon
                             icon={HelpIcon}
                             className={`h-6 w-6 shrink-0`}
-                            primary={`var(${theme === "light" ? "--color-gray-900" : "--color-gray-200"})`}
-                            secondary={`var(${theme === "light" ? "--color-gray-200" : "--color-gray-800"})`}
+                            primary={`var(${theme !== "dark" ? "--color-gray-900" : "--color-gray-200"})`}
+                            secondary={`var(${theme !== "dark" ? "--color-gray-200" : "--color-gray-800"})`}
                         />
                     </div>
                 </Link>
