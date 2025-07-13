@@ -1,12 +1,15 @@
 import {getFightByID, getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID} from "@/api";
 import type {Fight} from "@/types/fight.ts";
 import {useEffect, useState} from "react";
-import ErrIcon from "@/assets/error.svg?react";
-import TargetIcon from "@/assets/target.svg?react";
-import FightIcon from "@/assets/fight.svg?react";
+import ErrIcon from "@/assets/icon/error.svg?react";
+import TargetIcon from "@/assets/icon/target.svg?react";
+import FightIcon from "@/assets/icon/fight.svg?react";
 import FightCard from "@/components/custom/FightCard.tsx";
-import LinkIcon from "@/assets/link.svg?react";
+import LinkIcon from "@/assets/icon/link.svg?react";
 import type {Zone} from "@/types/zone.ts";
+import Icon from "@/components/custom/Icon.tsx";
+import {useTheme} from "@/context/ThemeContext.ts";
+
 
 interface ZoneProgressRowProps {
     zoneID: number,
@@ -15,6 +18,8 @@ interface ZoneProgressRowProps {
 }
 
 export default function ZoneProgressRow({zoneID, playerName, playerServer}: ZoneProgressRowProps) {
+    const {theme} = useTheme();
+
     const [bestFight, setBestFight] = useState<Fight | null>(null);
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
     const [zoneName, setZoneName] = useState<string | null>(null);
@@ -92,12 +97,17 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
     if (isLoading) {
         return (
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                    <TargetIcon className="h-6 w-6"/>
+                    <Icon
+                        icon={TargetIcon}
+                        className={`h-6 w-6`}
+                        primary={`var(${theme === "light" ? "--color-amber-400" : "--color-amber-400"})`}
+                        secondary={`var(${theme === "light" ? "--color-amber-950" : "--color-amber-200"})`}
+                    />
                     <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
-                        <span className="text-amber-950 text-base font-medium"> 数据加载中 </span>
-                        <span className="text-amber-600 text-base font-medium">  </span>
+                        <span className="text-amber-950 dark:text-amber-200 text-base font-medium"> 数据加载中 </span>
+                        <span className="text-amber-600 dark:text-amber-400 text-base font-medium">  </span>
                     </div>
                 </div>
             </div>
@@ -111,22 +121,32 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
             return (
                 <div className={`w-full flex gap-2 flex-wrap`}>
                     <div className="w-full md:w-1/3 relative flex items-center justify-center p-3 opacity-70">
-                        <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
+                        <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10"/>
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                            <ErrIcon className="h-6 w-6"/>
+                            <Icon
+                                icon={ErrIcon}
+                                className={`h-6 w-6`}
+                                primary={`var(${theme === "light" ? "--color-red-400" : "--color-red-400"})`}
+                                secondary={`var(${theme === "light" ? "--color-red-950" : "--color-red-200"})`}
+                            />
                             <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center`}>
-                                <span className="text-red-950 text-base font-medium"> 未记录 </span>
-                                <span className="text-red-600 text-base font-medium"> 请通过其他途径判断 </span>
+                                <span className="text-red-950 dark:text-red-200 text-base font-medium"> 未记录 </span>
+                                <span className="text-red-600 dark:text-red-400 text-base font-medium"> 请通过其他途径判断 </span>
                             </div>
                         </div>
                     </div>
                     <a href={logsLink} className="relative flex items-center justify-center p-3 opacity-80 px-4">
-                        <div className="w-full h-full absolute bg-pink-50 rounded-lg border border-pink-300 blur-[2px] z-10"/>
+                        <div className="w-full h-full absolute bg-pink-50 dark:bg-pink-950 rounded-lg border border-pink-300 dark:border-pink-700 blur-[2px] z-10"/>
                         <div className="w-full h-full flex items-center justify-center gap-2 z-20">
-                            <LinkIcon className="h-6 w-6"/>
+                            <Icon
+                                icon={LinkIcon}
+                                className={`h-6 w-6`}
+                                primary={`var(${theme === "light" ? "--color-pink-400" : "--color-pink-400"})`}
+                                secondary={`var(${theme === "light" ? "--color-zinc-950" : "--color-zinc-200"})`}
+                            />
                             <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center`}>
-                                <span className="text-pink-950 text-base font-medium"> 快速跳转 </span>
-                                <span className="text-pink-600 text-base font-medium"> FFLogs </span>
+                                <span className="text-pink-950 dark:text-pink-200 text-base font-medium"> 快速跳转 </span>
+                                <span className="text-pink-600 dark:text-pink-400 text-base font-medium"> FFLogs </span>
                             </div>
                         </div>
                     </a>
@@ -137,19 +157,19 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
         return (
             <>
                 <div className={`mx-0.5 flex justify-start gap-2`}>
-                    <div className={`w-0.5 bg-zinc-400`}/>
+                    <div className={`w-0.5 bg-zinc-400 dark:bg-zinc-600`}/>
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
-                        <span className="text-red-950 text-base font-medium"> 最优记录 </span>
-                        <span className="text-red-800 text-sm font-medium"> 最远进度 </span>
+                        <span className="text-red-950 dark:text-red-200 text-base font-medium"> 最优记录 </span>
+                        <span className="text-red-800 dark:text-red-300 text-sm font-medium"> 最远进度 </span>
                     </div>
                 </div>
                 {bestFight && <div className={`mx-1`}><FightCard fight={bestFight}/></div>}
 
                 <div className={`mx-0.5 flex justify-start gap-2`}>
-                    <div className={`w-0.5 bg-indigo-400`}/>
+                    <div className={`w-0.5 bg-indigo-400 dark:bg-indigo-500`}/>
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
-                        <span className="text-indigo-950 text-base font-medium"> 近期记录 </span>
-                        <span className="text-indigo-800 text-sm font-medium"> 最近的三次进度 </span>
+                        <span className="text-indigo-950 dark:text-indigo-200 text-base font-medium"> 近期记录 </span>
+                        <span className="text-indigo-800 dark:text-indigo-300 text-sm font-medium"> 最近的三次进度 </span>
                     </div>
                 </div>
                 {latestFights.length > 0 && (
@@ -160,7 +180,8 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                             </div>
                         ))}
                     </div>
-                )}</>
+                )}
+            </>
         );
     }
 
@@ -169,12 +190,17 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
 
             {/* Zone Name */}
             <div className="w-full md:w-2/5 relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-teal-50 rounded-lg border border-teal-300 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-teal-50 dark:bg-teal-950 rounded-lg border border-teal-300 dark:border-teal-700 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                    <FightIcon className="h-6 w-6"/>
+                    <Icon
+                        icon={FightIcon}
+                        className={`h-6 w-6`}
+                        primary={`var(${theme === "light" ? "--color-teal-400" : "--color-teal-400"})`}
+                        secondary={`var(${theme === "light" ? "--color-teal-950" : "--color-teal-200"})`}
+                    />
                     <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
-                        <span className="text-teal-950 text-base font-medium"> {zoneName} </span>
-                        <span className="text-teal-600 text-base font-medium">  </span>
+                        <span className="text-teal-950 dark:text-teal-200 text-base font-medium"> {zoneName} </span>
+                        <span className="text-teal-600 dark:text-teal-400 text-base font-medium">  </span>
                     </div>
                 </div>
             </div>
