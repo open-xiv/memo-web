@@ -45,7 +45,7 @@ export default function Member() {
         const interval = setInterval(async () => {
             try {
                 const status = await getTaskStatus(taskID);
-                setSyncStatus(status || "正在与 FFLogs 同步");
+                setSyncStatus("正在与 FFLogs 同步");
                 if (status.startsWith("skip") || status.startsWith("complete")) {
                     clearInterval(interval);
                     setIsSyncing(false);
@@ -53,6 +53,11 @@ export default function Member() {
                     if (status.startsWith("complete")) {
                         window.location.reload();
                     }
+                } else if (status.startsWith("fail")) {
+                    setSyncStatus("获取状态失败");
+                    clearInterval(interval);
+                    setIsSyncing(false);
+                    setTaskID(null);
                 }
             } catch {
                 setSyncStatus("获取状态失败");
