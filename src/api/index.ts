@@ -3,39 +3,45 @@ import type {Zone} from "@/types/zone.ts";
 import type {Fight, MemberZoneProgress} from "@/types/fight.ts";
 import {sortPlayersInFight} from "@/lib/job.ts";
 
-const BASE_URL = "https://api.sumemo.dev";
+const apiClient = axios.create({
+    baseURL: "https://api.sumemo.dev",
+    headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
+});
 
 export const getFightByID = async (id: number): Promise<Fight> => {
-    const res = await axios.get(`${BASE_URL}/fight/${id}`);
+    const res = await apiClient.get(`/fight/${id}`);
     return sortPlayersInFight(res.data);
 };
 
 export const getZoneByID = async (zoneID: number): Promise<Zone> => {
-    const res = await axios.get(`${BASE_URL}/zone/${zoneID}`);
+    const res = await apiClient.get(`/zone/${zoneID}`);
     return res.data;
 };
 
 export const getZoneNameByID = async (zoneID: number): Promise<string> => {
-    const res = await axios.get(`${BASE_URL}/zone/${zoneID}/name`);
+    const res = await apiClient.get(`/zone/${zoneID}/name`);
     return res.data.name;
 };
 
 export const getMemberZoneBestProgress = async (name: string, server: string, zoneID: number): Promise<MemberZoneProgress> => {
-    const res = await axios.get<MemberZoneProgress>(`${BASE_URL}/member/${name}@${server}/${zoneID}/best`);
+    const res = await apiClient.get<MemberZoneProgress>(`/member/${name}@${server}/${zoneID}/best`);
     return res.data;
 };
 
 export const getMemberZoneLatestProgresses = async (name: string, server: string, zoneID: number): Promise<[MemberZoneProgress]> => {
-    const res = await axios.get<[MemberZoneProgress]>(`${BASE_URL}/member/${name}@${server}/${zoneID}/latest?limit=3`);
+    const res = await apiClient.get<[MemberZoneProgress]>(`/member/${name}@${server}/${zoneID}/latest?limit=3`);
     return res.data;
 };
 
 export const requestSyncLogs = async (name: string, server: string): Promise<string> => {
-    const res = await axios.post(`${BASE_URL}/member/${name}@${server}/sync`);
+    const res = await apiClient.post(`/member/${name}@${server}/sync`);
     return res.data.task_id;
 };
 
 export const getTaskStatus = async (taskId: string): Promise<string> => {
-    const res = await axios.get(`${BASE_URL}/sync/status/${taskId}`);
+    const res = await apiClient.get(`/sync/status/${taskId}`);
     return res.data.status;
 };

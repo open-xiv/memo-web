@@ -1,16 +1,20 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useHeaderContext} from "@/context/HeaderContext.ts";
-import ErrIcon from "@/assets/error.svg?react";
+import ErrIcon from "@/assets/icon/error.svg?react";
 import ZoneProgressRow from "@/components/custom/ZoneProgressRow.tsx";
-import GameIcon from "@/assets/gamepad.svg?react";
-import TargetIcon from "@/assets/target.svg?react";
+import GameIcon from "@/assets/icon/gamepad.svg?react";
+import TargetIcon from "@/assets/icon/target.svg?react";
 import {getTaskStatus, requestSyncLogs} from "@/api";
+import Icon from "@/components/custom/Icon.tsx";
+import {useTheme} from "@/context/ThemeContext.ts";
 
 const ULTIMATES_INTEREST = [1271];
 const SAVAGE_INTEREST = [1257, 1259, 1261, 1263];
 
 export default function Member() {
+    const {theme} = useTheme();
+
     const {name} = useParams();
     const {setMemberInfo} = useHeaderContext();
 
@@ -83,12 +87,17 @@ export default function Member() {
             {/* sync */}
             {isSyncing ? (
                 <div className="w-full relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10"/>
+                    <div className="w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10"/>
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <TargetIcon className="h-6 w-6"/>
+                        <Icon
+                            icon={TargetIcon}
+                            className={`h-6 w-6`}
+                            primary={`var(${theme === "light" ? "--color-amber-400" : "--color-amber-400"})`}
+                            secondary={`var(${theme === "light" ? "--color-amber-950" : "--color-amber-200"})`}
+                        />
                         <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
-                            <span className="text-amber-950 text-base font-medium"> {syncStatus} </span>
-                            <span className="text-amber-600 text-base font-medium">  </span>
+                            <span className="text-amber-950 dark:text-amber-200 text-base font-medium"> {syncStatus} </span>
+                            <span className="text-amber-600 dark:text-amber-400 text-base font-medium">  </span>
                         </div>
                     </div>
                 </div>
@@ -96,12 +105,17 @@ export default function Member() {
 
             {/* ultimates */}
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 rounded-lg border border-purple-300 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                    <GameIcon className="h-6 w-6"/>
+                    <Icon
+                        icon={GameIcon}
+                        className={`h-6 w-6`}
+                        primary={`var(${theme === "light" ? "--color-purple-600" : "--color-purple-400"})`}
+                        secondary={`var(${theme === "light" ? "--color-purple-950" : "--color-purple-200"})`}
+                    />
                     <div className={`flex flex-wrap gap-x-1 gap-y-1 items-baseline`}>
-                        <span className="text-purple-950 font-medium">极神</span>
-                        <span className="text-purple-600 font-medium text-xs uppercase">Ultimates</span>
+                        <span className="text-purple-950 dark:text-purple-200 font-medium">极神</span>
+                        <span className="text-purple-600 dark:text-purple-400 font-medium text-xs uppercase">Ultimates</span>
                     </div>
                 </div>
             </div>
@@ -112,12 +126,17 @@ export default function Member() {
                 ))
             ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
+                    <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10"/>
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <ErrIcon className="h-6 w-6"/>
+                        <Icon
+                            icon={ErrIcon}
+                            className={`h-6 w-6`}
+                            primary={`var(${theme === "light" ? "--color-red-400" : "--color-red-400"})`}
+                            secondary={`var(${theme === "light" ? "--color-red-950" : "--color-red-200"})`}
+                        />
                         <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
-                            <span className="text-red-950 text-base font-medium">无效信息</span>
-                            <span className="text-red-600 text-base font-medium"></span>
+                            <span className="text-red-950 dark:text-red-200 text-base font-medium">无效信息</span>
+                            <span className="text-red-600 dark:text-red-400 text-base font-medium"></span>
                         </div>
                     </div>
                 </div>
@@ -127,12 +146,17 @@ export default function Member() {
 
             {/* savage */}
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 rounded-lg border border-purple-300 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                    <GameIcon className="h-6 w-6"/>
+                    <Icon
+                        icon={GameIcon}
+                        className={`h-6 w-6`}
+                        primary={`var(${theme === "light" ? "--color-purple-600" : "--color-purple-400"})`}
+                        secondary={`var(${theme === "light" ? "--color-purple-950" : "--color-purple-200"})`}
+                    />
                     <div className={`flex flex-wrap gap-x-1 gap-y-1 items-baseline`}>
-                        <span className="text-purple-950 font-medium">零式</span>
-                        <span className="text-purple-600 font-medium text-xs uppercase">Savage</span>
+                        <span className="text-purple-950 dark:text-purple-200 font-medium">零式</span>
+                        <span className="text-purple-600 dark:text-purple-400 font-medium text-xs uppercase">Savage</span>
                     </div>
                 </div>
             </div>
@@ -143,12 +167,17 @@ export default function Member() {
                 ))
             ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-red-50 rounded-lg border border-red-300 blur-[2px] z-10"/>
+                    <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10"/>
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <ErrIcon className="h-6 w-6"/>
+                        <Icon
+                            icon={ErrIcon}
+                            className={`h-6 w-6`}
+                            primary={`var(${theme === "light" ? "--color-red-400" : "--color-red-400"})`}
+                            secondary={`var(${theme === "light" ? "--color-red-950" : "--color-red-200"})`}
+                        />
                         <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
-                            <span className="text-red-950 text-base font-medium">无效信息</span>
-                            <span className="text-red-600 text-base font-medium"></span>
+                            <span className="text-red-950 dark:text-red-200 text-base font-medium">无效信息</span>
+                            <span className="text-red-600 dark:text-red-400 text-base font-medium"></span>
                         </div>
                     </div>
                 </div>

@@ -1,13 +1,18 @@
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
-import UserIcon from "@/assets/user.svg?react";
-import SearchIcon from "@/assets/search.svg?react";
+import UserIcon from "@/assets/icon/user.svg?react";
+import SearchIcon from "@/assets/icon/search.svg?react";
 import {Input} from "@/components/ui/input.tsx";
 import type {KeyboardEvent} from "react";
 import {useEffect, useRef, useState} from "react";
 import {Badge} from "@/components/ui/badge.tsx";
-import HelpIcon from "@/assets/help.svg?react";
+import HelpIcon from "@/assets/icon/help.svg?react";
+import Icon from "@/components/custom/Icon.tsx";
+import ThemeToggle from "@/components/custom/ThemeToggle.tsx";
+import {useTheme} from "@/context/ThemeContext.ts";
 
 export default function Header() {
+    const {theme} = useTheme();
+
     const location = useLocation();
     const params = useParams<{ name?: string; id?: string }>();
     const navigate = useNavigate();
@@ -84,15 +89,20 @@ export default function Header() {
 
                 {/* Member */}
                 <div className={`h-10 relative inline-flex items-center justify-start`}>
-                    <div className={`w-full h-full absolute bg-violet-50 rounded-lg border border-violet-300 blur-[2px] z-10`}/>
+                    <div className={`w-full h-full absolute bg-violet-50 dark:bg-violet-950 rounded-lg border border-violet-300 dark:border-violet-700 blur-[2px] z-10`}/>
                     <div className={`relative flex items-center h-full z-20 m-3 justify-start ${isMemberPage ? "gap-2" : ""}`}>
-                        <UserIcon className={`h-6 w-6 shrink-0`}/>
+                        <Icon
+                            icon={UserIcon}
+                            className={`h-6 w-6 shrink-0`}
+                            primary={`var(${theme === "light" ? "--color-violet-600" : "--color-violet-400"})`}
+                            secondary={`var(${theme === "light" ? "--color-violet-950" : "--color-violet-200"})`}
+                        />
                         <div className={`
-                            flex justify-start items-baseline gap-1 text-violet-950
-                            transition-all duration-300 ease-in-out
-                            ${isMemberPage ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
-                            overflow-hidden
-                        `}>{memberName && (
+                    flex justify-start items-baseline gap-1 text-violet-950 dark:text-violet-200
+                    transition-all duration-300 ease-in-out
+                    ${isMemberPage ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
+                    overflow-hidden
+                `}>{memberName && (
                             <>
                                 <div>
                                     <span className={`text-base font-medium whitespace-nowrap`}>{memberName.split("@")[0]}</span>
@@ -107,16 +117,23 @@ export default function Header() {
 
                 {/* Search */}
                 <div ref={searchContainerRef} className={`h-10 relative inline-flex items-center justify-start`}>
-                    <div className={`w-full h-full absolute bg-amber-50 rounded-lg border border-amber-300 blur-[2px] z-10`}/>
+                    <div className={`w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10`}/>
                     <div className={`relative flex items-center h-full z-20 m-3 justify-start gap-2`}>
-                        <SearchIcon className={`h-6 w-6 shrink-0 cursor-pointer`} onClick={() => setIsSearching(!isSearching)}/>
-                        {!isSearching && <Badge variant="outline" className="bg-amber-100 border-amber-300 text-amber-950">/</Badge>}
+                        <Icon
+                            icon={SearchIcon}
+                            className={`h-6 w-6 shrink-0 cursor-pointer`}
+                            primary={`var(${theme === "light" ? "--color-amber-500" : "--color-amber-400"})`}
+                            secondary={`var(${theme === "light" ? "--color-amber-950" : "--color-amber-200"})`}
+                            onClick={() => setIsSearching(!isSearching)}
+                        />
+                        {!isSearching &&
+                            <Badge variant="outline" className="bg-amber-100 dark:bg-amber-800 border-amber-300 dark:border-amber-600 text-amber-950 dark:text-amber-200">/</Badge>}
                         <div className={`
-                            flex justify-start items-baseline gap-1 text-amber-950
-                            transition-all duration-300 ease-in-out
-                            ${isSearching ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
-                            overflow-hidden
-                        `}>
+                    flex justify-start items-baseline gap-1 text-amber-950 dark:text-amber-200
+                    transition-all duration-300 ease-in-out
+                    ${isSearching ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
+                    overflow-hidden
+                `}>
                             <div className="flex w-full max-w-sm items-center gap-1">
                                 <Input
                                     ref={inputRef}
@@ -125,37 +142,38 @@ export default function Header() {
                                     onChange={(e) => setSearchValue(e.target.value)}
                                     onKeyDown={handleKeyDown}
                                     className={`
-                                        h-7 text-base font-medium bg-amber-100 border-amber-300 text-amber-950
-                                        focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none
-                                        focus-visible:border-amber-500
-                                    `}
+                                h-7 text-base font-medium
+                                bg-amber-100 dark:bg-amber-900
+                                border-amber-300 dark:border-amber-700
+                                text-amber-950 dark:text-amber-200
+                                focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none
+                                focus-visible:border-amber-500 dark:focus-visible:border-amber-400
+                            `}
                                     placeholder="吉田直树@宇宙和音"
                                 />
                                 {isSearchValid && (
-                                    <Badge variant="outline" className="cursor-pointer bg-amber-100 border-amber-300 text-amber-950" onClick={handleSearch}>↵</Badge>
+                                    <Badge variant="outline"
+                                           className="cursor-pointer bg-amber-100 dark:bg-amber-800 border-amber-300 dark:border-amber-600 text-amber-950 dark:text-amber-200"
+                                           onClick={handleSearch}>↵</Badge>
                                 )}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Heart */}
-                {/*<div className={`h-10 relative inline-flex items-center justify-start`}>*/}
-                {/*    <div className={`w-full h-full absolute bg-pink-50 rounded-lg border border-pink-300 blur-[2px] z-10`}/>*/}
-                {/*    <div className={`relative flex items-center h-full z-20 m-3 justify-start gap-2`}>*/}
-                {/*        <HeartIcon className={`h-6 w-6 shrink-0`}/>*/}
-                {/*        <div>*/}
-                {/*            <span className={`text-xs whitespace-nowrap`}>from</span>*/}
-                {/*            <span className={`font-medium whitespace-nowrap`}> 酥 </span>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                {/* Theme Toggle  */}
+                <ThemeToggle/>
 
                 {/* Help */}
                 <Link to={"/help"} className={`w-10 h-10 relative inline-flex items-center justify-center`}>
-                    <div className={`w-full h-full absolute bg-zinc-100 rounded-lg border border-zinc-400 blur-[2px] z-10`}/>
+                    <div className={`w-full h-full absolute bg-zinc-100 dark:bg-zinc-800 rounded-lg border border-zinc-400 dark:border-zinc-600 blur-[2px] z-10`}/>
                     <div className={`relative flex items-center h-full z-20 justify-center gap-2`}>
-                        <HelpIcon className={`h-6 w-6 shrink-0`}/>
+                        <Icon
+                            icon={HelpIcon}
+                            className={`h-6 w-6 shrink-0`}
+                            primary={`var(${theme === "light" ? "--color-gray-900" : "--color-gray-200"})`}
+                            secondary={`var(${theme === "light" ? "--color-gray-200" : "--color-gray-800"})`}
+                        />
                     </div>
                 </Link>
             </nav>
