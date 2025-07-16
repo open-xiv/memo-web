@@ -165,9 +165,9 @@ export default function Header() {
                 <ThemeToggle/>
 
                 {/* Help */}
-                <Link to={"/help"} className={`w-10 h-10 relative inline-flex items-center justify-center`}>
+                <Link to={"/help"} className={`hidden sm:inline-flex w-10 h-10 relative items-center justify-center`}>
                     <div className={`w-full h-full absolute bg-zinc-100 dark:bg-zinc-800 rounded-lg border border-zinc-400 dark:border-zinc-600 blur-[2px] z-10`}/>
-                    <div className={`relative flex items-center h-full z-20 justify-center gap-2`}>
+                    <div className={`relative flex items-center h-full z-20 justify-center`}>
                         <Icon
                             icon={HelpIcon}
                             className={`h-6 w-6 shrink-0`}
