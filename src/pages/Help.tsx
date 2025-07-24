@@ -1,3 +1,5 @@
+import Footer from "@/components/custom/footer.tsx";
+
 export default function Help() {
     return (
         <div className="flex flex-col gap-4">
@@ -120,6 +122,8 @@ export default function Help() {
                     </div>
                 </div>
             </div>
+
+            <Footer/>
         </div>
     );
 }
