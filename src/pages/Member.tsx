@@ -8,6 +8,7 @@ import TargetIcon from "@/assets/icon/target.svg?react";
 import {getTaskStatus, requestSyncLogs} from "@/api";
 import Icon from "@/components/custom/Icon.tsx";
 import {useTheme} from "@/context/ThemeContext.ts";
+import Footer from "@/components/custom/footer.tsx";
 
 const ULTIMATES_INTEREST = [1271];
 const SAVAGE_INTEREST = [1257, 1259, 1261, 1263];
@@ -182,6 +183,8 @@ export default function Member() {
                     </div>
                 </div>
             )}
+
+            <Footer/>
         </div>
     );
 }
