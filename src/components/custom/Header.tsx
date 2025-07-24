@@ -6,6 +6,7 @@ import type {KeyboardEvent} from "react";
 import {useEffect, useRef, useState} from "react";
 import {Badge} from "@/components/ui/badge.tsx";
 import HelpIcon from "@/assets/icon/help.svg?react";
+import HomeIcon from "@/assets/icon/home.svg?react";
 import Icon from "@/components/custom/Icon.tsx";
 import ThemeToggle from "@/components/custom/ThemeToggle.tsx";
 import {useTheme} from "@/context/ThemeContext.ts";
@@ -87,6 +88,19 @@ export default function Header() {
         <header className="m-4 mt-8">
             <nav className="mx-auto container flex items-center space-x-3">
 
+                {/* Home */}
+                <Link to={"/"} className={`hidden sm:inline-flex w-10 h-10 relative items-center justify-center`}>
+                    <div className={`w-full h-full absolute bg-pink-50 dark:bg-pink-950 rounded-lg border border-pink-300 dark:border-pink-600 blur-[2px] z-10`}/>
+                    <div className={`relative flex items-center h-full z-20 justify-center`}>
+                        <Icon
+                            icon={HomeIcon}
+                            className={`h-6 w-6 shrink-0`}
+                            primary={`var(${theme !== "dark" ? "--color-pink-200" : "--color-pink-900"})`}
+                            secondary={`var(${theme !== "dark" ? "--color-pink-900" : "--color-pink-200"})`}
+                        />
+                    </div>
+                </Link>
+
                 {/* Member */}
                 <div className={`h-10 relative inline-flex items-center justify-start`}>
                     <div className={`w-full h-full absolute bg-violet-50 dark:bg-violet-950 rounded-lg border border-violet-300 dark:border-violet-700 blur-[2px] z-10`}/>
@@ -118,7 +132,7 @@ export default function Header() {
                 {/* Search */}
                 <div ref={searchContainerRef} className={`h-10 relative inline-flex items-center justify-start`}>
                     <div className={`w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10`}/>
-                    <div className={`relative flex items-center h-full z-20 m-3 justify-start gap-2`}>
+                    <div className={`relative flex items-center h-full z-20 m-3 justify-start ${isSearching ? "gap-2" : "gap-0"} sm:gap-2`}>
                         <Icon
                             icon={SearchIcon}
                             className={`h-6 w-6 shrink-0 cursor-pointer`}
@@ -127,13 +141,15 @@ export default function Header() {
                             onClick={() => setIsSearching(!isSearching)}
                         />
                         {!isSearching &&
-                            <Badge variant="outline" className="bg-amber-100 dark:bg-amber-800 border-amber-300 dark:border-amber-600 text-amber-950 dark:text-amber-200">/</Badge>}
+                            <Badge variant="outline"
+                                   className="hidden sm:block bg-amber-100 dark:bg-amber-800 border-amber-300 dark:border-amber-600 text-amber-950 dark:text-amber-200">/</Badge>
+                        }
                         <div className={`
-                    flex justify-start items-baseline gap-1 text-amber-950 dark:text-amber-200
-                    transition-all duration-300 ease-in-out
-                    ${isSearching ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
-                    overflow-hidden
-                `}>
+                                flex justify-start items-baseline gap-1 text-amber-950 dark:text-amber-200
+                                transition-all duration-300 ease-in-out
+                                ${isSearching ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
+                                overflow-hidden
+                            `}>
                             <div className="flex w-full max-w-sm items-center gap-1">
                                 <Input
                                     ref={inputRef}
@@ -162,7 +178,9 @@ export default function Header() {
                 </div>
 
                 {/* Theme Toggle  */}
-                <ThemeToggle/>
+                <div className={`${isSearching ? "hidden sm:block" : "block"}`}>
+                    <ThemeToggle/>
+                </div>
 
                 {/* Help */}
                 <Link to={"/help"} className={`hidden sm:inline-flex w-10 h-10 relative items-center justify-center`}>

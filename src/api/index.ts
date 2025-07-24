@@ -45,3 +45,12 @@ export const getTaskStatus = async (taskId: string): Promise<string> => {
     const res = await apiClient.get(`/sync/status/${taskId}`);
     return res.data.status;
 };
+
+export const getServerStatus = async (): Promise<boolean> => {
+    try {
+        await apiClient.get("/status");
+        return true;
+    } catch {
+        return false;
+    }
+};
