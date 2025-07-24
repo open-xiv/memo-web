@@ -26,6 +26,12 @@ export const getZoneNameByID = async (zoneID: number): Promise<string> => {
     return res.data.name;
 };
 
+
+export const getMemberHiddenStatus = async (name: string, server: string): Promise<boolean> => {
+    const res = await apiClient.get(`/member/${name}@${server}/hidden`);
+    return res.data.hidden;
+};
+
 export const getMemberZoneBestProgress = async (name: string, server: string, zoneID: number): Promise<MemberZoneProgress> => {
     const res = await apiClient.get<MemberZoneProgress>(`/member/${name}@${server}/${zoneID}/best`);
     return res.data;

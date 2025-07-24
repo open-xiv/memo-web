@@ -1,6 +1,6 @@
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
-import {getFightByID, getZoneByID} from "@/api";
+import {getFightByID, getZoneByID} from "@/api/sumemo.ts";
 import {useHeaderContext} from "@/context/HeaderContext";
 import DevIcon from "@/assets/icon/dev.svg?react";
 import Icon from "@/components/custom/Icon.tsx";

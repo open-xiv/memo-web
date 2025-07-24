@@ -5,7 +5,8 @@ import ErrIcon from "@/assets/icon/error.svg?react";
 import ZoneProgressRow from "@/components/custom/ZoneProgressRow.tsx";
 import GameIcon from "@/assets/icon/gamepad.svg?react";
 import TargetIcon from "@/assets/icon/target.svg?react";
-import {getTaskStatus, requestSyncLogs} from "@/api";
+import LockIcon from "@/assets/icon/lock.svg?react";
+import {getMemberHiddenStatus, getTaskStatus, requestSyncLogs} from "@/api/sumemo.ts";
 import Icon from "@/components/custom/Icon.tsx";
 import {useTheme} from "@/context/ThemeContext.ts";
 import Footer from "@/components/custom/footer.tsx";
@@ -23,9 +24,24 @@ export default function Member() {
     const playerName = nameParts[0];
     const playerServer = nameParts[1];
 
+    const [isHidden, setIsHidden] = useState<boolean>(false);
+
     const [isSyncing, setIsSyncing] = useState<boolean>(false);
     const [taskID, setTaskID] = useState<string | null>(null);
     const [syncStatus, setSyncStatus] = useState<string | null>("");
+
+    useEffect(() => {
+        const fetchMemberHiddenStatus = async () => {
+            try {
+                const hidden = await getMemberHiddenStatus(playerName, playerServer);
+                setIsHidden(hidden);
+            } catch {
+                setIsHidden(false);
+            }
+        };
+
+        fetchMemberHiddenStatus();
+    }, [playerName, playerServer]);
 
     useEffect(() => {
         const handleSync = async () => {
@@ -82,11 +98,31 @@ export default function Member() {
         return () => setMemberInfo(undefined, undefined);
     }, [name, playerName, playerServer, setMemberInfo]);
 
+    if (isHidden) {
+        return (
+            <div className="w-full relative flex items-center justify-center p-3">
+                <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10"/>
+                <div className="w-full h-full flex items-center justify-start gap-2 z-20">
+                    <Icon
+                        icon={LockIcon}
+                        className={`h-6 w-6`}
+                        primary={`var(${theme === "light" ? "--color-red-800" : "--color-red-100"})`}
+                        secondary={`var(${theme === "light" ? "--color-red-950" : "--color-red-200"})`}
+                    />
+                    <div className={`flex flex-wrap gap-x-2 gap-y-1`}>
+                        <span className="text-red-950 dark:text-red-200 text-base font-medium">玩家已将状态设为隐藏</span>
+                        {/*<span className="text-red-600 dark:text-red-400 text-base font-medium"></span>*/}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col gap-6">
 
             {/* sync */}
-            {isSyncing ? (
+            {isSyncing &&
                 <div className="w-full relative flex items-center justify-center p-3">
                     <div className="w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10"/>
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
@@ -102,7 +138,7 @@ export default function Member() {
                         </div>
                     </div>
                 </div>
-            ) : (<></>)}
+            }
 
             {/* ultimates */}
             <div className="w-full relative flex items-center justify-center p-3">

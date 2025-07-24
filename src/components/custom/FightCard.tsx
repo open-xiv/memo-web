@@ -3,7 +3,7 @@ import type {Zone} from "@/types/zone.ts";
 import {useHeaderContext} from "@/context/HeaderContext.ts";
 import {getJobIconByID} from "@/lib/job.ts";
 import {useEffect, useState} from "react";
-import {getZoneByID} from "@/api";
+import {getZoneByID} from "@/api/sumemo.ts";
 import {getTimeString} from "@/lib/time.ts";
 import {getTextGradient} from "@/lib/gradient.ts";
 import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card.tsx";

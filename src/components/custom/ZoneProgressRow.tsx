@@ -1,4 +1,4 @@
-import {getFightByID, getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID} from "@/api";
+import {getFightByID, getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID} from "@/api/sumemo.ts";
 import type {Fight} from "@/types/fight.ts";
 import {useEffect, useState} from "react";
 import ErrIcon from "@/assets/icon/error.svg?react";
