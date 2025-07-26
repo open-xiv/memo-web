@@ -9,6 +9,7 @@ import LinkIcon from "@/assets/icon/link.svg?react";
 import type {Zone} from "@/types/zone.ts";
 import Icon from "@/components/custom/Icon.tsx";
 import {useTheme} from "@/context/ThemeContext.ts";
+import ExpandToggle from "@/components/custom/ExpandToggle.tsx";
 
 
 interface ZoneProgressRowProps {
@@ -21,7 +22,10 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
     const {theme} = useTheme();
 
     const [bestFight, setBestFight] = useState<Fight | null>(null);
+
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
+    const [expandLatest, setExpandLatest] = useState<"min" | "max">("min");
+
     const [zoneName, setZoneName] = useState<string | null>(null);
     const [zone, setZone] = useState<Zone | null>(null);
 
@@ -169,12 +173,12 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                     <div className={`w-0.5 bg-indigo-400 dark:bg-indigo-500`}/>
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
                         <span className="text-indigo-950 dark:text-indigo-200 text-base font-medium"> 近期记录 </span>
-                        <span className="text-indigo-800 dark:text-indigo-300 text-sm font-medium"> 最近的三次进度 </span>
+                        <span className="text-indigo-800 dark:text-indigo-300 text-sm font-medium"> {expandLatest === "max" ? "最近的二十次进度" : "最近的三次进度"} </span>
                     </div>
                 </div>
                 {latestFights.length > 0 && (
                     <div className="mx-1 w-full flex flex-wrap gap-2">
-                        {latestFights.map((fight) => (
+                        {latestFights.slice(0, expandLatest === "max" ? 20 : 3).map((fight) => (
                             <div key={fight.id} className="flex-shrink-0">
                                 <FightCard fight={fight}/>
                             </div>
@@ -203,6 +207,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                         <span className="text-teal-600 dark:text-teal-400 text-base font-medium">  </span>
                     </div>
                 </div>
+                <ExpandToggle setExpand={setExpandLatest}/>
             </div>
 
             {/* Fight Content */}
