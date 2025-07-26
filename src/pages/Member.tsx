@@ -9,7 +9,7 @@ import LockIcon from "@/assets/icon/lock.svg?react";
 import {getMemberHiddenStatus, getTaskStatus, requestSyncLogs} from "@/api/sumemo.ts";
 import Icon from "@/components/custom/Icon.tsx";
 import {useTheme} from "@/context/ThemeContext.ts";
-import Footer from "@/components/custom/footer.tsx";
+import Footer from "@/components/custom/Footer.tsx";
 
 const ULTIMATES_INTEREST = [1271];
 const SAVAGE_INTEREST = [1257, 1259, 1261, 1263];

@@ -1,7 +1,7 @@
 import Icon from "@/components/custom/Icon.tsx";
 import {useTheme} from "@/context/ThemeContext.ts";
 import HomeIcon from "@/assets/icon/home.svg?react";
-import Footer from "@/components/custom/footer.tsx";
+import Footer from "@/components/custom/Footer.tsx";
 
 export default function Home() {
     const {theme} = useTheme();

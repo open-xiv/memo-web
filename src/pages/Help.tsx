@@ -1,4 +1,4 @@
-import Footer from "@/components/custom/footer.tsx";
+import Footer from "@/components/custom/Footer.tsx";
 
 export default function Help() {
     return (
@@ -114,7 +114,7 @@ export default function Help() {
                             和 <span className="text-purple-950 dark:text-purple-400">FFLogs</span> 相同，我们理解在某些情况下，玩家可能不希望其数据被公开。
                         </p>
                         <p>
-                            我们正在构建屏蔽规则，以便玩家可以自由的调整数据的展示策略，这可能需要一些时间来实现。
+                            为了验证角色所属，玩家需要通过 <span className="text-purple-950 dark:text-purple-400">Discord</span> 频道来调整数据的展示策略。
                         </p>
                         <p className={`font-medium text-green-950 dark:text-green-300`}>
                             无论数据是否显示，都不应该影响彼此之间的交流和理解。

@@ -1,6 +1,6 @@
 import Icon from "@/components/custom/Icon.tsx";
-import Sun from "@/assets/icon/sun.svg?react";
-import Moon from "@/assets/icon/moon.svg?react";
+import SunIcon from "@/assets/icon/sun.svg?react";
+import MoonIcon from "@/assets/icon/moon.svg?react";
 import {useTheme} from "@/context/ThemeContext.ts";
 
 export default function ThemeToggle() {
@@ -20,13 +20,12 @@ export default function ThemeToggle() {
                 aria-label="Light Theme"
             >
                 <Icon
-                    icon={Sun}
+                    icon={SunIcon}
                     className="h-6 w-6"
                     primary={`var(${theme === "light" ? "--color-yellow-100" : "--color-yellow-100"})`}
                     secondary={`var(${theme === "light" ? "--color-yellow-900" : "--color-yellow-300"})`}
                 />
             </button>
-
 
             <button
                 onClick={() => setTheme("dark")}
@@ -34,7 +33,7 @@ export default function ThemeToggle() {
                 aria-label="Dark Theme"
             >
                 <Icon
-                    icon={Moon}
+                    icon={MoonIcon}
                     className={`h-4 w-4`}
                     primary={`var(${theme === "light" ? "--color-yellow-100" : "--color-yellow-100"})`}
                     secondary={`var(${theme === "light" ? "--color-yellow-900" : "--color-yellow-300"})`}
