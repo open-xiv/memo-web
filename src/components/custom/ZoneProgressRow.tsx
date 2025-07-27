@@ -161,7 +161,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
         return (
             <>
                 <div className={`mx-0.5 flex justify-start gap-2`}>
-                    <div className={`w-0.5 bg-zinc-400 dark:bg-zinc-600`}/>
+                    <div className={`w-0.5 bg-red-400 dark:bg-red-500`}/>
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
                         <span className="text-red-950 dark:text-red-200 text-base font-medium"> 最优记录 </span>
                         <span className="text-red-800 dark:text-red-300 text-sm font-medium"> 最远进度 </span>

@@ -2,6 +2,7 @@ import axios from "axios";
 import type {Zone} from "@/types/zone.ts";
 import type {Fight, MemberZoneProgress} from "@/types/fight.ts";
 import {sortPlayersInFight} from "@/lib/job.ts";
+import type {Stats} from "@/types/stats.ts";
 
 const apiClient = axios.create({
     baseURL: "https://api.sumemo.dev",
@@ -51,11 +52,7 @@ export const getTaskStatus = async (taskId: string): Promise<string> => {
     return res.data.status;
 };
 
-export const getServerStatus = async (): Promise<boolean> => {
-    try {
-        await apiClient.get("/status");
-        return true;
-    } catch {
-        return false;
-    }
+export const getServerStats = async (): Promise<Stats> => {
+    const res = await apiClient.get("/stats");
+    return res.data;
 };
