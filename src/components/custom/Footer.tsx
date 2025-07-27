@@ -50,7 +50,7 @@ export default function Footer() {
 
             {/*  Discord  */}
             {inviteLink && <a href={`${inviteLink}`} className="w-full sm:w-fit relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950/60 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={ChatIcon}
