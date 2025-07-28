@@ -1,19 +1,20 @@
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import UserIcon from "@/assets/icon/user.svg?react";
 import SearchIcon from "@/assets/icon/search.svg?react";
-import {Input} from "@/components/ui/input.tsx";
-import type {KeyboardEvent} from "react";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {Badge} from "@/components/ui/badge.tsx";
 import HelpIcon from "@/assets/icon/help.svg?react";
 import HomeIcon from "@/assets/icon/home.svg?react";
 import Icon from "@/components/custom/Icon.tsx";
 import ThemeToggle from "@/components/custom/ThemeToggle.tsx";
 import {useTheme} from "@/context/ThemeContext.ts";
+import {CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.tsx";
+import {searchMember} from "@/api/sumemo.ts";
+import type {MemberSearchResult} from "@/types/member.ts";
+import {useDebounce} from "@/hook/use-debounce.ts";
 
 export default function Header() {
     const {theme} = useTheme();
-
     const location = useLocation();
     const params = useParams<{ name?: string; id?: string }>();
     const navigate = useNavigate();
@@ -21,67 +22,41 @@ export default function Header() {
     const isMemberPage = location.pathname.startsWith("/member/");
     const memberName = isMemberPage ? params.name : null;
 
-    const [isSearching, setIsSearching] = useState(false);
-    const [searchValue, setSearchValue] = useState("");
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    const isSearchValid = /.+@.+/.test(searchValue);
-    const searchContainerRef = useRef<HTMLDivElement>(null);
+    const [open, setOpen] = useState(false);
+    const [query, setQuery] = useState("");
+    const debouncedQuery = useDebounce(query, 300);
+    const [results, setResults] = useState<MemberSearchResult[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const handleKeyDown = (e: globalThis.KeyboardEvent) => {
             if (e.key === "/" && (e.target as HTMLElement).tagName !== "INPUT" && (e.target as HTMLElement).tagName !== "TEXTAREA") {
                 e.preventDefault();
-                setIsSearching(true);
-                setTimeout(() => {
-                    inputRef.current?.focus();
-                }, 0);
+                setOpen(true);
             }
         };
-
         window.addEventListener("keydown", handleKeyDown);
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown);
-        };
+        return () => window.removeEventListener("keydown", handleKeyDown);
     }, []);
 
     useEffect(() => {
-        const handleClickOutside = (event: globalThis.MouseEvent) => {
-            if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
-                setIsSearching(false);
+        const fetchResults = async () => {
+            if (debouncedQuery.length > 0) {
+                setLoading(true);
+                const searchResults = await searchMember(debouncedQuery);
+                setResults(searchResults);
+                setLoading(false);
+            } else {
+                setResults([]);
             }
         };
+        fetchResults();
+    }, [debouncedQuery]);
 
-        const handleEscapeKey = (event: globalThis.KeyboardEvent) => {
-            if (event.key === "Escape") {
-                setIsSearching(false);
-            }
-        };
-
-        if (isSearching) {
-            document.addEventListener("mousedown", handleClickOutside);
-            document.addEventListener("keydown", handleEscapeKey);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-            document.removeEventListener("keydown", handleEscapeKey);
-        };
-    }, [isSearching]);
-
-    const handleSearch = () => {
-        if (isSearchValid) {
-            navigate(`/member/${searchValue}`);
-            setIsSearching(false);
-            setSearchValue("");
-            inputRef.current?.blur();
-        }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === "Enter") {
-            handleSearch();
-        }
+    const handleSelect = (name: string, server: string) => {
+        navigate(`/member/${name}@${server}`);
+        setOpen(false);
+        setQuery("");
     };
 
     return (
@@ -112,73 +87,68 @@ export default function Header() {
                             secondary={`var(${theme !== "dark" ? "--color-violet-950" : "--color-violet-200"})`}
                         />
                         <div className={`
-                    flex justify-start items-baseline gap-1 text-violet-950 dark:text-violet-200
-                    transition-all duration-300 ease-in-out
-                    ${isMemberPage ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
-                    overflow-hidden
-                `}>{memberName && (
+                            flex justify-start items-baseline gap-1 text-violet-950 dark:text-violet-200
+                            transition-all duration-300 ease-in-out
+                            ${isMemberPage ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
+                            overflow-hidden
+                        `}>{memberName && (
                             <>
                                 <div>
                                     <span className={`text-base font-medium whitespace-nowrap`}>{memberName.split("@")[0]}</span>
                                     <span className={`text-sm font-medium`}> </span>
                                 </div>
-                                <span className={`text-xs font-normal whitespace-nowrap`}>{`@${memberName.split("@")[1]}`}</span>
+                                <span className={`text-xs font-normal whitespace-nowrap`}>{`${memberName.split("@")[1]}`}</span>
                             </>
                         )}
                         </div>
                     </div>
                 </div>
 
-                {/* Search */}
-                <div ref={searchContainerRef} className={`h-10 relative inline-flex items-center justify-start`}>
+                {/* Search Button */}
+                <div className={`h-10 relative inline-flex items-center justify-start cursor-pointer`} onClick={() => setOpen(true)}>
                     <div className={`w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10`}/>
-                    <div className={`relative flex items-center h-full z-20 m-3 justify-start ${isSearching ? "gap-2" : "gap-0"} sm:gap-2`}>
+                    <div className={`relative flex items-center h-full z-20 m-3 justify-start gap-2`}>
                         <Icon
                             icon={SearchIcon}
-                            className={`h-6 w-6 shrink-0 cursor-pointer`}
+                            className={`h-6 w-6 shrink-0`}
                             primary={`var(${theme !== "dark" ? "--color-amber-500" : "--color-amber-400"})`}
                             secondary={`var(${theme !== "dark" ? "--color-amber-950" : "--color-amber-200"})`}
-                            onClick={() => setIsSearching(!isSearching)}
                         />
-                        {!isSearching &&
-                            <Badge variant="outline"
-                                   className="hidden sm:block bg-amber-100 dark:bg-amber-800 border-amber-300 dark:border-amber-600 text-amber-950 dark:text-amber-200">/</Badge>
-                        }
-                        <div className={`
-                                flex justify-start items-baseline gap-1 text-amber-950 dark:text-amber-200
-                                transition-all duration-300 ease-in-out
-                                ${isSearching ? "max-w-xs opacity-100" : "max-w-0 opacity-0"}
-                                overflow-hidden
-                            `}>
-                            <div className="flex w-full max-w-sm items-center gap-1">
-                                <Input
-                                    ref={inputRef}
-                                    type="text"
-                                    value={searchValue}
-                                    onChange={(e) => setSearchValue(e.target.value)}
-                                    onKeyDown={handleKeyDown}
-                                    className={`
-                                h-7 text-base font-medium
-                                bg-amber-100 dark:bg-amber-900
-                                border-amber-300 dark:border-amber-700
-                                text-amber-950 dark:text-amber-200
-                                focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none
-                                focus-visible:border-amber-500 dark:focus-visible:border-amber-400
-                            `}
-                                    placeholder="吉田直树@宇宙和音"
-                                />
-                                {isSearchValid && (
-                                    <Badge variant="outline"
-                                           className="cursor-pointer bg-amber-100 dark:bg-amber-800 border-amber-300 dark:border-amber-600 text-amber-950 dark:text-amber-200"
-                                           onClick={handleSearch}>↵</Badge>
-                                )}
-                            </div>
-                        </div>
+                        <Badge variant="outline"
+                               className="hidden sm:block bg-amber-100 dark:bg-amber-800 border-amber-300 dark:border-amber-600 text-amber-950 dark:text-amber-200">
+                            /
+                        </Badge>
                     </div>
                 </div>
 
+                {/* Search Dialog */}
+                <CommandDialog open={open} onOpenChange={setOpen}>
+                    <CommandInput
+                        placeholder="搜索名称"
+                        value={query}
+                        onValueChange={setQuery}
+                    />
+                    <CommandList>
+                        {loading && <CommandEmpty>加载中</CommandEmpty>}
+                        {!loading && !results.length && debouncedQuery.length > 0 && <CommandEmpty>未找到结果</CommandEmpty>}
+                        <CommandGroup heading="搜索结果">
+                            {results.map((result) => (
+                                <CommandItem
+                                    key={`${result.name}@${result.server}`}
+                                    onSelect={() => handleSelect(result.name, result.server)}
+                                    value={`${result.name} ${result.server}`}
+                                    className={`flex items-baseline m-2`}
+                                >
+                                    <span className={`ml-2`}>{result.name}</span>
+                                    <span className="text-muted-foreground text-xs">{result.server}</span>
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
+                    </CommandList>
+                </CommandDialog>
+
                 {/* Theme Toggle  */}
-                <div className={`${isSearching ? "hidden sm:block" : "block"}`}>
+                <div className={`block`}>
                     <ThemeToggle/>
                 </div>
 
