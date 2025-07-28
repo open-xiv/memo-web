@@ -33,18 +33,3 @@ export interface Fight {
     logs: LogsFight;
     is_logs_only: boolean;
 }
-
-export interface MemberFight {
-    name: string,
-    server: string,
-    fights: Fight[];
-}
-
-export interface MemberZoneProgress {
-    name: string;
-    server: string;
-    zone_id: number;
-    fight_id?: number;
-    clear: boolean;
-    progress: FightProgress;
-}

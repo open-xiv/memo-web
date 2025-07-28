@@ -85,32 +85,31 @@ export function Stats() {
                 </div>
                 <div className="w-full h-fit sm:w-full rounded flex gap-x-2">
                     {/* From DR */}
-                    <div className="w-full sm:w-fit relative flex items-center justify-center p-3"
-                         style={{width: `${(statsData?.fights - statsData.log_only_fights) / statsData.fights * 100}%`}}>
+                    <a href={"https://discord.gg/MDvv8Ejntw"} className="w-full sm:w-fit relative flex items-center justify-center p-3"
+                       style={{width: `${(statsData?.fights - statsData.log_only_fights) / statsData.fights * 100}%`}}>
                         <div className="w-full h-full absolute bg-teal-50 dark:bg-teal-950 rounded-lg border border-teal-300 dark:border-teal-700 blur-[2px] z-10"/>
                         <div className="w-full h-full flex items-center justify-center gap-2 z-20">
                             <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline px-2`}>
-                                <a href={"https://discord.gg/MDvv8Ejntw"} className="text-teal-950 dark:text-teal-200 text-sm font-medium"> Daily Routines </a>
+                                <div className="text-teal-950 dark:text-teal-200 text-sm font-medium"> Daily Routines</div>
                                 <span
                                     className="text-teal-600 dark:text-teal-400 text-sm font-medium font-mono"> {Math.trunc((statsData?.fights - statsData.log_only_fights) / 1e4)} </span>
                                 <span className="text-teal-950 dark:text-teal-200 text-xs font-medium"> 万条 </span>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
                     {/* From FFLogs */}
-                    <div className="w-full sm:w-fit relative flex items-center justify-center p-3"
-                         style={{width: `${(statsData.log_only_fights) / statsData.fights * 100}%`}}>
+                    <a href={`https://fflogs.com`} className="w-full sm:w-fit relative flex items-center justify-center p-3"
+                       style={{width: `${(statsData.log_only_fights) / statsData.fights * 100}%`}}>
                         <div className="w-full h-full absolute bg-zinc-100 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-500 blur-[2px] z-10"/>
                         <div className="w-full h-full flex items-center justify-center gap-2 z-20">
                             <div className={`hidden sm:flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline px-2`}>
-                                <a href={`https://fflogs.com`} className="text-zinc-950 dark:text-zinc-200 text-sm font-medium"> FFLogs </a>
+                                <div className="text-zinc-950 dark:text-zinc-200 text-sm font-medium"> FFLogs</div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-
+                
             </div>
         );
     }

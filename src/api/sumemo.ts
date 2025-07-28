@@ -1,6 +1,7 @@
 import axios from "axios";
 import type {Zone} from "@/types/zone.ts";
-import type {Fight, MemberZoneProgress} from "@/types/fight.ts";
+import type {Fight} from "@/types/fight.ts";
+import type {MemberSearchResult, MemberZoneProgress} from "@/types/member.ts";
 import {sortPlayersInFight} from "@/lib/job.ts";
 import type {Stats} from "@/types/stats.ts";
 
@@ -39,6 +40,14 @@ export const getMemberZoneBestProgress = async (name: string, server: string, zo
 
 export const getMemberZoneLatestProgresses = async (name: string, server: string, zoneID: number): Promise<[MemberZoneProgress]> => {
     const res = await apiClient.get<[MemberZoneProgress]>(`/member/${name}@${server}/${zoneID}/latest?limit=20`);
+    return res.data;
+};
+
+export const searchMember = async (query: string): Promise<MemberSearchResult[]> => {
+    if (!query) {
+        return [];
+    }
+    const res = await apiClient.get(`/member/search`, {params: {q: query}});
     return res.data;
 };
 
