@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {getServerStats} from "@/api/sumemo.ts";
 import {useTheme} from "@/context/ThemeContext.ts";
 import Icon from "@/components/custom/Icon.tsx";
 import BoxIcon from "@/assets/icon/box.svg?react";
 import MemberIcon from "@/assets/icon/member.svg?react";
+import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card.tsx";
 import type {Stats} from "@/types/stats.ts";
 
 
@@ -24,6 +25,22 @@ export function Stats() {
 
         fetchStats();
     }, []);
+
+    const totalFights = useMemo(() => {
+        return statsData?.fight.reduce((sum, current) => sum + current.count, 0) ?? 0;
+    }, [statsData]);
+
+    const drFights = useMemo(() => {
+        return statsData?.fight.find(f => f.source === "Daily Routines")?.count ?? 0;
+    }, [statsData]);
+
+    const fuFights = useMemo(() => {
+        return statsData?.fight.find(f => f.source === "FuckAnimationLock")?.count ?? 0;
+    }, [statsData]);
+
+    const logsFights = useMemo(() => {
+        return statsData?.fight.find(f => f.source === "FFLogs")?.count ?? 0;
+    }, [statsData]);
 
     if (statsData) {
         return (
@@ -50,7 +67,7 @@ export function Stats() {
                             />
                             <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline`}>
                                 <span className="text-sky-950 dark:text-sky-200 text-base font-medium"> 已记录战斗 </span>
-                                <span className="text-sky-600 dark:text-sky-400 text-base font-medium font-mono"> {Math.trunc(statsData?.fights / 1e4)} </span>
+                                <span className="text-sky-600 dark:text-sky-400 text-base font-medium font-mono"> {Math.trunc(totalFights / 1e4)} </span>
                                 <span className="text-sky-950 dark:text-sky-200 text-xs font-medium pr-1"> 万条 </span>
                             </div>
                         </div>
@@ -84,23 +101,44 @@ export function Stats() {
                     </div>
                 </div>
                 <div className="w-full h-fit sm:w-full rounded flex gap-x-2">
+
                     {/* From DR */}
                     <a href={"https://discord.gg/MDvv8Ejntw"} className="w-full sm:w-fit relative flex items-center justify-center p-3"
-                       style={{width: `${(statsData?.fights - statsData.log_only_fights) / statsData.fights * 100}%`}}>
+                       style={{width: `${drFights / totalFights * 100}%`}}>
                         <div className="w-full h-full absolute bg-teal-50 dark:bg-teal-950 rounded-lg border border-teal-300 dark:border-teal-700 blur-[2px] z-10"/>
                         <div className="w-full h-full flex items-center justify-center gap-2 z-20">
                             <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline px-2`}>
                                 <div className="text-teal-950 dark:text-teal-200 text-sm font-medium"> Daily Routines</div>
                                 <span
-                                    className="text-teal-600 dark:text-teal-400 text-sm font-medium font-mono"> {Math.trunc((statsData?.fights - statsData.log_only_fights) / 1e4)} </span>
+                                    className="text-teal-600 dark:text-teal-400 text-sm font-medium font-mono"> {Math.trunc(drFights / 1e4)} </span>
                                 <span className="text-teal-950 dark:text-teal-200 text-xs font-medium"> 万条 </span>
                             </div>
                         </div>
                     </a>
 
+                    {/* From FuckAnimation */}
+                    <HoverCard>
+                        <HoverCardTrigger asChild>
+                            <div className="w-full sm:w-fit relative flex items-center justify-center p-3"
+                                 style={{width: `${fuFights / totalFights * 100}%`}}>
+                                <div className="w-full h-full absolute bg-yellow-50 dark:bg-yellow-950 rounded-lg border border-yellow-300 dark:border-yellow-700 blur-[2px] z-10"/>
+                            </div>
+                        </HoverCardTrigger>
+                        <HoverCardContent className={`w-auto h-auto p-2`} sideOffset={12}>
+                            <div className="w-full h-full flex items-center justify-center gap-2 z-20">
+                                <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline px-2`}>
+                                    <div className="text-yellow-950 dark:text-yellow-200 text-sm font-medium"> FuckAnimationLock</div>
+                                    <span
+                                        className="text-yellow-600 dark:text-yellow-400 text-sm font-medium font-mono"> {Math.trunc(fuFights / 1e3)} </span>
+                                    <span className="text-yellow-950 dark:text-yellow-200 text-xs font-medium"> 千条 </span>
+                                </div>
+                            </div>
+                        </HoverCardContent>
+                    </HoverCard>
+
                     {/* From FFLogs */}
                     <a href={`https://fflogs.com`} className="w-full sm:w-fit relative flex items-center justify-center p-3"
-                       style={{width: `${(statsData.log_only_fights) / statsData.fights * 100}%`}}>
+                       style={{width: `${logsFights / totalFights * 100}%`}}>
                         <div className="w-full h-full absolute bg-zinc-100 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-500 blur-[2px] z-10"/>
                         <div className="w-full h-full flex items-center justify-center gap-2 z-20">
                             <div className={`hidden sm:flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline px-2`}>
@@ -109,7 +147,7 @@ export function Stats() {
                         </div>
                     </a>
                 </div>
-                
+
             </div>
         );
     }

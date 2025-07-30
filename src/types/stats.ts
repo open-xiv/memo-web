@@ -1,5 +1,9 @@
+export interface FightStats {
+    source: string;
+    count: number;
+}
+
 export interface Stats {
-    fights: number;
-    log_only_fights: number;
+    fight: [FightStats];
     member: number;
 }
