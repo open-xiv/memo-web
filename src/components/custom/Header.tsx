@@ -8,7 +8,7 @@ import HomeIcon from "@/assets/icon/home.svg?react";
 import Icon from "@/components/custom/Icon.tsx";
 import ThemeToggle from "@/components/custom/ThemeToggle.tsx";
 import {useTheme} from "@/context/ThemeContext.ts";
-import {CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.tsx";
+import {CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut} from "@/components/ui/command.tsx";
 import {searchMember} from "@/api/sumemo.ts";
 import type {MemberSearchResult} from "@/types/member.ts";
 import {useDebounce} from "@/hook/use-debounce.ts";
@@ -131,18 +131,39 @@ export default function Header() {
                     <CommandList>
                         {loading && <CommandEmpty>加载中</CommandEmpty>}
                         {!loading && !results.length && debouncedQuery.length > 0 && <CommandEmpty>未找到结果</CommandEmpty>}
-                        <CommandGroup heading="搜索结果">
-                            {results.map((result) => (
-                                <CommandItem
-                                    key={`${result.name}@${result.server}`}
-                                    onSelect={() => handleSelect(result.name, result.server)}
-                                    value={`${result.name} ${result.server}`}
-                                    className={`flex items-baseline m-2`}
-                                >
-                                    <span className={`ml-2`}>{result.name}</span>
-                                    <span className="text-muted-foreground text-xs">{result.server}</span>
-                                </CommandItem>
-                            ))}
+                        {query.length > 0 &&
+                            <CommandGroup heading={"搜索结果"}>
+                                {results.map((result) => (
+                                    <CommandItem
+                                        key={`${result.name}@${result.server}`}
+                                        onSelect={() => handleSelect(result.name, result.server)}
+                                        value={`${result.name} ${result.server}`}
+                                        className={`flex items-baseline m-2`}
+                                    >
+                                        <span className={`ml-2`}>{result.name}</span>
+                                        <span className="text-muted-foreground text-xs">{result.server}</span>
+                                    </CommandItem>
+                                ))}
+                            </CommandGroup>
+                        }
+                        {query.length > 0 && <CommandSeparator/>}
+                        <CommandGroup heading={"快捷操作"}>
+                            <CommandItem className={`flex items-baseline m-2 text-xs`}>
+                                <span className={`ml-2`}>打开搜索</span>
+                                <CommandShortcut>
+                                    <kbd
+                                        className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
+                                        <span className="text-xs">/</span>
+                                    </kbd></CommandShortcut>
+                            </CommandItem>
+                            <CommandItem className={`flex items-baseline m-2 text-xs`}>
+                                <span className={`ml-2`}>关闭搜索</span>
+                                <CommandShortcut>
+                                    <kbd
+                                        className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
+                                        <span className="text-xs">Esc</span>
+                                    </kbd></CommandShortcut>
+                            </CommandItem>
                         </CommandGroup>
                     </CommandList>
                 </CommandDialog>

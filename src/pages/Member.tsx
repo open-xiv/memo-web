@@ -29,6 +29,7 @@ export default function Member() {
     const [isSyncing, setIsSyncing] = useState<boolean>(false);
     const [taskID, setTaskID] = useState<string | null>(null);
     const [syncStatus, setSyncStatus] = useState<string | null>("");
+    const [dataVersion, setDataVersion] = useState(0);
 
     useEffect(() => {
         const fetchMemberHiddenStatus = async () => {
@@ -73,7 +74,7 @@ export default function Member() {
                     setTaskID(null);
                     if (status.startsWith("complete")) {
                         setSyncStatus("同步完成");
-                        window.location.reload();
+                        setDataVersion(prevVersion => prevVersion + 1);
                     }
                 } else if (status.startsWith("fail")) {
                     setSyncStatus("获取状态失败");
@@ -159,7 +160,7 @@ export default function Member() {
 
             {playerName && playerServer ? (
                 ULTIMATES_INTEREST.map(zoneID => (
-                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
+                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}-${dataVersion}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
                 ))
             ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
@@ -200,7 +201,7 @@ export default function Member() {
 
             {playerName && playerServer ? (
                 SAVAGE_INTEREST.map(zoneID => (
-                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
+                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}-${dataVersion}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
                 ))
             ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
