@@ -27,22 +27,38 @@ export function Stats() {
     }, []);
 
     const totalFights = useMemo(() => {
-        return statsData?.fight.reduce((sum, current) => sum + current.count, 0) ?? 0;
+        return Array.isArray(statsData?.fight)
+            ? statsData.fight.reduce((sum, current) => sum + current.count, 0)
+            : 0;
     }, [statsData]);
 
-    const drFights = useMemo(() => {
-        return statsData?.fight.find(f => f.source === "Daily Routines")?.count ?? 0;
+    const {drFights, fuFights, logsFights} = useMemo(() => {
+        const counts = {
+            drFights: 0,
+            fuFights: 0,
+            logsFights: 0,
+        };
+
+        if (Array.isArray(statsData?.fight)) {
+            for (const f of statsData.fight) {
+                switch (f.source) {
+                    case "Daily Routines":
+                        counts.drFights = f.count;
+                        break;
+                    case "FuckAnimationLock":
+                        counts.fuFights = f.count;
+                        break;
+                    case "FFLogs":
+                        counts.logsFights = f.count;
+                        break;
+                }
+            }
+        }
+
+        return counts;
     }, [statsData]);
 
-    const fuFights = useMemo(() => {
-        return statsData?.fight.find(f => f.source === "FuckAnimationLock")?.count ?? 0;
-    }, [statsData]);
-
-    const logsFights = useMemo(() => {
-        return statsData?.fight.find(f => f.source === "FFLogs")?.count ?? 0;
-    }, [statsData]);
-
-    if (statsData) {
+    if (statsData && totalFights > 0) {
         return (
             <div className={`w-full flex flex-col gap-4 flex-wrap`}>
 
