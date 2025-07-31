@@ -1,8 +1,6 @@
 import axios from "axios";
 import type {Zone} from "@/types/zone.ts";
-import type {Fight} from "@/types/fight.ts";
 import type {MemberSearchResult, MemberZoneProgress} from "@/types/member.ts";
-import {sortPlayersInFight} from "@/lib/job.ts";
 import type {Stats} from "@/types/stats.ts";
 
 const apiClient = axios.create({
@@ -12,11 +10,6 @@ const apiClient = axios.create({
         "Accept": "application/json",
     }
 });
-
-export const getFightByID = async (id: number): Promise<Fight> => {
-    const res = await apiClient.get(`/fight/${id}`);
-    return sortPlayersInFight(res.data);
-};
 
 export const getZoneByID = async (zoneID: number): Promise<Zone> => {
     const res = await apiClient.get(`/zone/${zoneID}`);

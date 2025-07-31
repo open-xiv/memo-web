@@ -1,4 +1,4 @@
-import type {FightProgress} from "@/types/fight.ts";
+import type {Fight, FightProgress} from "@/types/fight.ts";
 
 export interface MemberSearchResult {
     name: string;
@@ -12,4 +12,5 @@ export interface MemberZoneProgress {
     fight_id?: number;
     clear: boolean;
     progress: FightProgress;
+    fight?: Fight;
 }

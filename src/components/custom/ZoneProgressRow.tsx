@@ -1,4 +1,4 @@
-import {getFightByID, getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID} from "@/api/sumemo.ts";
+import {getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID} from "@/api/sumemo.ts";
 import type {Fight} from "@/types/fight.ts";
 import {useEffect, useState} from "react";
 import ErrIcon from "@/assets/icon/error.svg?react";
@@ -49,47 +49,27 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                // fetch zone name
                 const zoneName = await getZoneNameByID(zoneID);
                 setZoneName(zoneName);
 
-                // fetch best and latest progresses
                 const [bestProgress, latestProgresses] = await Promise.all([
                     getMemberZoneBestProgress(playerName, playerServer, zoneID),
                     getMemberZoneLatestProgresses(playerName, playerServer, zoneID)
                 ]);
 
-                const fightIdsToFetch = new Set<number>();
-                if (bestProgress?.fight_id) {
-                    fightIdsToFetch.add(bestProgress.fight_id);
-                }
-                latestProgresses.forEach(p => {
-                    if (p.fight_id) fightIdsToFetch.add(p.fight_id);
-                });
+                setBestFight(bestProgress?.fight || null);
 
-                if (fightIdsToFetch.size === 0) {
-                    setIsLoading(false);
-                    return;
-                }
-
-                // fetch fight details
-                const fightDetails = await Promise.all(
-                    Array.from(fightIdsToFetch).map(id => getFightByID(id))
-                );
-                const fightMap = new Map(fightDetails.map(f => [f.id, f]));
-
-                // update fight data
-                if (bestProgress?.fight_id) {
-                    setBestFight(fightMap.get(bestProgress.fight_id) || null);
-                }
                 setLatestFights(
                     latestProgresses
-                        .map(p => p.fight_id ? fightMap.get(p.fight_id) : null)
-                        .filter((f): f is Fight => f !== null)
+                        .map(p => p.fight)
+                        .filter((f): f is Fight => f !== null && f !== undefined) // 过滤掉空的 fight
                         .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
                 );
+
             } catch (err) {
                 console.error(`failed to fetch progress for zone ${zoneID}:`, err);
+                setBestFight(null);
+                setLatestFights([]);
             } finally {
                 setIsLoading(false);
             }
