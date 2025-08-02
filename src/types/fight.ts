@@ -1,14 +1,19 @@
 export interface Player {
-    id: number;
     name: string;
     server: string;
+
     job_id: number;
     level: number;
+
+    death_count: number;
 }
 
 export interface FightProgress {
     phase: number;
     subphase: number;
+
+    enemy_id: number;
+    enemy_hp: number;
 }
 
 export interface LogsFight {
@@ -20,16 +25,19 @@ export interface LogsFight {
 
 export interface Fight {
     id: number;
-    zone_id: number;
+
     timestamp: string;
 
+    zone_id: number;
     players: Player[];
+
+    hash: string,
+    party_hash: string;
+
+    source: string;
 
     clear: boolean;
     progress: FightProgress;
 
-    hash: string,
-
     logs: LogsFight;
-    is_logs_only: boolean;
 }

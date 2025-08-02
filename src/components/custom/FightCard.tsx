@@ -31,7 +31,7 @@ export default function FightCard({fight}: FightCardProps) {
     const localJobIcon = localPlayer ? getJobIconByID(localPlayer.job_id) : null;
 
     // party job icons
-    const partyPlayers = fight.players.filter(p => p.id !== localPlayer?.id);
+    const partyPlayers = fight.players.filter(p => p.name !== localPlayer?.name);
     const partyJobIcons = partyPlayers.map(p => getJobIconByID(p.job_id)).filter(Boolean) as string[];
 
     // time string
@@ -78,12 +78,12 @@ export default function FightCard({fight}: FightCardProps) {
             <div className="w-full flex items-center justify-between z-20">
                 <div className="flex items-center justify-center gap-2.5">
                     {/* local job icon */}
-                    {localJobIcon ? (<img src={localJobIcon} alt={`job ${localPlayer?.job_id}`} className="w-9 h-9"/>) : (<div/>)}
+                    {localJobIcon && <img src={localJobIcon} alt={`job ${localPlayer?.job_id}`} className="w-9 h-9"/>}
                     {/* zone */}
                     <div className="flex flex-col items-start justify-center gap-0.5">
                         <div className={`flex gap-0.5 items-center`}>
                             <span className="text-zinc-950 dark:text-zinc-200 text-sm font-medium">{zoneAlias}</span>
-                            {fight.logs.report_id ? (
+                            {fight.logs.report_id &&
                                 <a href={logsLink} target={"_blank"} rel={"noreferrer noopener"}>
                                     <Icon
                                         icon={LinkIcon}
@@ -92,7 +92,7 @@ export default function FightCard({fight}: FightCardProps) {
                                         secondary={`var(${theme === "light" ? "--color-zinc-950" : "--color-zinc-200"})`}
                                     />
                                 </a>
-                            ) : (<></>)}
+                            }
                         </div>
                         <span className="text-zinc-400 dark:text-zinc-500 text-xs font-normal font-mono">#{hashString}</span>
                     </div>
@@ -107,7 +107,7 @@ export default function FightCard({fight}: FightCardProps) {
             {/* party job icon - progress  */}
             <div className="w-full flex items-end justify-between z-20">
                 {/* party job icons */}
-                {fight.is_logs_only ? (
+                {fight.source === "FFLogs" ? (
                     <a href={logsLink} target={"_blank"} rel={"noreferrer noopener"}>
                         <div className={`px-0.5 text-zinc-400 dark:text-zinc-500 text-sm font-medium`}>
                             来自 FFLogs 的记录
