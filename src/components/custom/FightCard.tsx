@@ -38,7 +38,7 @@ export default function FightCard({fight}: FightCardProps) {
     const timeString = getTimeString(fight.timestamp);
 
     // fight hash
-    const hashString = fight.hash.substring(0, 4);
+    const hashString = fight.party_hash.substring(0, 4);
 
     // phase
     const currentPhase = zone ? zone.phases.find(p => p.phase_id === fight.progress.phase) : null;
