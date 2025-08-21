@@ -4,6 +4,6 @@
 
 ---
 
-![Alt](https://repobeats.axiom.co/api/embed/012973f45c3a133ce983a05bb442fbd8c215206e.svg "Repobeats Analytics Image")
+![Alt](https://repobeats.axiom.co/api/embed/21be2dacaef21b2a9850cf07301ceaa091695082.svg "Repobeats Analytics Image")
 
 ---
