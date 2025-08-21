@@ -1,11 +1,11 @@
-import type {ReactNode} from "react";
-import {useCallback, useState} from "react";
-import {HeaderContext, type HeaderContextType} from "@/context/HeaderContext.ts";
+import type { ReactNode } from "react";
+import { useCallback, useState } from "react";
+import { HeaderContext, type HeaderContextType } from "@/context/HeaderContext.ts";
 
 const DEFAULT_TITLE = "酥卷";
 const DEFAULT_EN_TITLE = "SuMemo";
 
-export const HeaderProvider = ({children}: { children: ReactNode }) => {
+export const HeaderProvider = ({ children }: { children: ReactNode }) => {
     // zone
     const [zoneName, setZoneName] = useState<string | undefined>(undefined);
     const [zoneHash, setZoneHash] = useState<string | undefined>(undefined);
@@ -35,7 +35,7 @@ export const HeaderProvider = ({children}: { children: ReactNode }) => {
         }
     }, [zoneName]);
 
-    const value: HeaderContextType = {zoneName, zoneHash, setZoneInfo, memberName, memberServer, setMemberInfo};
+    const value: HeaderContextType = { zoneName, zoneHash, setZoneInfo, memberName, memberServer, setMemberInfo };
 
     return (
         <HeaderContext.Provider value={value}>

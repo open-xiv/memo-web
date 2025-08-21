@@ -5,7 +5,7 @@ const apiClient = axios.create({
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-    }
+    },
 });
 
 export const getInviteLink = async (id: string): Promise<string> => {

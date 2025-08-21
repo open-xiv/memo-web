@@ -1,14 +1,14 @@
 import Icon from "@/components/custom/Icon.tsx";
 import SunIcon from "@/assets/icon/sun.svg?react";
 import MoonIcon from "@/assets/icon/moon.svg?react";
-import {useTheme} from "@/context/ThemeContext.ts";
+import { useTheme } from "@/context/ThemeContext.ts";
 
 export default function ThemeToggle() {
-    const {theme, setTheme} = useTheme();
+    const { theme, setTheme } = useTheme();
 
     return (
         <div className="relative flex h-10 w-fit items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-900 p-2">
-            <div className={`w-full h-full absolute bg-zinc-200 dark:bg-zinc-800 rounded-lg border border-zinc-500 dark:border-zinc-700 blur-[2px]`}/>
+            <div className={`w-full h-full absolute bg-zinc-200 dark:bg-zinc-800 rounded-lg border border-zinc-500 dark:border-zinc-700 blur-[2px]`} />
 
             <div
                 className={`absolute h-7 w-7 rounded-md bg-zinc-50 dark:bg-zinc-700 border border-gray-300 dark:border-zinc-600 shadow-md transition-all duration-300 ease-in-out ${theme === "light" ? "left-2" : "left-9"}`}

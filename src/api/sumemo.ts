@@ -1,14 +1,14 @@
 import axios from "axios";
-import type {Zone} from "@/types/zone.ts";
-import type {MemberSearchResult, MemberZoneProgress} from "@/types/member.ts";
-import type {Stats} from "@/types/stats.ts";
+import type { Zone } from "@/types/zone.ts";
+import type { MemberSearchResult, MemberZoneProgress } from "@/types/member.ts";
+import type { Stats } from "@/types/stats.ts";
 
 const apiClient = axios.create({
     baseURL: "https://api.sumemo.dev",
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-    }
+    },
 });
 
 export const getZoneByID = async (zoneID: number): Promise<Zone> => {
@@ -40,7 +40,7 @@ export const searchMember = async (query: string): Promise<MemberSearchResult[]>
     if (!query) {
         return [];
     }
-    const res = await apiClient.get(`/member/search`, {params: {q: query}});
+    const res = await apiClient.get(`/member/search`, { params: { q: query } });
     return res.data;
 };
 

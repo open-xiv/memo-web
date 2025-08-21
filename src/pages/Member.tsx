@@ -1,24 +1,24 @@
-import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useHeaderContext} from "@/context/HeaderContext.ts";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHeaderContext } from "@/context/HeaderContext.ts";
 import ErrIcon from "@/assets/icon/error.svg?react";
 import ZoneProgressRow from "@/components/custom/ZoneProgressRow.tsx";
 import GameIcon from "@/assets/icon/gamepad.svg?react";
 import TargetIcon from "@/assets/icon/target.svg?react";
 import LockIcon from "@/assets/icon/lock.svg?react";
-import {getMemberHiddenStatus, getTaskStatus, requestSyncLogs} from "@/api/sumemo.ts";
+import { getMemberHiddenStatus, getTaskStatus, requestSyncLogs } from "@/api/sumemo.ts";
 import Icon from "@/components/custom/Icon.tsx";
-import {useTheme} from "@/context/ThemeContext.ts";
+import { useTheme } from "@/context/ThemeContext.ts";
 import Footer from "@/components/custom/Footer.tsx";
 
 const ULTIMATES_INTEREST = [1271];
 const SAVAGE_INTEREST = [1257, 1259, 1261, 1263];
 
 export default function Member() {
-    const {theme} = useTheme();
+    const { theme } = useTheme();
 
-    const {name} = useParams();
-    const {setMemberInfo} = useHeaderContext();
+    const { name } = useParams();
+    const { setMemberInfo } = useHeaderContext();
 
     const nameParts = name ? name.split("@") : [];
     const playerName = nameParts[0];
@@ -102,7 +102,7 @@ export default function Member() {
     if (isHidden) {
         return (
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={LockIcon}
@@ -125,7 +125,7 @@ export default function Member() {
             {/* sync */}
             {isSyncing &&
                 <div className="w-full relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10"/>
+                    <div className="w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <Icon
                             icon={TargetIcon}
@@ -143,7 +143,7 @@ export default function Member() {
 
             {/* ultimates */}
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={GameIcon}
@@ -160,11 +160,11 @@ export default function Member() {
 
             {playerName && playerServer ? (
                 ULTIMATES_INTEREST.map(zoneID => (
-                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}-${dataVersion}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
+                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}-${dataVersion}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer} />
                 ))
             ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10"/>
+                    <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <Icon
                             icon={ErrIcon}
@@ -180,11 +180,11 @@ export default function Member() {
                 </div>
             )}
 
-            <div/>
+            <div />
 
             {/* savage */}
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={GameIcon}
@@ -201,11 +201,11 @@ export default function Member() {
 
             {playerName && playerServer ? (
                 SAVAGE_INTEREST.map(zoneID => (
-                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}-${dataVersion}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer}/>
+                    <ZoneProgressRow key={`${playerName}-${playerServer}-${zoneID}-${dataVersion}`} zoneID={zoneID} playerName={playerName} playerServer={playerServer} />
                 ))
             ) : (
                 <div className="w-full relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10"/>
+                    <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <Icon
                             icon={ErrIcon}
@@ -221,9 +221,9 @@ export default function Member() {
                 </div>
             )}
 
-            <div/>
+            <div />
 
-            <Footer/>
+            <Footer />
         </div>
     );
 }

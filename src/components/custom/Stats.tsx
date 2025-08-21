@@ -1,15 +1,15 @@
-import {useEffect, useMemo, useState} from "react";
-import {getServerStats} from "@/api/sumemo.ts";
-import {useTheme} from "@/context/ThemeContext.ts";
+import { useEffect, useMemo, useState } from "react";
+import { getServerStats } from "@/api/sumemo.ts";
+import { useTheme } from "@/context/ThemeContext.ts";
 import Icon from "@/components/custom/Icon.tsx";
 import BoxIcon from "@/assets/icon/box.svg?react";
 import MemberIcon from "@/assets/icon/member.svg?react";
-import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card.tsx";
-import type {Stats} from "@/types/stats.ts";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card.tsx";
+import type { Stats } from "@/types/stats.ts";
 
 
 export function Stats() {
-    const {theme} = useTheme();
+    const { theme } = useTheme();
 
     const [statsData, setStatsData] = useState<Stats>();
 
@@ -32,7 +32,7 @@ export function Stats() {
             : 0;
     }, [statsData]);
 
-    const {drFights, fuFights, logsFights} = useMemo(() => {
+    const { drFights, fuFights, logsFights } = useMemo(() => {
         const counts = {
             drFights: 0,
             fuFights: 0,
@@ -64,7 +64,7 @@ export function Stats() {
 
                 {/* Overall */}
                 <div className={`mx-0.5 flex justify-start gap-2`}>
-                    <div className={`w-0.5 bg-red-400 dark:bg-red-500`}/>
+                    <div className={`w-0.5 bg-red-400 dark:bg-red-500`} />
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
                         <span className="text-red-950 dark:text-red-200 text-base font-medium"> 数据统计 </span>
                         {/*<span className="text-red-800 dark:text-red-300 text-sm font-medium"> 最远进度 </span>*/}
@@ -73,7 +73,7 @@ export function Stats() {
                 <div className={`w-full flex gap-2 flex-wrap`}>
                     {/* Fights */}
                     <div className="w-full sm:w-fit relative flex items-center justify-center p-3">
-                        <div className="w-full h-full absolute bg-sky-50 dark:bg-sky-950 rounded-lg border border-sky-300 dark:border-sky-700 blur-[2px] z-10"/>
+                        <div className="w-full h-full absolute bg-sky-50 dark:bg-sky-950 rounded-lg border border-sky-300 dark:border-sky-700 blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                             <Icon
                                 icon={BoxIcon}
@@ -92,7 +92,7 @@ export function Stats() {
                     {/* Players */}
                     <div className="w-full sm:w-fit relative flex items-center justify-center p-3">
                         <div
-                            className="w-full h-full absolute bg-amber-50 dark:bg-amber-950/70 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10"/>
+                            className="w-full h-full absolute bg-amber-50 dark:bg-amber-950/70 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                             <Icon
                                 icon={MemberIcon}
@@ -111,7 +111,7 @@ export function Stats() {
 
                 {/* Client */}
                 <div className={`mx-0.5 flex justify-start gap-2`}>
-                    <div className={`w-0.5 bg-indigo-400 dark:bg-indigo-500`}/>
+                    <div className={`w-0.5 bg-indigo-400 dark:bg-indigo-500`} />
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
                         <span className="text-indigo-950 dark:text-indigo-200 text-base font-medium"> 数据来源 </span>
                     </div>
@@ -120,8 +120,8 @@ export function Stats() {
 
                     {/* From DR */}
                     <a href={"https://discord.gg/MDvv8Ejntw"} className="w-full sm:w-fit relative flex items-center justify-center p-3"
-                       style={{width: `${drFights / totalFights * 100}%`}}>
-                        <div className="w-full h-full absolute bg-teal-50 dark:bg-teal-950 rounded-lg border border-teal-300 dark:border-teal-700 blur-[2px] z-10"/>
+                       style={{ width: `${drFights / totalFights * 100}%` }}>
+                        <div className="w-full h-full absolute bg-teal-50 dark:bg-teal-950 rounded-lg border border-teal-300 dark:border-teal-700 blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-center gap-2 z-20">
                             <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline px-2`}>
                                 <div className="text-teal-950 dark:text-teal-200 text-sm font-medium"> Daily Routines</div>
@@ -136,8 +136,9 @@ export function Stats() {
                     <HoverCard>
                         <HoverCardTrigger asChild>
                             <div className="w-full sm:w-fit relative flex items-center justify-center p-3"
-                                 style={{width: `${fuFights / totalFights * 100}%`}}>
-                                <div className="w-full h-full absolute bg-yellow-50 dark:bg-yellow-950 rounded-lg border border-yellow-300 dark:border-yellow-700 blur-[2px] z-10"/>
+                                 style={{ width: `${fuFights / totalFights * 100}%` }}>
+                                <div
+                                    className="w-full h-full absolute bg-yellow-50 dark:bg-yellow-950 rounded-lg border border-yellow-300 dark:border-yellow-700 blur-[2px] z-10" />
                             </div>
                         </HoverCardTrigger>
                         <HoverCardContent className={`w-auto h-auto p-2`} sideOffset={12}>
@@ -154,8 +155,8 @@ export function Stats() {
 
                     {/* From FFLogs */}
                     <a href={`https://fflogs.com`} className="w-full sm:w-fit relative flex items-center justify-center p-3"
-                       style={{width: `${logsFights / totalFights * 100}%`}}>
-                        <div className="w-full h-full absolute bg-zinc-100 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-500 blur-[2px] z-10"/>
+                       style={{ width: `${logsFights / totalFights * 100}%` }}>
+                        <div className="w-full h-full absolute bg-zinc-100 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-500 blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-center gap-2 z-20">
                             <div className={`hidden sm:flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline px-2`}>
                                 <div className="text-zinc-950 dark:text-zinc-200 text-sm font-medium"> FFLogs</div>

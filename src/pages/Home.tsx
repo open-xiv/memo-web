@@ -1,11 +1,11 @@
 import Icon from "@/components/custom/Icon.tsx";
-import {useTheme} from "@/context/ThemeContext.ts";
+import { useTheme } from "@/context/ThemeContext.ts";
 import HomeIcon from "@/assets/icon/home.svg?react";
 import Footer from "@/components/custom/Footer.tsx";
-import {Stats} from "@/components/custom/Stats.tsx";
+import { Stats } from "@/components/custom/Stats.tsx";
 
 export default function Home() {
-    const {theme} = useTheme();
+    const { theme } = useTheme();
 
     return (
         <div className="flex flex-col gap-4">
@@ -14,7 +14,7 @@ export default function Home() {
 
                 {/* Welcome */}
                 <div className="w-full grow relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-emerald-50 dark:bg-emerald-950 rounded-lg border border-emerald-300 dark:border-emerald-700 blur-[2px] z-10"/>
+                    <div className="w-full h-full absolute bg-emerald-50 dark:bg-emerald-950 rounded-lg border border-emerald-300 dark:border-emerald-700 blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <Icon
                             icon={HomeIcon}
@@ -31,11 +31,11 @@ export default function Home() {
                 </div>
 
                 {/* Footer */}
-                <Footer/>
+                <Footer />
             </div>
 
             {/* Stats */}
-            <Stats/>
+            <Stats />
         </div>
     );
 }

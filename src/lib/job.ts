@@ -1,4 +1,4 @@
-import type {Fight} from "@/types/fight.ts";
+import type { Fight } from "@/types/fight.ts";
 
 interface Job {
     name: string;
@@ -10,49 +10,49 @@ interface Job {
 export type JobRole = "Tank" | "Healer" | "DPS" | "Crafter" | "Gatherer" | "Limited";
 
 const jobDefinitions: Record<number, Omit<Job, "iconUrl">> = {
-    0: {name: "none", role: "Limited"},
-    1: {name: "gladiator", role: "Tank"},
-    2: {name: "pugilist", role: "DPS", order: 1},
-    3: {name: "marauder", role: "Tank"},
-    4: {name: "lancer", role: "DPS", order: 1},
-    5: {name: "archer", role: "DPS", order: 3},
-    6: {name: "conjurer", role: "Healer", order: 1},
-    7: {name: "thaumaturge", role: "DPS", order: 2},
-    8: {name: "carpenter", role: "Crafter"},
-    9: {name: "blacksmith", role: "Crafter"},
-    10: {name: "armorer", role: "Crafter"},
-    11: {name: "goldsmith", role: "Crafter"},
-    12: {name: "leatherworker", role: "Crafter"},
-    13: {name: "weaver", role: "Crafter"},
-    14: {name: "alchemist", role: "Crafter"},
-    15: {name: "culinarian", role: "Crafter"},
-    16: {name: "miner", role: "Gatherer"},
-    17: {name: "botanist", role: "Gatherer"},
-    18: {name: "fisher", role: "Gatherer"},
-    19: {name: "paladin", role: "Tank"},
-    20: {name: "monk", role: "DPS", order: 1},
-    21: {name: "warrior", role: "Tank"},
-    22: {name: "dragoon", role: "DPS", order: 1},
-    23: {name: "bard", role: "DPS", order: 3},
-    24: {name: "whitemage", role: "Healer", order: 1},
-    25: {name: "blackmage", role: "DPS", order: 2},
-    26: {name: "arcanist", role: "DPS", order: 4},
-    27: {name: "summoner", role: "DPS", order: 4},
-    28: {name: "scholar", role: "Healer", order: 2},
-    29: {name: "rogue", role: "DPS", order: 1},
-    30: {name: "ninja", role: "DPS", order: 1},
-    31: {name: "machinist", role: "DPS", order: 3},
-    32: {name: "darkknight", role: "Tank"},
-    33: {name: "astrologian", role: "Healer", order: 1},
-    34: {name: "samurai", role: "DPS", order: 1},
-    35: {name: "redmage", role: "DPS", order: 4},
-    36: {name: "bluemage", role: "Limited"},
-    37: {name: "gunbreaker", role: "Tank"},
-    38: {name: "dancer", role: "DPS", order: 3},
-    39: {name: "reaper", role: "DPS", order: 2},
-    40: {name: "sage", role: "Healer", order: 2},
-    41: {name: "viper", role: "DPS", order: 1},
-    42: {name: "pictomancer", role: "DPS", order: 4},
+    0: { name: "none", role: "Limited" },
+    1: { name: "gladiator", role: "Tank", order: 1 },
+    2: { name: "pugilist", role: "DPS", order: 1 },
+    3: { name: "marauder", role: "Tank", order: 1 },
+    4: { name: "lancer", role: "DPS", order: 1 },
+    5: { name: "archer", role: "DPS", order: 3 },
+    6: { name: "conjurer", role: "Healer", order: 1 },
+    7: { name: "thaumaturge", role: "DPS", order: 4 },
+    8: { name: "carpenter", role: "Crafter" },
+    9: { name: "blacksmith", role: "Crafter" },
+    10: { name: "armorer", role: "Crafter" },
+    11: { name: "goldsmith", role: "Crafter" },
+    12: { name: "leatherworker", role: "Crafter" },
+    13: { name: "weaver", role: "Crafter" },
+    14: { name: "alchemist", role: "Crafter" },
+    15: { name: "culinarian", role: "Crafter" },
+    16: { name: "miner", role: "Gatherer" },
+    17: { name: "botanist", role: "Gatherer" },
+    18: { name: "fisher", role: "Gatherer" },
+    19: { name: "paladin", role: "Tank", order: 2 },
+    20: { name: "monk", role: "DPS", order: 1 },
+    21: { name: "warrior", role: "Tank", order: 1 },
+    22: { name: "dragoon", role: "DPS", order: 1 },
+    23: { name: "bard", role: "DPS", order: 3 },
+    24: { name: "whitemage", role: "Healer", order: 1 },
+    25: { name: "blackmage", role: "DPS", order: 4 },
+    26: { name: "arcanist", role: "DPS", order: 4 },
+    27: { name: "summoner", role: "DPS", order: 4 },
+    28: { name: "scholar", role: "Healer", order: 2 },
+    29: { name: "rogue", role: "DPS", order: 1 },
+    30: { name: "ninja", role: "DPS", order: 1 },
+    31: { name: "machinist", role: "DPS", order: 3 },
+    32: { name: "darkknight", role: "Tank", order: 1 },
+    33: { name: "astrologian", role: "Healer", order: 1 },
+    34: { name: "samurai", role: "DPS", order: 2 },
+    35: { name: "redmage", role: "DPS", order: 4 },
+    36: { name: "bluemage", role: "Limited" },
+    37: { name: "gunbreaker", role: "Tank", order: 2 },
+    38: { name: "dancer", role: "DPS", order: 3 },
+    39: { name: "reaper", role: "DPS", order: 2 },
+    40: { name: "sage", role: "Healer", order: 2 },
+    41: { name: "viper", role: "DPS", order: 1 },
+    42: { name: "pictomancer", role: "DPS", order: 4 },
 };
 
 const jobRoleOrder: Record<JobRole, number> = {
@@ -65,7 +65,7 @@ const jobRoleOrder: Record<JobRole, number> = {
 };
 
 
-const jobIcons = import.meta.glob("/src/assets/job/companion/*.png", {eager: true, query: "?url", import: "default"});
+const jobIcons = import.meta.glob("/src/assets/job/companion/*.png", { eager: true, query: "?url", import: "default" });
 
 const fullJobMap: Record<number, Job> = {};
 for (const jobID in jobDefinitions) {

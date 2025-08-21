@@ -1,4 +1,4 @@
-import type {Fight, FightProgress} from "@/types/fight.ts";
+import type { Fight, FightProgress } from "@/types/fight.ts";
 
 export interface MemberSearchResult {
     name: string;

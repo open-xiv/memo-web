@@ -4,7 +4,7 @@ export const gradientLibs: string[] = [
     "bg-gradient-to-r from-amber-500 to-pink-500",
     "bg-gradient-to-r from-emerald-400 to-cyan-400",
     "bg-gradient-to-r from-indigo-400 to-cyan-400",
-    "bg-gradient-to-r from-fuchsia-600 to-pink-600"
+    "bg-gradient-to-r from-fuchsia-600 to-pink-600",
 ];
 
 

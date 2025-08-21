@@ -6,7 +6,7 @@ export default function Help() {
 
             {/* Q1 */}
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     {/*<PinIcon className="h-6 w-6"/>*/}
                     <div className={`ml-2 flex flex-wrap gap-x-2 gap-y-1 items-baseline`}>
@@ -16,7 +16,7 @@ export default function Help() {
                 </div>
             </div>
             <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <div className={`ml-2 flex flex-col gap-y-2.5 text-zinc-950 dark:text-zinc-300`}>
                         <p>
@@ -40,7 +40,7 @@ export default function Help() {
 
             {/* Q2 */}
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     {/*<PinIcon className="h-6 w-6"/>*/}
                     <div className={`ml-2 flex flex-wrap gap-x-2 gap-y-1 items-baseline`}>
@@ -50,7 +50,7 @@ export default function Help() {
                 </div>
             </div>
             <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <div className={`ml-2 flex flex-col gap-y-2.5 text-zinc-950 dark:text-zinc-300`}>
                         <p>
@@ -66,7 +66,7 @@ export default function Help() {
 
             {/* Q3 */}
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     {/*<PinIcon className="h-6 w-6"/>*/}
                     <div className={`ml-2 flex flex-wrap gap-x-2 gap-y-1 items-baseline`}>
@@ -76,7 +76,7 @@ export default function Help() {
                 </div>
             </div>
             <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <div className={`ml-2 flex flex-col gap-y-2.5 text-zinc-950 dark:text-zinc-300`}>
                         <p>
@@ -97,7 +97,7 @@ export default function Help() {
 
             {/* Q4 */}
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     {/*<PinIcon className="h-6 w-6"/>*/}
                     <div className={`ml-2 flex flex-wrap gap-x-2 gap-y-1 items-baseline`}>
@@ -107,7 +107,7 @@ export default function Help() {
                 </div>
             </div>
             <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-300 dark:border-zinc-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <div className={`ml-2 flex flex-col gap-y-2.5 text-zinc-950 dark:text-zinc-300`}>
                         <p>
@@ -123,7 +123,7 @@ export default function Help() {
                 </div>
             </div>
 
-            <Footer/>
+            <Footer />
         </div>
     );
 }
