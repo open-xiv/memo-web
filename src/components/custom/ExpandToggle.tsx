@@ -1,15 +1,15 @@
 import Icon from "@/components/custom/Icon.tsx";
 import MaxIcon from "@/assets/icon/maximize.svg?react";
 import MinIcon from "@/assets/icon/minimize.svg?react";
-import {useTheme} from "@/context/ThemeContext.ts";
-import {useState} from "react";
+import { useTheme } from "@/context/ThemeContext.ts";
+import { useState } from "react";
 
 interface ExpandToggleProps {
     setExpand: (state: "min" | "max") => void;
 }
 
-export default function ExpandToggle({setExpand}: ExpandToggleProps) {
-    const {theme} = useTheme();
+export default function ExpandToggle({ setExpand }: ExpandToggleProps) {
+    const { theme } = useTheme();
 
     const [expand, setLocalState] = useState<"min" | "max">("min");
     const setState = (state: "min" | "max") => {
@@ -38,7 +38,7 @@ export default function ExpandToggle({setExpand}: ExpandToggleProps) {
                 />
             </button>
 
-            <div className={`w-1`}/>
+            <div className={`w-1`} />
 
             <button
                 onClick={() => setState("max")}

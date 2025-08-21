@@ -1,14 +1,14 @@
 import Icon from "@/components/custom/Icon.tsx";
-import {useTheme} from "@/context/ThemeContext.ts";
+import { useTheme } from "@/context/ThemeContext.ts";
 import StarIcon from "@/assets/icon/star.svg?react";
 import ChatIcon from "@/assets/icon/chat.svg?react";
-import {useEffect, useState} from "react";
-import {getInviteLink} from "@/api/discord.ts";
+import { useEffect, useState } from "react";
+import { getInviteLink } from "@/api/discord.ts";
 import HashIcon from "@/assets/icon/hash.svg?react";
 
 
 export default function Footer() {
-    const {theme} = useTheme();
+    const { theme } = useTheme();
 
     const [inviteLink, setInviteLink] = useState<string>("");
 
@@ -31,7 +31,7 @@ export default function Footer() {
 
             {/* Author */}
             <div className="w-full sm:w-fit relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-300 dark:border-blue-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-300 dark:border-blue-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={StarIcon}
@@ -52,7 +52,7 @@ export default function Footer() {
             {/*  QQ Chat  */}
             <a href={`https://qun.qq.com/universal-share/share?ac=1&authKey=yVqGsxIgZGR3U0zRdJDc6t7exCAR9UY8C%2B%2BuV%2BekAR0%2FPZk4pMSFp%2FXBcdZVIIHI&busi_data=eyJncm91cENvZGUiOiIxMDU0OTg0Mjk5IiwidG9rZW4iOiJneFJ6NkJ5NGJLRnN6dXFFblBVU2tBbUdwU3dVZS9YaHVjNG5XSGtLUGc4S0RnYUo4ZEo0UDgzYU9qOVA0UU40IiwidWluIjoiMTAwOTg5NTc3NCJ9&data=_E-Wj7y0Z8U8EvSiQAf_xEhF-G0NrWhVsmastd4Rq8iJDmQB8cOdjWCOM-FTGVab6xmu1M5QTA36j4wEQm672w&svctype=4&tempid=h5_group_info`}
                className="w-full sm:w-fit relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-pink-50 dark:bg-pink-950 rounded-lg border border-pink-300 dark:border-pink-600 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-pink-50 dark:bg-pink-950 rounded-lg border border-pink-300 dark:border-pink-600 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={ChatIcon}
@@ -69,7 +69,7 @@ export default function Footer() {
 
             {/*  Discord  */}
             {inviteLink && <a href={`${inviteLink}`} className="w-full sm:w-fit relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950/60 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-purple-50 dark:bg-purple-950/60 rounded-lg border border-purple-300 dark:border-purple-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={HashIcon}

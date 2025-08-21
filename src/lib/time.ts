@@ -18,7 +18,7 @@ export function getTimeString(timestamp: string): string[] {
     // date (June 1st 2023)
     const months = [
         "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "July", "August", "September", "October", "November", "December",
     ];
     const month = months[date.getMonth()];
     const day = date.getDate();

@@ -6,7 +6,7 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
     secondary?: string;
 }
 
-const Icon = ({icon: IconComponent, primary, secondary, style, ...props}: IconProps) => {
+const Icon = ({ icon: IconComponent, primary, secondary, style, ...props }: IconProps) => {
     const iconStyle: React.CSSProperties = {
         ...style,
     };

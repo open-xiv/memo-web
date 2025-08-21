@@ -1,14 +1,14 @@
-import {getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID} from "@/api/sumemo.ts";
-import type {Fight} from "@/types/fight.ts";
-import {useEffect, useState} from "react";
+import { getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID } from "@/api/sumemo.ts";
+import type { Fight } from "@/types/fight.ts";
+import { useEffect, useState } from "react";
 import ErrIcon from "@/assets/icon/error.svg?react";
 import TargetIcon from "@/assets/icon/target.svg?react";
 import FightIcon from "@/assets/icon/fight.svg?react";
 import FightCard from "@/components/custom/FightCard.tsx";
 import LinkIcon from "@/assets/icon/link.svg?react";
-import type {Zone} from "@/types/zone.ts";
+import type { Zone } from "@/types/zone.ts";
 import Icon from "@/components/custom/Icon.tsx";
-import {useTheme} from "@/context/ThemeContext.ts";
+import { useTheme } from "@/context/ThemeContext.ts";
 import ExpandToggle from "@/components/custom/ExpandToggle.tsx";
 
 
@@ -18,8 +18,8 @@ interface ZoneProgressRowProps {
     playerServer: string,
 }
 
-export default function ZoneProgressRow({zoneID, playerName, playerServer}: ZoneProgressRowProps) {
-    const {theme} = useTheme();
+export default function ZoneProgressRow({ zoneID, playerName, playerServer }: ZoneProgressRowProps) {
+    const { theme } = useTheme();
 
     const [bestFight, setBestFight] = useState<Fight | null>(null);
 
@@ -54,7 +54,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
 
                 const [bestProgress, latestProgresses] = await Promise.all([
                     getMemberZoneBestProgress(playerName, playerServer, zoneID),
-                    getMemberZoneLatestProgresses(playerName, playerServer, zoneID)
+                    getMemberZoneLatestProgresses(playerName, playerServer, zoneID),
                 ]);
 
                 setBestFight(bestProgress?.fight || null);
@@ -63,7 +63,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                     latestProgresses
                         .map(p => p.fight)
                         .filter((f): f is Fight => f !== null && f !== undefined) // 过滤掉空的 fight
-                        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+                        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()),
                 );
 
             } catch (err) {
@@ -81,7 +81,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
     if (isLoading) {
         return (
             <div className="w-full relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-300 dark:border-amber-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={TargetIcon}
@@ -105,7 +105,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
             return (
                 <div className={`w-full flex gap-2 flex-wrap`}>
                     <div className="w-full md:w-1/3 relative flex items-center justify-center p-3 opacity-70">
-                        <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10"/>
+                        <div className="w-full h-full absolute bg-red-50 dark:bg-red-950 rounded-lg border border-red-300 dark:border-red-700 blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                             <Icon
                                 icon={ErrIcon}
@@ -120,7 +120,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                         </div>
                     </div>
                     <a href={logsLink} className="relative flex items-center justify-center p-3 opacity-80 px-4">
-                        <div className="w-full h-full absolute bg-pink-50 dark:bg-pink-950 rounded-lg border border-pink-300 dark:border-pink-700 blur-[2px] z-10"/>
+                        <div className="w-full h-full absolute bg-pink-50 dark:bg-pink-950 rounded-lg border border-pink-300 dark:border-pink-700 blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-center gap-2 z-20">
                             <Icon
                                 icon={LinkIcon}
@@ -141,16 +141,16 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
         return (
             <>
                 <div className={`mx-0.5 flex justify-start gap-2`}>
-                    <div className={`w-0.5 bg-red-400 dark:bg-red-500`}/>
+                    <div className={`w-0.5 bg-red-400 dark:bg-red-500`} />
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
                         <span className="text-red-950 dark:text-red-200 text-base font-medium"> 最优记录 </span>
                         <span className="text-red-800 dark:text-red-300 text-sm font-medium"> 最远进度 </span>
                     </div>
                 </div>
-                {bestFight && <div className={`mx-1`}><FightCard fight={bestFight}/></div>}
+                {bestFight && <div className={`mx-1`}><FightCard fight={bestFight} /></div>}
 
                 <div className={`mx-0.5 flex justify-start gap-2`}>
-                    <div className={`w-0.5 bg-indigo-400 dark:bg-indigo-500`}/>
+                    <div className={`w-0.5 bg-indigo-400 dark:bg-indigo-500`} />
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20">
                         <span className="text-indigo-950 dark:text-indigo-200 text-base font-medium"> 近期记录 </span>
                         <span className="text-indigo-800 dark:text-indigo-300 text-sm font-medium"> {expandLatest === "max" ? "最近的二十次进度" : "最近的三次进度"} </span>
@@ -160,7 +160,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                     <div className="mx-1 w-full flex flex-wrap gap-2">
                         {latestFights.slice(0, expandLatest === "max" ? 20 : 3).map((fight) => (
                             <div key={fight.id} className="flex-shrink-0">
-                                <FightCard fight={fight}/>
+                                <FightCard fight={fight} />
                             </div>
                         ))}
                     </div>
@@ -174,7 +174,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
 
             {/* Zone Name */}
             <div className="w-full md:w-2/5 relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-teal-50 dark:bg-teal-950 rounded-lg border border-teal-300 dark:border-teal-700 blur-[2px] z-10"/>
+                <div className="w-full h-full absolute bg-teal-50 dark:bg-teal-950 rounded-lg border border-teal-300 dark:border-teal-700 blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                     <Icon
                         icon={FightIcon}
@@ -187,7 +187,7 @@ export default function ZoneProgressRow({zoneID, playerName, playerServer}: Zone
                         <span className="text-teal-600 dark:text-teal-400 text-base font-medium">  </span>
                     </div>
                 </div>
-                <ExpandToggle setExpand={setExpandLatest}/>
+                <ExpandToggle setExpand={setExpandLatest} />
             </div>
 
             {/* Fight Content */}
