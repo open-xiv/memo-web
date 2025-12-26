@@ -7,19 +7,16 @@ import { getZoneByID } from "@/api/sumemo.ts";
 import { getTimeString } from "@/lib/time.ts";
 import { getTextGradient } from "@/lib/gradient.ts";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card.tsx";
-import NamePlate from "@/components/custom/NamePlate.tsx";
+import FightNameplate from "@/components/custom/fight/FightNameplate.tsx";
 import { Link } from "react-router-dom";
 import LinkIcon from "@/assets/icon/link.svg?react";
-import Icon from "@/components/custom/Icon.tsx";
-import { useTheme } from "@/context/ThemeContext.ts";
+import WrapperIcon from "@/components/custom/wrapper/WrapperIcon.tsx";
 
 interface FightCardProps {
     fight: Fight;
 }
 
 export default function FightCard({ fight }: FightCardProps) {
-    const { theme } = useTheme();
-
     const { memberName, memberServer } = useHeaderContext();
 
     const [zone, setZone] = useState<Zone | null>(null);
@@ -75,7 +72,7 @@ export default function FightCard({ fight }: FightCardProps) {
 
     return (
             <div className="w-80 h-[102px] relative flex flex-col items-center p-4 gap-2">
-                <div className="w-full h-full absolute inset-0 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-500 dark:border-zinc-700 blur-[2px] z-10"></div>
+                <div className="w-full h-full absolute inset-0 bg-card rounded-lg border border-card-border blur-[2px] z-10"></div>
 
                 {/* local job icon - zone - time */}
                 <div className="w-full flex items-center justify-between z-20">
@@ -85,25 +82,25 @@ export default function FightCard({ fight }: FightCardProps) {
                         {/* zone */}
                         <div className="flex flex-col items-start justify-center gap-0.5">
                             <div className={`flex gap-0.5 items-center`}>
-                                <span className="text-zinc-950 dark:text-zinc-200 text-sm font-medium">{zoneAlias}</span>
+                                <span className="text-card-foreground text-sm font-medium">{zoneAlias}</span>
                                 {fight.logs.report_id &&
                                         <a href={logsLink} target={"_blank"} rel={"noreferrer noopener"}>
-                                            <Icon
+                                            <WrapperIcon
                                                     icon={LinkIcon}
                                                     className={`h-4 w-4`}
-                                                    primary={`var(${theme === "light" ? "--color-pink-400" : "--color-pink-400"})`}
-                                                    secondary={`var(${theme === "light" ? "--color-zinc-950" : "--color-zinc-200"})`}
+                                                    primary="var(--primary-ring)"
+                                                    secondary="var(--primary-foreground)"
                                             />
                                         </a>
                                 }
                             </div>
-                            <span className="text-zinc-400 dark:text-zinc-500 text-xs font-normal font-mono">#{hashString}</span>
+                            <span className="text-card-ring text-xs font-normal font-mono">#{hashString}</span>
                         </div>
                     </div>
                     {/* time */}
                     <div className="flex flex-col items-end justify-start gap-0.5">
-                        <span className="text-zinc-950 dark:text-zinc-200 text-sm font-medium">{timeString[0]}</span>
-                        <span className="text-zinc-400 dark:text-zinc-500 text-xs font-normal">{timeString[1]}</span>
+                        <span className="text-card-foreground text-sm font-medium">{timeString[0]}</span>
+                        <span className="text-card-ring text-xs font-normal">{timeString[1]}</span>
                     </div>
                 </div>
 
@@ -112,7 +109,7 @@ export default function FightCard({ fight }: FightCardProps) {
                     {/* party job icons */}
                     {fight.source === "FFLogs" ? (
                             <a href={logsLink} target={"_blank"} rel={"noreferrer noopener"}>
-                                <div className={`px-0.5 text-zinc-400 dark:text-zinc-500 text-sm font-medium`}>
+                                <div className={`px-0.5 text-card-ring text-sm font-medium`}>
                                     来自 FFLogs 的记录
                                 </div>
                             </a>
@@ -127,7 +124,7 @@ export default function FightCard({ fight }: FightCardProps) {
                                                     </Link>
                                                 </HoverCardTrigger>
                                                 <HoverCardContent className={`w-auto h-auto p-0`} sideOffset={12}>
-                                                    <NamePlate player={partyPlayers[index]} />
+                                                    <FightNameplate player={partyPlayers[index]} />
                                                 </HoverCardContent>
                                             </HoverCard>
                                         </div>
