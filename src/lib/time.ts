@@ -1,50 +1,45 @@
-export function getTimeString(timestamp: string): string[] {
+const timeFormat = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+});
+
+const dateFormat = new Intl.DateTimeFormat(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+});
+
+export function getTimeString(timestamp: string): [string, string] {
     const date = new Date(timestamp);
+    return [timeFormat.format(date), dateFormat.format(date)];
+}
 
-    // time (11:00:12 AM)
-    let hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    const ampm = hours >= 12 ? "PM" : "AM";
+function formatTimePartsLocal(date: Date) {
+    const parts = timeFormat.formatToParts(date);
+    const hour = parts.find(p => p.type === "hour")?.value ?? "";
+    const minute = parts.find(p => p.type === "minute")?.value ?? "";
+    const dayPeriod = parts.find(p => p.type === "dayPeriod")?.value ?? "";
+    return { hour, minute, dayPeriod };
+}
 
-    hours = hours % 12;
-    hours = hours ? hours : 12;
+export function getTimeRangeString(startTime: string, durationNs: number): [string, string] {
+    const start = new Date(startTime);
+    const end = new Date(start.getTime() + durationNs / 1e6);
 
-    const formattedMinutes = minutes < 10 ? "0" + minutes : minutes.toString();
-    const formattedSeconds = seconds < 10 ? "0" + seconds : seconds.toString();
+    const s = formatTimePartsLocal(start);
+    const e = formatTimePartsLocal(end);
 
-    const timeString = `${hours}:${formattedMinutes}:${formattedSeconds} ${ampm}`;
+    const sHM = `${s.hour}:${s.minute}`;
+    const eHM = `${e.hour}:${e.minute}`;
 
-    // date (June 1st 2023)
-    const months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December",
-    ];
-    const month = months[date.getMonth()];
-    const day = date.getDate();
-    const year = date.getFullYear();
-
-    let daySuffix;
-    if (day > 3 && day < 21) {
-        daySuffix = "th";
-    } else {
-        switch (day % 10) {
-            case 1:
-                daySuffix = "st";
-                break;
-            case 2:
-                daySuffix = "nd";
-                break;
-            case 3:
-                daySuffix = "rd";
-                break;
-            default:
-                daySuffix = "th";
-                break;
-        }
+    // same am/pm
+    if (s.dayPeriod && e.dayPeriod && s.dayPeriod === e.dayPeriod) {
+        return [`${sHM} - ${eHM} ${e.dayPeriod}`, dateFormat.format(start)];
     }
 
-    const dateString = `${month} ${day}${daySuffix} ${year}`;
-
-    return [timeString, dateString];
+    // cross am/pm boundary or no am/pm
+    const sFull = s.dayPeriod ? `${sHM} ${s.dayPeriod}` : timeFormat.format(start);
+    const eFull = e.dayPeriod ? `${eHM} ${e.dayPeriod}` : timeFormat.format(end);
+    return [`${sFull} - ${eFull}`, dateFormat.format(start)];
 }
