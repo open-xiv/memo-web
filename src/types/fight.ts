@@ -25,8 +25,9 @@ export interface LogsFight {
 
 export interface Fight {
     id: number;
-
-    timestamp: string;
+    
+    start_time: string;
+    duration: number;
 
     zone_id: number;
     players: Player[];

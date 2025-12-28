@@ -74,6 +74,21 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-tank: var(--tank);
+    --color-tank-foreground: var(--tank-foreground);
+    --color-tank-border: var(--tank-border);
+    --color-tank-ring: var(--tank-ring);
+
+    --color-healer: var(--healer);
+    --color-healer-foreground: var(--healer-foreground);
+    --color-healer-border: var(--healer-border);
+    --color-healer-ring: var(--healer-ring);
+
+    --color-dps: var(--dps);
+    --color-dps-foreground: var(--dps-foreground);
+    --color-dps-border: var(--dps-border);
+    --color-dps-ring: var(--dps-ring);
 }
 
 :root {
@@ -147,6 +162,21 @@
     --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.712 0.194 13.428);
+
+    --tank: var(--color-blue-50);
+    --tank-foreground: var(--color-blue-950);
+    --tank-border: var(--color-blue-300);
+    --tank-ring: var(--color-blue-900);
+
+    --healer: var(--color-green-50);
+    --healer-foreground: var(--color-green-950);
+    --healer-border: var(--color-green-300);
+    --healer-ring: var(--color-green-900);
+
+    --dps: var(--color-red-50);
+    --dps-foreground: var(--color-red-950);
+    --dps-border: var(--color-red-300);
+    --dps-ring: var(--color-red-900);
 }
 
 .dark {
@@ -219,6 +249,21 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.41 0.159 10.272);
+
+    --tank: var(--color-blue-950);
+    --tank-foreground: var(--color-blue-200);
+    --tank-border: var(--color-blue-700);
+    --tank-ring: var(--color-blue-300);
+
+    --healer: var(--color-green-950);
+    --healer-foreground: var(--color-green-200);
+    --healer-border: var(--color-green-700);
+    --healer-ring: var(--color-green-300);
+
+    --dps: var(--color-red-950);
+    --dps-foreground: var(--color-red-200);
+    --dps-border: var(--color-red-700);
+    --dps-ring: var(--color-red-300);
 }
 
 @layer utilities {

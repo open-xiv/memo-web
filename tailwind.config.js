@@ -39,6 +39,21 @@ export default {
                 "subparagraph": "hsl(var(--subparagraph))",
                 "subparagraph-foreground": "hsl(var(--subparagraph-foreground))",
                 "subparagraph-ring": "hsl(var(--subparagraph-ring))",
+
+                "tank": "hsl(var(--tank))",
+                "tank-foreground": "hsl(var(--tank-foreground))",
+                "tank-border": "hsl(var(--tank-border))",
+                "tank-ring": "hsl(var(--tank-ring))",
+
+                "healer": "hsl(var(--healer))",
+                "healer-foreground": "hsl(var(--healer-foreground))",
+                "healer-border": "hsl(var(--healer-border))",
+                "healer-ring": "hsl(var(--healer-ring))",
+
+                "dps": "hsl(var(--dps))",
+                "dps-foreground": "hsl(var(--dps-foreground))",
+                "dps-border": "hsl(var(--dps-border))",
+                "dps-ring": "hsl(var(--dps-ring))",
             },
         },
     },

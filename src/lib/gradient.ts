@@ -18,9 +18,9 @@ function stringHash(str: string): number {
     return Math.abs(hash);
 }
 
-export function getTextGradient(text: string): string {
+export function getTextGradient(text?: string): string {
     if (!text || gradientLibs.length === 0) {
-        return "bg-gray-200";
+        return "bg-gradient-to-r from-zinc-400 to-zinc-400";
     }
 
     const hashValue = stringHash(text);

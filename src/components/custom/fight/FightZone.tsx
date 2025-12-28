@@ -1,7 +1,7 @@
 import { getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID } from "@/api/sumemo.ts";
 import type { Fight } from "@/types/fight.ts";
 import { useEffect, useState } from "react";
-import FightCard from "@/components/custom/fight/FightCard.tsx";
+import FightCard from "@/components/custom/fight/card/FightCard.tsx";
 import type { Zone } from "@/types/zone.ts";
 import { BarZone } from "@/components/custom/bar/BarZone.tsx";
 import { BarLoading } from "@/components/custom/bar/BarLoading.tsx";
@@ -57,7 +57,7 @@ export default function FightZone({ zoneID, memberName, memberServer }: ZoneProg
                         latestProgresses
                                 .map(p => p.fight)
                                 .filter((f): f is Fight => f !== null)
-                                .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()),
+                                .sort((a, b) => new Date(b.start_time).getTime() - new Date(a.start_time).getTime()),
                 );
 
             } catch (err) {
