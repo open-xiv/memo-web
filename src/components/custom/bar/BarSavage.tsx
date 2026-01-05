@@ -1,13 +1,15 @@
 import { cn } from "@/lib/utils.ts";
 import WrapperIcon from "@/components/custom/wrapper/WrapperIcon.tsx";
 import GamepadIcon from "@/assets/icon/gamepad.svg?react";
+import ToggleHistory from "@/components/custom/toggle/ToggleHistory.tsx";
 
 interface BarSavageProps {
     message: string;
     detail?: string;
+    setHistoryMode: (state: true | false) => void;
 }
 
-export function BarSavage({ message, detail }: BarSavageProps) {
+export function BarSavage({ message, detail, setHistoryMode }: BarSavageProps) {
     return (
             <div className={cn(
                     "relative flex items-center justify-start rounded-lg transition-all duration-300 p-3",
@@ -29,10 +31,14 @@ export function BarSavage({ message, detail }: BarSavageProps) {
                             primary="var(--category-ring)"
                             secondary="var(--category-foreground)"
                     />
-                    <div className={`flex flex-wrap gap-x-2 gap-y-1 transition-colors duration-300`}>
+                    <div className={`flex flex-wrap gap-x-2 gap-y-1 items-baseline transition-colors duration-300`}>
                         <span className="text-category-foreground font-medium">{message}</span>
-                        {detail && <span className="text-category-ring font-medium">{detail}</span>}
+                        {detail && <span className="text-category-ring text-sm font-medium">{detail}</span>}
                     </div>
+                </div>
+
+                <div className={cn("ml-auto hidden sm:block")}>
+                    <ToggleHistory setHistoryMode={setHistoryMode} />
                 </div>
 
             </div>

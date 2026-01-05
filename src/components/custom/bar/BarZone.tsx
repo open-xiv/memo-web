@@ -32,9 +32,9 @@ export function BarZone({ message, detail, setExpand }: BarZoneProps) {
                             primary="var(--zone-ring)"
                             secondary="var(--zone-foreground)"
                     />
-                    <div className={`flex flex-wrap gap-x-2 gap-y-1 transition-colors duration-300`}>
+                    <div className={`flex flex-wrap gap-x-2 gap-y-1 items-baseline transition-colors duration-300`}>
                         <span className="text-zone-foreground font-medium">{message}</span>
-                        {detail && <span className="text-zone-ring font-medium">{detail}</span>}
+                        {detail && <span className="text-zone-ring text-sm font-medium">{detail}</span>}
                     </div>
                 </div>
 

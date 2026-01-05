@@ -29,9 +29,9 @@ export function BarLoading({ message, detail }: BarLoadingProps) {
                             primary="var(--secondary-ring)"
                             secondary="var(--secondary-foreground)"
                     />
-                    <div className={`flex flex-wrap gap-x-2 gap-y-1 transition-colors duration-300`}>
+                    <div className={`flex flex-wrap gap-x-2 gap-y-1 items-baseline transition-colors duration-300`}>
                         <span className="text-secondary-foreground font-medium">{message}</span>
-                        {detail && <span className="text-secondary-ring font-medium">{detail}</span>}
+                        {detail && <span className="text-secondary-ring text-sm font-medium">{detail}</span>}
                     </div>
                 </div>
 

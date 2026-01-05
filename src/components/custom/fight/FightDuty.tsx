@@ -14,7 +14,7 @@ interface ZoneProgressRowProps {
     memberServer: string,
 }
 
-export default function FightZone({ zoneID, memberName, memberServer }: ZoneProgressRowProps) {
+export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProgressRowProps) {
     const [bestFight, setBestFight] = useState<Fight | null>(null);
 
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
@@ -121,7 +121,7 @@ export default function FightZone({ zoneID, memberName, memberServer }: ZoneProg
             <div className="flex flex-col items-start gap-4 w-full">
 
                 {/* Zone Name */}
-                {dutyName && <BarZone message={dutyName} setExpand={setExpandLatest} />}
+                {dutyName && <BarZone message={dutyName} detail={duty?.code} setExpand={setExpandLatest} />}
 
                 {/* Fight Content */}
                 {fightContent()}
