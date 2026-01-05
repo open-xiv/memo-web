@@ -1,8 +1,8 @@
-import { getMemberZoneBestProgress, getMemberZoneLatestProgresses, getZoneByID, getZoneNameByID } from "@/api/sumemo.ts";
+import { getDutyByID, getDutyNameByID, getMemberZoneBestProgress, getMemberZoneLatestProgresses } from "@/api/sumemo.ts";
 import type { Fight } from "@/types/fight.ts";
 import { useEffect, useState } from "react";
 import FightCard from "@/components/custom/fight/card/FightCard.tsx";
-import type { Zone } from "@/types/zone.ts";
+import type { Duty } from "@/types/duty.ts";
 import { BarZone } from "@/components/custom/bar/BarZone.tsx";
 import { BarLoading } from "@/components/custom/bar/BarLoading.tsx";
 import { BarLogsNav } from "@/components/custom/bar/BarLogsNav.tsx";
@@ -20,19 +20,19 @@ export default function FightZone({ zoneID, memberName, memberServer }: ZoneProg
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
     const [expandLatest, setExpandLatest] = useState<"min" | "max">("min");
 
-    const [zoneName, setZoneName] = useState<string | null>(null);
-    const [zone, setZone] = useState<Zone | null>(null);
+    const [dutyName, setDutyName] = useState<string | null>(null);
+    const [duty, setDuty] = useState<Duty | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchZone = async () => {
             try {
-                const zoneData = await getZoneByID(zoneID);
-                setZone(zoneData);
+                const dutyData = await getDutyByID(zoneID);
+                setDuty(dutyData);
             } catch (error) {
                 console.error("Error fetching zone data:", error);
-                setZone(null);
+                setDuty(null);
             }
         };
 
@@ -43,8 +43,8 @@ export default function FightZone({ zoneID, memberName, memberServer }: ZoneProg
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const zoneName = await getZoneNameByID(zoneID);
-                setZoneName(zoneName);
+                const dutyName = await getDutyNameByID(zoneID);
+                setDutyName(dutyName);
 
                 const [bestProgress, latestProgresses] = await Promise.all([
                     getMemberZoneBestProgress(memberName, memberServer, zoneID),
@@ -80,9 +80,9 @@ export default function FightZone({ zoneID, memberName, memberServer }: ZoneProg
 
 
     function fightContent() {
-        if (!bestFight && latestFights.length === 0) {
+        if (!bestFight && latestFights.length === 0 && duty && duty.logs_encounter) {
             return (
-                    <BarLogsNav memberName={memberName} memberServer={memberServer} zone={zone?.logs.zone} encounter={zone?.logs.encounter} />
+                    <BarLogsNav memberName={memberName} memberServer={memberServer} zone={duty.logs_encounter.zone} encounter={duty.logs_encounter.zone} />
             );
         }
 
@@ -121,7 +121,7 @@ export default function FightZone({ zoneID, memberName, memberServer }: ZoneProg
             <div className="flex flex-col items-start gap-4 w-full">
 
                 {/* Zone Name */}
-                {zoneName && <BarZone message={zoneName} setExpand={setExpandLatest} />}
+                {dutyName && <BarZone message={dutyName} setExpand={setExpandLatest} />}
 
                 {/* Fight Content */}
                 {fightContent()}

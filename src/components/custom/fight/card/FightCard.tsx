@@ -1,9 +1,9 @@
 import type { Fight } from "@/types/fight.ts";
-import type { Zone } from "@/types/zone.ts";
+import type { Duty } from "@/types/duty.ts";
 import { useHeaderContext } from "@/context/HeaderContext.ts";
 import { getJobIconByID, sortPlayersInFight } from "@/lib/job.ts";
 import { useEffect, useState } from "react";
-import { getZoneByID } from "@/api/sumemo.ts";
+import { getDutyByID } from "@/api/sumemo.ts";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card.tsx";
 import FightCardNameplate from "@/components/custom/fight/card/FightCardNameplate.tsx";
 import { Link } from "react-router-dom";
@@ -20,7 +20,7 @@ interface FightCardProps {
 export default function FightCard({ fight }: FightCardProps) {
     const { memberName, memberServer } = useHeaderContext();
 
-    const [zone, setZone] = useState<Zone | null>(null);
+    const [duty, setDuty] = useState<Duty | null>(null);
 
     // sort member by job role
     fight = sortPlayersInFight(fight);
@@ -42,26 +42,25 @@ export default function FightCard({ fight }: FightCardProps) {
     const hashString = fight.party_hash.substring(0, 4);
 
     // phase
-    const currentPhase = zone ? zone.phases.find(p => p.phase_id === fight.progress.phase) : undefined;
-    const currentSubphase = currentPhase ? currentPhase.subphases.find(sp => sp.subphase_id === fight.progress.subphase) : undefined;
+    const currentPhase = duty ? duty.timeline?.phases.at(fight.progress.phase) : undefined;
     const phaseName = currentPhase ? currentPhase.name : undefined;
-    const subphaseName = currentSubphase ? `${currentSubphase.name}` : undefined;
+    const subphaseName = currentPhase ? currentPhase.checkpoints.at(fight.progress.subphase) : undefined;
 
     // progress
     fight.progress.enemy_hp = fight.clear ? 0 : fight.progress.enemy_hp;
     const progressPercent = fight.progress.enemy_hp ? Math.round((1 - fight.progress.enemy_hp) * 100) : undefined;
 
     // name or alias
-    const zoneAlias = zone?.code || zone?.name.split(" ").at(-1) || `Zone ${fight.zone_id}`;
+    const zoneAlias = duty?.code || duty?.name.split(" ").at(-1) || `Zone ${fight.zone_id}`;
 
     useEffect(() => {
         const fetchZone = async () => {
             try {
-                const zoneData = await getZoneByID(fight.zone_id);
-                setZone(zoneData);
+                const zoneData = await getDutyByID(fight.zone_id);
+                setDuty(zoneData);
             } catch (error) {
                 console.error("Error fetching zone data:", error);
-                setZone(null);
+                setDuty(null);
             }
         };
 

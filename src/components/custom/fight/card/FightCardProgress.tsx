@@ -54,7 +54,7 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressPerc
                             )}
 
                             {/* Phase Name */}
-                            {phaseName && (
+                            {phaseName && phaseName !== "N/A" && (
                                     <span className={cn(
                                             "text-right justify-start text-sm font-medium",
                                     )}>{progressString}</span>
