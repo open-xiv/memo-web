@@ -2,9 +2,9 @@ import { createContext, useContext } from "react";
 
 export interface HeaderContextType {
     // zone
-    zoneName?: string;
-    zoneHash?: string;
-    setZoneInfo: (name?: string, hash?: string) => void;
+    dutyName?: string;
+    dutyHash?: string;
+    setDutyInfo: (name?: string, hash?: string) => void;
 
     // member
     memberName?: string;

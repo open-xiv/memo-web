@@ -7,12 +7,12 @@ const DEFAULT_EN_TITLE = "SuMemo";
 
 export const HeaderProvider = ({ children }: { children: ReactNode }) => {
     // zone
-    const [zoneName, setZoneName] = useState<string | undefined>(undefined);
-    const [zoneHash, setZoneHash] = useState<string | undefined>(undefined);
+    const [dutyName, setDutyName] = useState<string | undefined>(undefined);
+    const [dutyHash, setDutyHash] = useState<string | undefined>(undefined);
 
     const setZoneInfo = useCallback((name?: string, hash?: string) => {
-        setZoneName(name);
-        setZoneHash(hash?.substring(0, 4));
+        setDutyName(name);
+        setDutyHash(hash?.substring(0, 4));
         if (name) {
             document.title = `${DEFAULT_TITLE} - ${name}`;
         } else {
@@ -28,18 +28,18 @@ export const HeaderProvider = ({ children }: { children: ReactNode }) => {
         setMemberServer(server);
         if (name && server) {
             document.title = `${DEFAULT_TITLE} - ${name}`;
-        } else if (zoneName) {
-            document.title = `${DEFAULT_TITLE} - ${zoneName}`;
+        } else if (dutyName) {
+            document.title = `${DEFAULT_TITLE} - ${dutyName}`;
         } else {
             document.title = `${DEFAULT_TITLE} - ${DEFAULT_EN_TITLE}`;
         }
-    }, [zoneName]);
+    }, [dutyName]);
 
-    const value: HeaderContextType = { zoneName, zoneHash, setZoneInfo, memberName, memberServer, setMemberInfo };
+    const value: HeaderContextType = { dutyName: dutyName, dutyHash: dutyHash, setDutyInfo: setZoneInfo, memberName, memberServer, setMemberInfo };
 
     return (
-        <HeaderContext.Provider value={value}>
-            {children}
-        </HeaderContext.Provider>
+            <HeaderContext.Provider value={value}>
+                {children}
+            </HeaderContext.Provider>
     );
 };

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Zone } from "@/types/zone.ts";
+import type { Duty } from "@/types/duty.ts";
 import type { MemberSearchResult, MemberZoneProgress } from "@/types/member.ts";
 import type { Stats } from "@/types/stats.ts";
 
@@ -11,13 +11,13 @@ const apiClient = axios.create({
     },
 });
 
-export const getZoneByID = async (zoneID: number): Promise<Zone> => {
-    const res = await apiClient.get(`/zone/${zoneID}`);
+export const getDutyByID = async (zoneID: number): Promise<Duty> => {
+    const res = await apiClient.get(`/duty/${zoneID}`);
     return res.data;
 };
 
-export const getZoneNameByID = async (zoneID: number): Promise<string> => {
-    const res = await apiClient.get(`/zone/${zoneID}/name`);
+export const getDutyNameByID = async (zoneID: number): Promise<string> => {
+    const res = await apiClient.get(`/duty/${zoneID}/name`);
     return res.data.name;
 };
 
