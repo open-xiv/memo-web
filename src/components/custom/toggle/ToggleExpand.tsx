@@ -4,11 +4,11 @@ import MinIcon from "@/assets/icon/minimize.svg?react";
 import { useState } from "react";
 import { cn } from "@/lib/utils.ts";
 
-interface ExpandToggleProps {
+interface ToggleExpandProps {
     setExpand: (state: "min" | "max") => void;
 }
 
-export default function ToggleExpand({ setExpand }: ExpandToggleProps) {
+export default function ToggleExpand({ setExpand }: ToggleExpandProps) {
     const [expand, setLocalState] = useState<"min" | "max">("min");
 
     const setState = (state: "min" | "max") => {
