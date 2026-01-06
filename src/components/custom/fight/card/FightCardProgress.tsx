@@ -62,7 +62,7 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressPerc
                         </div>
                     </TooltipTrigger>
 
-                    {subphaseName && !clear && <TooltipContent>
+                    {subphaseName && !clear && subphaseName !== "狂暴" && <TooltipContent>
                         <span className={cn(
                                 "text-right justify-start text-sm font-medium bg-clip-text text-transparent",
                                 getTextGradient(progressString),
