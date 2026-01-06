@@ -13,7 +13,6 @@ const SAVAGE_INTEREST = [1321, 1323, 1325, 1327];
 const SAVAGE_PAST_INTEREST = [1257, 1259, 1261, 1263];
 
 export default function Member() {
-    const { name } = useParams();
     const { setMemberInfo } = useHeaderContext();
 
     const { player } = useParams<{ player: string }>();
@@ -44,12 +43,12 @@ export default function Member() {
     }, [memberName, memberServer]);
 
     useEffect(() => {
-        if (!name || !memberName || !memberServer) {
+        if (!player || !memberName || !memberServer) {
             return;
         }
         setMemberInfo(memberName, memberServer);
         return () => setMemberInfo(undefined, undefined);
-    }, [name, memberName, memberServer, setMemberInfo]);
+    }, [player, memberName, memberServer, setMemberInfo]);
 
     if (isHidden) {
         return (<BarHidden />);

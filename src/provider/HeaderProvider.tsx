@@ -10,7 +10,7 @@ export const HeaderProvider = ({ children }: { children: ReactNode }) => {
     const [dutyName, setDutyName] = useState<string | undefined>(undefined);
     const [dutyHash, setDutyHash] = useState<string | undefined>(undefined);
 
-    const setZoneInfo = useCallback((name?: string, hash?: string) => {
+    const setDutyInfo = useCallback((name?: string, hash?: string) => {
         setDutyName(name);
         setDutyHash(hash?.substring(0, 4));
         if (name) {
@@ -35,7 +35,7 @@ export const HeaderProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [dutyName]);
 
-    const value: HeaderContextType = { dutyName: dutyName, dutyHash: dutyHash, setDutyInfo: setZoneInfo, memberName, memberServer, setMemberInfo };
+    const value: HeaderContextType = { dutyName: dutyName, dutyHash: dutyHash, setDutyInfo, memberName, memberServer, setMemberInfo };
 
     return (
             <HeaderContext.Provider value={value}>
