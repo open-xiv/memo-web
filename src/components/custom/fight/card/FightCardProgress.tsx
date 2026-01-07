@@ -9,12 +9,12 @@ interface FightCardProgressProps {
     clear: boolean;
     phaseName: string | undefined;
     subphaseName: string | undefined;
-    progressPercent: number | undefined;
+    progressHpRemain: number | undefined;
 }
 
-export function FightCardProgress({ clear, phaseName, subphaseName, progressPercent }: FightCardProgressProps) {
+export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRemain }: FightCardProgressProps) {
     // progress string for dynamic color
-    let progressString = phaseName ? phaseName : `${progressPercent}%`;
+    let progressString = phaseName ? phaseName : `${progressHpRemain}%`;
     progressString = clear ? `已完成` : progressString;
 
     return (
@@ -47,14 +47,14 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressPerc
                                 clear ? "text-primary-foreground" : "text-secondary-foreground", //cn("bg-clip-text text-transparent", getTextGradient(progressString)),
                         )}>
                             {/* Progress */}
-                            {progressPercent && (
+                            {progressHpRemain && (
                                     <div className="flex gap-x-0.5 items-baseline">
                                         <span className={cn(
                                                 "text-right justify-start text-xs font-medium",
-                                        )}>进度</span>
+                                        )}>剩余</span>
                                         <span className={cn(
                                                 "text-right justify-start text-sm font-mono font-semibold",
-                                        )}>{progressPercent}</span>
+                                        )}>{progressHpRemain}</span>
                                         <span className={cn(
                                                 "text-right justify-start text-xs font-medium",
                                         )}>%</span>

@@ -48,7 +48,7 @@ export default function FightCard({ fight }: FightCardProps) {
 
     // progress
     fight.progress.enemy_hp = fight.clear ? 0 : fight.progress.enemy_hp;
-    const progressPercent = fight.progress.enemy_hp ? Math.round((1 - fight.progress.enemy_hp) * 100) : undefined;
+    const progressHpRemain = fight.progress.enemy_hp ? Math.round((fight.progress.enemy_hp) * 100) : undefined;
 
     // name or alias
     const zoneAlias = duty?.code || duty?.name.split(" ").at(-1) || `Zone ${fight.zone_id}`;
@@ -156,7 +156,7 @@ export default function FightCard({ fight }: FightCardProps) {
                             </div>
                     )}
                     {/* progress */}
-                    <FightCardProgress clear={fight.clear} phaseName={phaseName} subphaseName={subphaseName} progressPercent={progressPercent} />
+                    <FightCardProgress clear={fight.clear} phaseName={phaseName} subphaseName={subphaseName} progressHpRemain={progressHpRemain} />
                 </div>
             </div>
     );
