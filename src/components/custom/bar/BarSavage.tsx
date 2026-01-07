@@ -37,7 +37,8 @@ export function BarSavage({ message, detail, setHistoryMode }: BarSavageProps) {
                     </div>
                 </div>
 
-                <div className={cn("ml-auto hidden sm:block")}>
+                {/*sm:block*/}
+                <div className={cn("ml-auto hidden")}>
                     <ToggleHistory setHistoryMode={setHistoryMode} />
                 </div>
 
