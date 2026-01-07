@@ -51,7 +51,7 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressPerc
                                     <div className="flex gap-x-0.5 items-baseline">
                                         <span className={cn(
                                                 "text-right justify-start text-xs font-medium",
-                                        )}>剩余</span>
+                                        )}>进度</span>
                                         <span className={cn(
                                                 "text-right justify-start text-sm font-mono font-semibold",
                                         )}>{progressPercent}</span>
