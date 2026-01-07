@@ -43,8 +43,8 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                                 "flex items-baseline justify-end gap-x-1 transition-colors duration-300 text-secondary-foreground",
                                 clear ? "text-primary-foreground" : "text-secondary-foreground", //cn("bg-clip-text text-transparent", getTextGradient(progressString)),
                         )}>
-                            {/* Progress */}
-                            {progressHpRemain && (
+                            {/* Unclear: Progress */}
+                            {!clear && progressHpRemain && (
                                     <div className="flex gap-x-0.5 items-baseline">
                                         <span className={cn(
                                                 "text-right justify-start text-xs font-medium",
@@ -58,16 +58,16 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                                     </div>
                             )}
 
-                            {/* Phase Name */}
-                            {phaseName && phaseName !== "N/A" && (
+                            {/* Clear */}
+                            {clear && (
                                     <span className={cn(
                                             "text-right justify-start text-sm font-medium",
-                                    )}>{progressString}</span>
+                                    )}>已完成</span>
                             )}
                         </div>
                     </TooltipTrigger>
 
-                    {subphaseName && !clear && subphaseName !== "狂暴" && <TooltipContent>
+                    {!clear && subphaseName && subphaseName !== "狂暴" && <TooltipContent>
                         <span className={cn(
                                 "text-right justify-start text-sm font-medium bg-clip-text text-transparent",
                                 getTextGradient(progressString),
