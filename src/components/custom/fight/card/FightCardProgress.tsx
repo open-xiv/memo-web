@@ -14,6 +14,8 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
     let progressString = phaseName ? phaseName : `${progressHpRemain}%`;
     progressString = clear ? `已完成` : progressString;
 
+    const enrage = progressHpRemain != undefined && progressHpRemain < 0.1;
+
     return (
             <div className={`flex gap-x-1 gap-y-1 items-center justify-end`}>
 
@@ -44,7 +46,7 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                                 clear ? "text-primary-foreground" : "text-secondary-foreground", //cn("bg-clip-text text-transparent", getTextGradient(progressString)),
                         )}>
                             {/* Unclear: Progress */}
-                            {!clear && progressHpRemain && (
+                            {!clear && !enrage && (
                                     <div className="flex gap-x-0.5 items-baseline">
                                         <span className={cn(
                                                 "text-right justify-start text-xs font-medium",
@@ -55,6 +57,13 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                                         <span className={cn(
                                                 "text-right justify-start text-xs font-medium",
                                         )}>%</span>
+                                    </div>
+                            )}
+                            {!clear && enrage && (
+                                    <div className="flex gap-x-0.5 items-baseline">
+                                        <span className={cn(
+                                                "text-right justify-start text-sm font-mono font-semibold",
+                                        )}>狂暴</span>
                                     </div>
                             )}
 
