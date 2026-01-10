@@ -36,7 +36,7 @@ export default function FightCard({ fight }: FightCardProps) {
     const partyJobIcons = partyPlayers.map(p => getJobIconByID(p.job_id)).filter(Boolean) as string[];
 
     // time string
-    const timeString = fight.duration ? getTimeRangeString(fight.start_time, fight.duration) : getTimeString(fight.start_time);
+    const timeString = fight.duration > 0 ? getTimeRangeString(fight.start_time, fight.duration) : getTimeString(fight.start_time);
 
     // fight hash
     const hashString = fight.party_hash.substring(0, 4);
