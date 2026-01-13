@@ -16,29 +16,13 @@ export interface FightProgress {
     enemy_hp: number;
 }
 
-export interface LogsFight {
-    start_time: number;
-    duration: number;
-    report_id: string;
-    fight_id: number;
-}
-
 export interface Fight {
-    id: number;
-    
     start_time: string;
     duration: number;
 
     zone_id: number;
     players: Player[];
 
-    hash: string,
-    party_hash: string;
-
-    source: string;
-
     clear: boolean;
     progress: FightProgress;
-
-    logs: LogsFight;
 }

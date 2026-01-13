@@ -7,8 +7,6 @@ import { getDutyByID } from "@/api/sumemo.ts";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card.tsx";
 import FightCardNameplate from "@/components/custom/fight/card/FightCardNameplate.tsx";
 import { Link } from "react-router-dom";
-import LinkIcon from "@/assets/icon/link.svg?react";
-import WrapperIcon from "@/components/custom/wrapper/WrapperIcon.tsx";
 import { FightCardProgress } from "@/components/custom/fight/card/FightCardProgress.tsx";
 import { getTimeRangeString, getTimeString } from "@/lib/time.ts";
 import { cn } from "@/lib/utils.ts";
@@ -39,7 +37,7 @@ export default function FightCard({ fight }: FightCardProps) {
     const timeString = fight.duration > 0 ? getTimeRangeString(fight.start_time, fight.duration) : getTimeString(fight.start_time);
 
     // fight hash
-    const hashString = fight.party_hash.substring(0, 4);
+    const hashString = crypto.randomUUID().slice(0, 4);
 
     // phase
     const currentPhase = duty ? duty.timeline?.phases.at(fight.progress.phase) : undefined;
@@ -67,9 +65,6 @@ export default function FightCard({ fight }: FightCardProps) {
         void fetchZone();
     }, [fight.zone_id]);
 
-    // fflogs link
-    const logsLink = `https://www.fflogs.com/reports/${fight.logs.report_id}?fight=${fight.logs.fight_id}`;
-
     return (
             <div className="w-80 h-[102px] relative flex flex-col items-center p-4 gap-2">
                 <div className="w-full h-full absolute inset-0 bg-card rounded-lg border border-card-border blur-[2px] z-10"></div>
@@ -84,16 +79,6 @@ export default function FightCard({ fight }: FightCardProps) {
 
                             <div className={`flex gap-0.5 items-center`}>
                                 <span className="text-card-foreground text-sm font-medium">{zoneAlias}</span>
-                                {fight.logs.report_id &&
-                                        <a href={logsLink} target={"_blank"} rel={"noreferrer noopener"}>
-                                            <WrapperIcon
-                                                    icon={LinkIcon}
-                                                    className={`h-4 w-4`}
-                                                    primary="var(--primary-ring)"
-                                                    secondary="var(--primary-foreground)"
-                                            />
-                                        </a>
-                                }
                             </div>
                             <span className="text-card-ring text-xs font-normal font-mono">#{hashString}</span>
                         </div>
@@ -131,30 +116,22 @@ export default function FightCard({ fight }: FightCardProps) {
                 {/* party job icon - progress  */}
                 <div className="w-full flex items-end justify-between z-20">
                     {/* party job icons */}
-                    {fight.source === "FFLogs" ? (
-                            <a href={logsLink} target={"_blank"} rel={"noreferrer noopener"}>
-                                <div className={`px-0.5 text-card-ring text-sm font-medium`}>
-                                    来自 FFLogs 的记录
+                    <div className="flex items-center justify-start gap-1">
+                        {partyJobIcons.map((icon, index) => (
+                                <div key={index}>
+                                    <HoverCard>
+                                        <HoverCardTrigger asChild>
+                                            <Link to={`/member/${partyPlayers[index].name}@${partyPlayers[index].server}`} className="flex items-center justify-center">
+                                                <img src={icon} alt={`job ${index}`} className="w-6 h-6" />
+                                            </Link>
+                                        </HoverCardTrigger>
+                                        <HoverCardContent className={`w-auto h-auto p-0 border-0 bg-transparent shadow-none`} sideOffset={12}>
+                                            <FightCardNameplate player={partyPlayers[index]} />
+                                        </HoverCardContent>
+                                    </HoverCard>
                                 </div>
-                            </a>
-                    ) : (
-                            <div className="flex items-center justify-start gap-1">
-                                {partyJobIcons.map((icon, index) => (
-                                        <div key={index}>
-                                            <HoverCard>
-                                                <HoverCardTrigger asChild>
-                                                    <Link to={`/member/${partyPlayers[index].name}@${partyPlayers[index].server}`} className="flex items-center justify-center">
-                                                        <img src={icon} alt={`job ${index}`} className="w-6 h-6" />
-                                                    </Link>
-                                                </HoverCardTrigger>
-                                                <HoverCardContent className={`w-auto h-auto p-0 border-0 bg-transparent shadow-none`} sideOffset={12}>
-                                                    <FightCardNameplate player={partyPlayers[index]} />
-                                                </HoverCardContent>
-                                            </HoverCard>
-                                        </div>
-                                ))}
-                            </div>
-                    )}
+                        ))}
+                    </div>
                     {/* progress */}
                     <FightCardProgress clear={fight.clear} phaseName={phaseName} subphaseName={subphaseName} progressHpRemain={progressHpRemain} />
                 </div>
