@@ -36,17 +36,8 @@ export default function FightCard({ fight }: FightCardProps) {
     // time string
     const timeString = fight.duration > 0 ? getTimeRangeString(fight.start_time, fight.duration) : getTimeString(fight.start_time);
 
-    // fight hash
-    const hashString = crypto.randomUUID().slice(0, 4);
-
-    // phase
-    const currentPhase = duty ? duty.timeline?.phases.at(fight.progress.phase) : undefined;
-    const phaseName = currentPhase ? currentPhase.name : undefined;
-    const subphaseName = currentPhase ? currentPhase.checkpoints.at(fight.progress.subphase) : undefined;
-
-    // progress
-    fight.progress.enemy_hp = fight.clear ? 0 : fight.progress.enemy_hp;
-    const progressHpRemain = fight.progress.enemy_hp ? Math.round((fight.progress.enemy_hp) * 100) : undefined;
+    // fight short comments
+    const comments = crypto.randomUUID().slice(0, 4);
 
     // name or alias
     const zoneAlias = duty?.code || duty?.name.split(" ").at(-1) || `Zone ${fight.zone_id}`;
@@ -80,7 +71,7 @@ export default function FightCard({ fight }: FightCardProps) {
                             <div className={`flex gap-0.5 items-center`}>
                                 <span className="text-card-foreground text-sm font-medium">{zoneAlias}</span>
                             </div>
-                            <span className="text-card-ring text-xs font-normal font-mono">#{hashString}</span>
+                            <span className="text-card-ring text-xs font-normal font-mono">#{comments}</span>
                         </div>
 
                         {/* death */}
@@ -133,11 +124,7 @@ export default function FightCard({ fight }: FightCardProps) {
                         ))}
                     </div>
                     {/* progress */}
-                    <FightCardProgress
-                            clear={fight.clear}
-                            phaseName={phaseName} subphaseName={subphaseName}
-                            progressHpRemain={progressHpRemain} enemyId={fight.progress.enemy_id}
-                    />
+                    <FightCardProgress fight={fight} />
                 </div>
             </div>
     );

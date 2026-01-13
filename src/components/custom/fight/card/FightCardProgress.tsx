@@ -1,22 +1,20 @@
 import { cn } from "@/lib/utils.ts";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { getTextGradient } from "@/lib/gradient.ts";
+import type { Fight } from "@/types/fight.ts";
 
 interface FightCardProgressProps {
-    clear: boolean;
-    phaseName: string | undefined;
-    subphaseName: string | undefined;
-    progressHpRemain: number | undefined;
-    enemyId?: number;
+    fight: Fight;
 }
 
-export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRemain, enemyId }: FightCardProgressProps) {
-    // progress string for dynamic color
-    let progressString = phaseName ? phaseName : `${progressHpRemain}%`;
-    progressString = clear ? `已完成` : progressString;
+export function FightCardProgress({ fight }: FightCardProgressProps) {
+    // progress
+    fight.progress.enemy_hp = fight.clear ? 0 : fight.progress.enemy_hp;
+    const progressHpRemain = fight.progress.enemy_hp ? Math.round((fight.progress.enemy_hp) * 100) : undefined;
 
-    const enrage = progressHpRemain != undefined && progressHpRemain < 0.01;
-    const part = enemyId == 19202 ? "本体" : enemyId == 19195 ? "门神" : "剩余";
+    // progress string for dynamic color
+    let progressString = fight.progress.phase ? fight.progress.phase : `${progressHpRemain}%`;
+    progressString = fight.clear ? `已完成` : progressString;
 
     return (
             <div className={`flex gap-x-1 gap-y-1 items-center justify-end`}>
@@ -45,14 +43,14 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                         {/* default */}
                         <div className={cn(
                                 "flex items-baseline justify-end gap-x-1 transition-colors duration-300 text-secondary-foreground",
-                                clear ? "text-primary-foreground" : "text-secondary-foreground", //cn("bg-clip-text text-transparent", getTextGradient(progressString)),
+                                fight.clear ? "text-primary-foreground" : "text-secondary-foreground", //cn("bg-clip-text text-transparent", getTextGradient(progressString)),
                         )}>
                             {/* Unclear: Progress */}
-                            {!clear && !enrage && (
+                            {!fight.clear && (
                                     <div className="flex gap-x-0.5 items-baseline">
                                         <span className={cn(
                                                 "text-right justify-start text-xs font-medium",
-                                        )}>{part}血量</span>
+                                        )}>剩余血量</span>
                                         <span className={cn(
                                                 "text-right justify-start text-sm font-mono font-semibold",
                                         )}>{progressHpRemain}</span>
@@ -61,16 +59,9 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                                         )}>%</span>
                                     </div>
                             )}
-                            {!clear && enrage && (
-                                    <div className="flex gap-x-0.5 items-baseline">
-                                        <span className={cn(
-                                                "text-right justify-start text-xs font-mono font-semibold",
-                                        )}>{part}结束</span>
-                                    </div>
-                            )}
 
                             {/* Clear */}
-                            {clear && (
+                            {fight.clear && (
                                     <span className={cn(
                                             "text-right justify-start text-sm font-medium",
                                     )}>已完成</span>
@@ -78,11 +69,11 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                         </div>
                     </TooltipTrigger>
 
-                    {!clear && subphaseName && subphaseName !== "狂暴" && <TooltipContent>
+                    {!fight.clear && fight.progress.phase !== "N/A" && <TooltipContent>
                         <span className={cn(
                                 "text-right justify-start text-sm font-medium bg-clip-text text-transparent",
                                 getTextGradient(progressString),
-                        )}>{subphaseName}</span>
+                        )}>{fight.progress.phase}</span>
                     </TooltipContent>}
                 </Tooltip>
 
