@@ -107,7 +107,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                     {latestFights.length > 0 && (
                             <div className="mx-1 w-full flex flex-wrap gap-2">
                                 {latestFights.slice(0, expandLatest === "max" ? 10 : 3).map((fight) => (
-                                        <div key={fight.id} className="flex-shrink-0">
+                                        <div key={fight.start_time} className="flex-shrink-0">
                                             <FightCard fight={fight} />
                                         </div>
                                 ))}

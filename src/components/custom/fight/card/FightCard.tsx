@@ -133,7 +133,11 @@ export default function FightCard({ fight }: FightCardProps) {
                         ))}
                     </div>
                     {/* progress */}
-                    <FightCardProgress clear={fight.clear} phaseName={phaseName} subphaseName={subphaseName} progressHpRemain={progressHpRemain} />
+                    <FightCardProgress
+                            clear={fight.clear}
+                            phaseName={phaseName} subphaseName={subphaseName}
+                            progressHpRemain={progressHpRemain} enemyId={fight.progress.enemy_id}
+                    />
                 </div>
             </div>
     );

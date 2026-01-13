@@ -7,14 +7,16 @@ interface FightCardProgressProps {
     phaseName: string | undefined;
     subphaseName: string | undefined;
     progressHpRemain: number | undefined;
+    enemyId?: number;
 }
 
-export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRemain }: FightCardProgressProps) {
+export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRemain, enemyId }: FightCardProgressProps) {
     // progress string for dynamic color
     let progressString = phaseName ? phaseName : `${progressHpRemain}%`;
     progressString = clear ? `已完成` : progressString;
 
-    const enrage = progressHpRemain != undefined && progressHpRemain < 0.1;
+    const enrage = progressHpRemain != undefined && progressHpRemain < 0.01;
+    const part = enemyId == 19202 ? "本体" : enemyId == 19195 ? "门神" : "剩余";
 
     return (
             <div className={`flex gap-x-1 gap-y-1 items-center justify-end`}>
@@ -50,7 +52,7 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                                     <div className="flex gap-x-0.5 items-baseline">
                                         <span className={cn(
                                                 "text-right justify-start text-xs font-medium",
-                                        )}>剩余血量</span>
+                                        )}>{part}血量</span>
                                         <span className={cn(
                                                 "text-right justify-start text-sm font-mono font-semibold",
                                         )}>{progressHpRemain}</span>
@@ -62,8 +64,8 @@ export function FightCardProgress({ clear, phaseName, subphaseName, progressHpRe
                             {!clear && enrage && (
                                     <div className="flex gap-x-0.5 items-baseline">
                                         <span className={cn(
-                                                "text-right justify-start text-sm font-mono font-semibold",
-                                        )}>狂暴</span>
+                                                "text-right justify-start text-xs font-mono font-semibold",
+                                        )}>{part}结束</span>
                                     </div>
                             )}
 
