@@ -9,8 +9,8 @@ export interface Player {
 }
 
 export interface FightProgress {
-    phase: number;
-    subphase: number;
+    phase: string;
+    subphase: string;
 
     enemy_id: number;
     enemy_hp: number;
