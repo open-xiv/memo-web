@@ -81,3 +81,32 @@ export function getTimeRangeString(startTime: string, durationNs: number): [stri
     const eFull = e.dayPeriod ? `${eHM} ${e.dayPeriod}` : formatter.format(end);
     return [`${sFull} - ${eFull}`, dateStr];
 }
+
+export function getTimeAgo(timestamp: string | number | Date): string {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+
+    if (diffSec < 60) {
+        return "刚刚";
+    }
+    const diffMin = Math.floor(diffSec / 60);
+    if (diffMin < 60) {
+        return `${diffMin} 分钟前`;
+    }
+    const diffHour = Math.floor(diffMin / 60);
+    if (diffHour < 24) {
+        return `${diffHour} 小时前`;
+    }
+    const diffDay = Math.floor(diffHour / 24);
+    if (diffDay < 30) {
+        return `${diffDay} 天前`;
+    }
+    const diffMonth = Math.floor(diffDay / 30);
+    if (diffMonth < 12) {
+        return `${diffMonth} 个月前`;
+    }
+    const diffYear = Math.floor(diffDay / 365);
+    return `${diffYear} 年前`;
+}

@@ -8,7 +8,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import FightCardNameplate from "@/components/custom/fight/card/FightCardNameplate.tsx";
 import { Link } from "react-router-dom";
 import { FightCardProgress } from "@/components/custom/fight/card/FightCardProgress.tsx";
-import { getTimeRangeString, getTimeString } from "@/lib/time.ts";
+import {getTimeAgo, getTimeRangeString, getTimeString} from "@/lib/time.ts";
 import { cn } from "@/lib/utils.ts";
 
 interface FightCardProps {
@@ -35,6 +35,7 @@ export default function FightCard({ fight }: FightCardProps) {
 
     // time string
     const timeString = fight.duration > 0 ? getTimeRangeString(fight.start_time, fight.duration) : getTimeString(fight.start_time);
+    const timeAgo = getTimeAgo(fight.start_time);
 
     // fight short comments
     const comments = crypto.randomUUID().slice(0, 4);
@@ -100,7 +101,11 @@ export default function FightCard({ fight }: FightCardProps) {
                     {/* time */}
                     <div className="flex flex-col items-end justify-start gap-0.5">
                         <span className="text-card-foreground text-sm font-medium">{timeString[0]}</span>
-                        <span className="text-card-ring text-xs font-normal">{timeString[1]}</span>
+                        <div className="flex items-center gap-1 text-card-ring text-xs font-normal">
+                            <span>{timeAgo}</span>
+                            <span>·</span>
+                            <span>{timeString[1]}</span>
+                        </div>
                     </div>
                 </div>
 
