@@ -1,6 +1,6 @@
 import { getDutyByID, getDutyNameByID, getMemberZoneBestProgress, getMemberZoneLatestProgresses } from "@/api/sumemo.ts";
 import type { Fight, Player } from "@/types/fight.ts";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import FightCard from "@/components/custom/fight/card/FightCard.tsx";
 import type { Duty } from "@/types/duty.ts";
 import { BarZone } from "@/components/custom/bar/BarZone.tsx";
@@ -8,9 +8,10 @@ import { BarLoading } from "@/components/custom/bar/BarLoading.tsx";
 import { BarLogsNav } from "@/components/custom/bar/BarLogsNav.tsx";
 import { getJobIconByID, sortPlayersInFight } from "@/lib/job.ts";
 import { Link } from "react-router-dom";
-import {cn} from "@/lib/utils.ts";
-import { Crown, Clock } from "lucide-react";
+import { cn } from "@/lib/utils.ts";
+import { Crown, Clock, RefreshCw, Check, X } from "lucide-react";
 import { getTimeAgo, getTimeString } from "@/lib/time.ts";
+import { Button } from "@/components/ui/button";
 
 
 interface ZoneProgressRowProps {
@@ -30,6 +31,11 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
     const [duty, setDuty] = useState<Duty | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
+    const [refreshStatus, setRefreshStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [inCooldown, setInCooldown] = useState(false);
+
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
 
     const groupedLatestFights = useMemo(() => {
         if (expandLatest !== "max") return [];
@@ -88,7 +94,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
             const group = groups[groupIndex];
             group.fights.push(fight);
 
-            // Update earliest start time and latest end time
+            // Update the earliest start time and latest end time
             if (new Date(fight.start_time).getTime() < new Date(group.earliestStartTime).getTime()) {
                 group.earliestStartTime = fight.start_time;
             }
@@ -136,47 +142,95 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
         void fetchZone();
     }, [zoneID]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const dutyName = await getDutyNameByID(zoneID);
-                setDutyName(dutyName);
-
-                const [bestProgress, latestProgresses] = await Promise.all([
-                    getMemberZoneBestProgress(memberName, memberServer, zoneID),
-                    getMemberZoneLatestProgresses(memberName, memberServer, zoneID, limit),
-                ]);
-
-                setBestFight(bestProgress?.fight || null);
-
-                setLatestFights(
-                        latestProgresses
-                                .map(p => p.fight)
-                                .filter((f): f is Fight => f !== null)
-                                .sort((a, b) => new Date(b.start_time).getTime() - new Date(a.start_time).getTime()),
-                );
-
-            } catch (err) {
-                console.error(`failed to fetch progress for zone ${zoneID}:`, err);
-                setBestFight(null);
-                setLatestFights([]);
-            } finally {
-                setIsLoading(false);
+    const fetchData = useCallback(async (showLoading = true, currentLimit = limit) => {
+        if (showLoading) {
+            // Lock height before clearing data
+            if (containerRef.current) {
+                setMinHeight(containerRef.current.offsetHeight);
             }
-        };
+            setIsLoading(true);
+        }
+        
+        try {
+            const dutyName = await getDutyNameByID(zoneID);
+            setDutyName(dutyName);
 
-        void fetchData();
+            const [bestProgress, latestProgresses] = await Promise.all([
+                getMemberZoneBestProgress(memberName, memberServer, zoneID),
+                getMemberZoneLatestProgresses(memberName, memberServer, zoneID, currentLimit),
+            ]);
+
+            setBestFight(bestProgress?.fight || null);
+
+            setLatestFights(
+                latestProgresses
+                    .map(p => p.fight)
+                    .filter((f): f is Fight => f !== null)
+                    .sort((a, b) => new Date(b.start_time).getTime() - new Date(a.start_time).getTime()),
+            );
+
+        } catch (err) {
+            console.error(`failed to fetch progress for zone ${zoneID}:`, err);
+            setBestFight(null);
+            setLatestFights([]);
+        } finally {
+            if (showLoading) {
+                setIsLoading(false);
+                // Unlock height after render
+                setMinHeight(undefined);
+            }
+        }
     }, [zoneID, memberName, memberServer, limit]);
 
-    if (isLoading) {
-        return (
-                <BarLoading message={`数据加载中`} />
-        );
-    }
+    useEffect(() => {
+        void fetchData(true);
+    }, [zoneID, memberName, memberServer, fetchData]); // Remove limit from dependency to avoid double fetch or auto-fetch on state change without locking
 
+    const handleRefresh = async () => {
+        if (inCooldown || refreshStatus !== "idle") return;
+        
+        setRefreshStatus("loading");
+        setInCooldown(true);
+        
+        // Clear current data to give a "fresh" feel
+        setBestFight(null);
+        setLatestFights([]);
+
+        // Cooldown timer
+        setTimeout(() => setInCooldown(false), 10000);
+
+        try {
+            // Wait at least 500ms for better UX
+            const minLoadingTime = new Promise(resolve => setTimeout(resolve, 500));
+            // fetchData handles height locking internally now if showLoading is true
+            await Promise.all([fetchData(true), minLoadingTime]);
+            
+            setRefreshStatus("success");
+            setTimeout(() => setRefreshStatus("idle"), 2000);
+        } catch (error) {
+            console.error("Refresh failed:", error);
+            setRefreshStatus("error");
+            setTimeout(() => setRefreshStatus("idle"), 2000);
+        }
+    };
+
+    const handleLoadMore = async () => {
+        const newLimit = 50;
+        setLimit(newLimit);
+        await fetchData(true, newLimit);
+    };
 
     function fightContent() {
+        if (isLoading) {
+            return (
+                <div className="w-full flex-1 flex flex-col items-center justify-start min-h-25">
+                    <div className="sticky top-[30vh]">
+                         <BarLoading message={`数据加载中`} />
+                    </div>
+                </div>
+            );
+        }
+
         if (!bestFight && latestFights.length === 0 && duty && duty.logs_encounter) {
             return (
                     <BarLogsNav memberName={memberName} memberServer={memberServer} zone={duty.logs_encounter.zone} encounter={duty.logs_encounter.encounter} />
@@ -355,7 +409,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                             {limit < 50 && latestFights.length >= limit && (
                                 <div 
                                     className="group relative mx-1 flex h-10 items-center justify-center cursor-pointer transition-all duration-300"
-                                    onClick={() => setLimit(50)}
+                                    onClick={handleLoadMore}
                                 >
                                     {/* Background Layer */}
                                     <div className="absolute inset-0 rounded-lg border border-card-border bg-card blur-[1px] transition-all duration-300 group-hover:border-primary-ring/50 group-hover:bg-accent/50" />
@@ -385,10 +439,53 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
     }
 
     return (
-            <div className="flex flex-col items-start gap-4 w-full">
+            <div 
+                ref={containerRef}
+                className="flex flex-col items-start gap-4 w-full transition-[min-height] duration-300 ease-in-out"
+                style={{ minHeight: minHeight ? `${minHeight}px` : undefined }}
+            >
 
                 {/* Zone Name */}
-                {dutyName && <BarZone message={dutyName} detail={duty?.code} setExpand={setExpandLatest} />}
+                <div className="flex w-full items-center gap-2">
+                    {dutyName && <BarZone message={dutyName} detail={duty?.code} setExpand={setExpandLatest} />}
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className={cn(
+                            "shrink-0 transition-all duration-300 relative",
+                            refreshStatus === "success" && "border-green-500 bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 dark:bg-green-950 dark:text-green-400 dark:hover:bg-green-900 dark:border-green-800",
+                            refreshStatus === "error" && "border-red-500 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 dark:bg-red-950 dark:text-red-400 dark:hover:bg-red-900 dark:border-red-800",
+                            refreshStatus !== "idle" && "cursor-default"
+                        )}
+                        onClick={handleRefresh}
+                        disabled={refreshStatus === "idle" && inCooldown}
+                    >
+                        {/* Idle Icon */}
+                        <RefreshCw className={cn(
+                            "h-4 w-4 transition-all duration-300 absolute",
+                            refreshStatus === "idle" ? "scale-100 opacity-100" : "scale-0 opacity-0",
+                            inCooldown && "opacity-50"
+                        )} />
+                        
+                        {/* Loading Icon */}
+                        <RefreshCw className={cn(
+                            "h-4 w-4 animate-spin absolute",
+                            refreshStatus === "loading" ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                        )} />
+
+                        {/* Success Icon */}
+                        <Check className={cn(
+                            "h-4 w-4 transition-all duration-300 absolute",
+                            refreshStatus === "success" ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                        )} />
+                        
+                        {/* Error Icon */}
+                        <X className={cn(
+                            "h-4 w-4 transition-all duration-300 absolute",
+                            refreshStatus === "error" ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                        )} />
+                    </Button>
+                </div>
 
                 {/* Fight Content */}
                 {fightContent()}
