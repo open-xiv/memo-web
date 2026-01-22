@@ -171,7 +171,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                         <div className={`w-0.5 bg-subparagraph`} />
                         <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20 transition-colors duration-300">
                             <span className="text-subparagraph-foreground font-medium"> 近期记录 </span>
-                            <span className="text-subparagraph-ring text-sm font-medium"> {expandLatest === "max" ? "最近的十次进度" : "最近的三次进度"} </span>
+                            <span className="text-subparagraph-ring text-sm font-medium"> {expandLatest === "max" ? "最近的五十次进度" : "最近的三次进度"} </span>
                         </div>
                     </div>
                     {expandLatest === "max" ? (
@@ -184,10 +184,18 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                                             <div className="w-1 h-4 bg-paragraph rounded-full" />
                                             <span className="text-sm font-bold text-foreground">队伍阵容</span>
                                         </div>
+                                        <div className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-primary-ring text-white shadow-sm transition-colors duration-300">
+                                            <span className="text-xs font-medium opacity-90">总场次</span>
+                                            <span className="text-xs font-bold font-mono">{group.fights.length}</span>
+                                        </div>
                                         <div className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-destructive-ring text-white shadow-sm transition-colors duration-300">
                                             <span className="text-xs font-medium opacity-90">最远进度</span>
                                             <span className="text-xs font-bold">
-                                                {group.bestProgress || `${(group.minHP * 100).toFixed(1)}%`}
+                                                {group.bestProgress === "已完成" 
+                                                    ? "已完成"
+                                                    : group.bestProgress 
+                                                        ? `${group.bestProgress} (${(group.minHP * 100).toFixed(1)}%)` 
+                                                        : `${(group.minHP * 100).toFixed(1)}%`}
                                             </span>
                                         </div>
                                     </div>
@@ -197,6 +205,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                                         {group.players.map((player) => {
                                             const pKey = `${player.name}@${player.server}`;
                                             const deaths = group.totalDeaths[pKey] || 0;
+                                            const avgDeaths = (deaths / group.fights.length).toFixed(1);
                                             const icon = getJobIconByID(player.job_id);
                                             const isCurrentMember = player.name === memberName && player.server === memberServer;
 
@@ -256,7 +265,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                                                         {/* Death Count - Mimicking FightCard style */}
                                                         {deaths > 0 && (
                                                             <div className={cn(
-                                                                "relative flex items-center justify-center rounded-lg transition-all duration-300 px-2 py-0.5 opacity-90",
+                                                                "relative flex items-center justify-center rounded-lg transition-all duration-300 px-2.5 py-1 opacity-90",
                                                             )}>
                                                                 <div
                                                                     className={cn(
@@ -266,11 +275,20 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                                                                     )}
                                                                 />
                                                                 
-                                                                <div className="relative z-20 flex h-full items-center justify-center gap-1 transition-colors duration-300">
+                                                                <div className="relative z-20 flex h-full items-center justify-center gap-2 transition-colors duration-300">
                                                                     {isDeathKing && (
-                                                                        <Crown className="w-3 h-3 text-destructive-foreground fill-current animate-pulse" />
+                                                                        <Crown className="w-4 h-4 text-destructive-foreground fill-current animate-pulse" />
                                                                     )}
-                                                                    <span className="text-destructive-foreground text-xs font-bold">倒地 {deaths}</span>
+                                                                    <div className="flex flex-col items-start gap-0.5">
+                                                                        <div className="flex items-baseline gap-1">
+                                                                            <span className="text-destructive-foreground text-[10px] font-medium opacity-80">倒地</span>
+                                                                            <span className="text-destructive-foreground text-sm font-bold leading-none">{deaths}</span>
+                                                                        </div>
+                                                                        <div className="flex items-baseline gap-1">
+                                                                            <span className="text-destructive-foreground/70 text-[9px] font-medium">场均</span>
+                                                                            <span className="text-destructive-foreground/90 text-[10px] font-bold font-mono leading-none">{avgDeaths}</span>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         )}
