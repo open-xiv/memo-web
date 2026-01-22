@@ -9,7 +9,8 @@ import { BarLogsNav } from "@/components/custom/bar/BarLogsNav.tsx";
 import { getJobIconByID, sortPlayersInFight } from "@/lib/job.ts";
 import { Link } from "react-router-dom";
 import {cn} from "@/lib/utils.ts";
-import { Crown } from "lucide-react";
+import { Crown, Clock } from "lucide-react";
+import { getTimeAgo, getTimeString } from "@/lib/time.ts";
 
 
 interface ZoneProgressRowProps {
@@ -41,6 +42,8 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
             totalDeaths: Record<string, number>;
             bestProgress: string;
             minHP: number;
+            earliestStartTime: string;
+            latestEndTime: number;
         }[] = [];
 
         const keyToGroupIndex = new Map<string, number>();
@@ -48,6 +51,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
         fightsToGroup.forEach(fight => {
             const sortedFight = sortPlayersInFight(fight);
             const key = sortedFight.players.map(p => `${p.name}@${p.server}`).join("|");
+            const fightEndTime = new Date(fight.start_time).getTime() + fight.duration / 1e6;
 
             let groupIndex = keyToGroupIndex.get(key);
             if (groupIndex === undefined) {
@@ -57,7 +61,9 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                     fights: [],
                     totalDeaths: {},
                     bestProgress: fight.progress.phase && fight.progress.phase !== "N/A" ? fight.progress.phase : "",
-                    minHP: fight.progress.enemy_hp || 100
+                    minHP: fight.progress.enemy_hp || 100,
+                    earliestStartTime: fight.start_time,
+                    latestEndTime: fightEndTime
                 });
                 groupIndex = groups.length - 1;
                 keyToGroupIndex.set(key, groupIndex);
@@ -69,6 +75,14 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
 
             const group = groups[groupIndex];
             group.fights.push(fight);
+
+            // Update earliest start time and latest end time
+            if (new Date(fight.start_time).getTime() < new Date(group.earliestStartTime).getTime()) {
+                group.earliestStartTime = fight.start_time;
+            }
+            if (fightEndTime > group.latestEndTime) {
+                group.latestEndTime = fightEndTime;
+            }
 
             // Update best progress logic
             if (fight.clear) {
@@ -172,7 +186,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                         <div className={`w-0.5 bg-subparagraph`} />
                         <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20 transition-colors duration-300">
                             <span className="text-subparagraph-foreground font-medium"> 近期记录 </span>
-                            <span className="text-subparagraph-ring text-sm font-medium"> {expandLatest === "max" ? `最近的 ${limit} 次进度` : "最近的三次进度"} </span>
+                            <span className="text-subparagraph-ring text-sm font-medium"> {expandLatest === "max" ? `最近的 ${latestFights.length} 次进度` : `最近的 ${Math.min(latestFights.length, 3)} 次进度`} </span>
                         </div>
                     </div>
                     {expandLatest === "max" ? (
@@ -185,6 +199,22 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                                             <div className="w-1 h-4 bg-paragraph rounded-full" />
                                             <span className="text-sm font-bold text-foreground">队伍阵容</span>
                                         </div>
+                                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/80 border border-muted-foreground/20 text-foreground shadow-sm transition-colors duration-300">
+                                             <Clock className="w-3.5 h-3.5 text-primary-ring" />
+                                             <div className="flex items-center gap-1.5 text-xs font-bold">
+                                                 <span>{getTimeAgo(group.earliestStartTime)}</span>
+                                                 <span className="text-muted-foreground font-normal">·</span>
+                                                 <span className="text-[10px] text-muted-foreground font-mono font-medium">
+                                                     {(() => {
+                                                         const [startTime, startDate] = getTimeString(group.earliestStartTime);
+                                                         const [endTime, endDate] = getTimeString(new Date(group.latestEndTime).toISOString());
+                                                         return startDate === endDate 
+                                                             ? `${startDate} ${startTime} ~ ${endTime}`
+                                                             : `${startDate} ${startTime} ~ ${endDate} ${endTime}`;
+                                                     })()}
+                                                 </span>
+                                             </div>
+                                         </div>
                                         <div className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-primary-ring text-white shadow-sm transition-colors duration-300">
                                             <span className="text-xs font-medium opacity-90">总场次</span>
                                             <span className="text-xs font-bold font-mono">{group.fights.length}</span>
