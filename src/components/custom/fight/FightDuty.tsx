@@ -82,7 +82,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
     function fightContent() {
         if (!bestFight && latestFights.length === 0 && duty && duty.logs_encounter) {
             return (
-                    <BarLogsNav memberName={memberName} memberServer={memberServer} zone={duty.logs_encounter.zone} encounter={duty.logs_encounter.zone} />
+                    <BarLogsNav memberName={memberName} memberServer={memberServer} zone={duty.logs_encounter.zone} encounter={duty.logs_encounter.encounter} />
             );
         }
 
