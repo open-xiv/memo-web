@@ -31,8 +31,8 @@ export const getMemberZoneBestProgress = async (name: string, server: string, zo
     return res.data;
 };
 
-export const getMemberZoneLatestProgresses = async (name: string, server: string, zoneID: number): Promise<[MemberZoneProgress]> => {
-    const res = await apiClient.get<[MemberZoneProgress]>(`/member/${name}@${server}/${zoneID}/latest?limit=20`);
+export const getMemberZoneLatestProgresses = async (name: string, server: string, zoneID: number, limit: number = 50): Promise<[MemberZoneProgress]> => {
+    const res = await apiClient.get<[MemberZoneProgress]>(`/member/${name}@${server}/${zoneID}/latest`, { params: { limit } });
     return res.data;
 };
 
