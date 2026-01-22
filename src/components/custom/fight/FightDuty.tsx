@@ -54,6 +54,18 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
             const fightEndTime = new Date(fight.start_time).getTime() + fight.duration / 1e6;
 
             let groupIndex = keyToGroupIndex.get(key);
+
+            if (groupIndex !== undefined) {
+                const group = groups[groupIndex];
+                const lastFight = group.fights[group.fights.length - 1];
+                const lastFightStartTime = new Date(lastFight.start_time).getTime();
+
+                // If interval > 4 hours, split into new group
+                if (lastFightStartTime - fightEndTime > 4 * 60 * 60 * 1000) {
+                    groupIndex = undefined;
+                }
+            }
+
             if (groupIndex === undefined) {
                 groups.push({
                     id: key,
