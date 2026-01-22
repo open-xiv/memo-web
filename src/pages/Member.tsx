@@ -7,6 +7,7 @@ import { BarHidden } from "@/components/custom/bar/BarHidden.tsx";
 import { BarError } from "@/components/custom/bar/BarError.tsx";
 import { BarCategory, type RaidMode } from "@/components/custom/bar/BarCategory.tsx";
 import { BarLoading } from "@/components/custom/bar/BarLoading.tsx";
+import { BarContribution } from "@/components/custom/bar/BarContribution.tsx";
 
 const SAVAGE_INTEREST = [1321, 1323, 1325, 1327];
 const SAVAGE_PAST_INTEREST = [1257, 1259, 1261, 1263];
@@ -67,6 +68,13 @@ export default function Member() {
 
                 {/* Category Selector */}
                 <BarCategory mode={mode} setMode={setMode} setHistoryMode={setIsHistoryMode} isHistoryMode={isHistoryMode} />
+
+                {/* Contribute */}
+                <BarContribution
+                        message="欢迎向我们贡献各类副本时间轴、机制等信息。"
+                        linkText="点击跳转"
+                        linkUrl="https://github.com/open-xiv/assets/tree/main/duty"
+                />
 
                 {/* Dev */}
                 {mode === 'savage' && !isHistoryMode && <BarLoading message={`重量级 首周 仅提供粗粒度支持`} detail={`时长 & 血量进度`} />}
