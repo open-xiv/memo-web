@@ -49,7 +49,7 @@ export default function Footer() {
                     </div>
 
                     {/*  GitHub  */}
-                    <a href="https://github.com/open-xiv" className="w-full sm:w-fit relative flex items-center justify-center p-3">
+                    <a href="https://github.com/open-xiv" target="_blank" rel="noopener noreferrer" className="w-full sm:w-fit relative flex items-center justify-center p-3">
                         <div className="w-full h-full absolute rounded-lg border border-border blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                             <WrapperIcon
@@ -67,6 +67,7 @@ export default function Footer() {
 
                     {/*  QQ Chat  */}
                     <a href={`https://qun.qq.com/universal-share/share?ac=1&authKey=yVqGsxIgZGR3U0zRdJDc6t7exCAR9UY8C%2B%2BuV%2BekAR0%2FPZk4pMSFp%2FXBcdZVIIHI&busi_data=eyJncm91cENvZGUiOiIxMDU0OTg0Mjk5IiwidG9rZW4iOiJneFJ6NkJ5NGJLRnN6dXFFblBVU2tBbUdwU3dVZS9YaHVjNG5XSGtLUGc4S0RnYUo4ZEo0UDgzYU9qOVA0UU40IiwidWluIjoiMTAwOTg5NTc3NCJ9&data=_E-Wj7y0Z8U8EvSiQAf_xEhF-G0NrWhVsmastd4Rq8iJDmQB8cOdjWCOM-FTGVab6xmu1M5QTA36j4wEQm672w&svctype=4&tempid=h5_group_info`}
+                       target="_blank" rel="noopener noreferrer"
                        className="w-full sm:w-fit relative flex items-center justify-center p-3">
                         <div className="w-full h-full absolute rounded-lg border border-border blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
@@ -84,7 +85,7 @@ export default function Footer() {
                     </a>
 
                     {/*  Discord  */}
-                    {inviteLink && <a href={`${inviteLink}`} className="w-full sm:w-fit relative flex items-center justify-center p-3">
+                    {inviteLink && <a href={`${inviteLink}`} target="_blank" rel="noopener noreferrer" className="w-full sm:w-fit relative flex items-center justify-center p-3">
                         <div className="w-full h-full absolute rounded-lg border border-border blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                             <WrapperIcon
