@@ -4,17 +4,36 @@ import type { MemberSearchResult, MemberZoneProgress } from "@/types/member.ts";
 import type { Stats } from "@/types/stats.ts";
 
 const BASE_URLS = ["https://api.sumemo.dev", "https://sumemo.diemoe.net"];
+const STORAGE_KEY = "sumemo_best_node";
 
 const getFastestUrl = (): Promise<string> => {
     return new Promise((resolve) => {
+        let resolved = false;
+
+        if (typeof localStorage !== "undefined") {
+            const cached = localStorage.getItem(STORAGE_KEY);
+            if (cached && BASE_URLS.includes(cached)) {
+                resolve(cached);
+                resolved = true;
+            }
+        }
+
         let failedCount = 0;
         BASE_URLS.forEach((url) => {
             axios
                 .get(url, { timeout: 5000 })
-                .then(() => resolve(url))
+                .then(() => {
+                    if (!resolved) {
+                        resolve(url);
+                        resolved = true;
+                    }
+                    if (typeof localStorage !== "undefined") {
+                        localStorage.setItem(STORAGE_KEY, url);
+                    }
+                })
                 .catch(() => {
                     failedCount++;
-                    if (failedCount === BASE_URLS.length) {
+                    if (failedCount === BASE_URLS.length && !resolved) {
                         resolve(BASE_URLS[0]);
                     }
                 });
