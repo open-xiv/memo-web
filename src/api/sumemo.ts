@@ -3,12 +3,37 @@ import type { Duty } from "@/types/duty.ts";
 import type { MemberSearchResult, MemberZoneProgress } from "@/types/member.ts";
 import type { Stats } from "@/types/stats.ts";
 
+const BASE_URLS = ["https://api.sumemo.dev", "https://sumemo.diemoe.net"];
+
+const getFastestUrl = (): Promise<string> => {
+    return new Promise((resolve) => {
+        let failedCount = 0;
+        BASE_URLS.forEach((url) => {
+            axios
+                .get(url, { timeout: 5000 })
+                .then(() => resolve(url))
+                .catch(() => {
+                    failedCount++;
+                    if (failedCount === BASE_URLS.length) {
+                        resolve(BASE_URLS[0]);
+                    }
+                });
+        });
+    });
+};
+
+const baseUrlPromise = getFastestUrl();
+
 const apiClient = axios.create({
-    baseURL: "https://api.sumemo.dev",
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
     },
+});
+
+apiClient.interceptors.request.use(async (config) => {
+    config.baseURL = await baseUrlPromise;
+    return config;
 });
 
 export const getDutyByID = async (zoneID: number): Promise<Duty> => {
