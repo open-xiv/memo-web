@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: "https://discord.com/api",
+    baseURL: 'https://discord.com/api',
     headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
     },
 });
 

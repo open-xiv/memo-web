@@ -1,5 +1,5 @@
 function getFormattedDate(date: Date, locale: string) {
-    const isZh = locale.toLowerCase().startsWith("zh");
+    const isZh = locale.toLowerCase().startsWith('zh');
     const currentYear = new Date().getFullYear();
     const isCurrentYear = date.getFullYear() === currentYear;
 
@@ -17,18 +17,18 @@ function getFormattedDate(date: Date, locale: string) {
 
     // en: auto hide year
     const options: Intl.DateTimeFormatOptions = isCurrentYear
-        ? { month: "short", day: "numeric" } // Jan 6
-        : { year: "numeric", month: "short", day: "numeric" }; // 2025 Jan 6
+        ? { month: 'short', day: 'numeric' } // Jan 6
+        : { year: 'numeric', month: 'short', day: 'numeric' }; // 2025 Jan 6
 
     return new Intl.DateTimeFormat(locale, options).format(date);
 }
 
 // time formatter based on locale
-function getTimeFormatter(locale: string = "en-US") {
-    const isZh = locale.toLowerCase().startsWith("zh");
+function getTimeFormatter(locale: string = 'en-US') {
+    const isZh = locale.toLowerCase().startsWith('zh');
     return new Intl.DateTimeFormat(locale, {
-        hour: "numeric",
-        minute: "2-digit",
+        hour: 'numeric',
+        minute: '2-digit',
         // zh: 24-hour, en: 12-hour
         hour12: !isZh,
     });
@@ -36,7 +36,9 @@ function getTimeFormatter(locale: string = "en-US") {
 
 export function getTimeString(timestamp: string): [string, string] {
     const date = new Date(timestamp);
-    const locale = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase().startsWith("america") ? "en-US" : navigator.language || "zh";
+    const locale = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase().startsWith('america')
+        ? 'en-US'
+        : navigator.language || 'zh';
     const formatter = getTimeFormatter(locale);
     const dateStr = getFormattedDate(date, locale);
     return [formatter.format(date), dateStr];
@@ -44,9 +46,9 @@ export function getTimeString(timestamp: string): [string, string] {
 
 function formatTimePartsLocal(date: Date, formatter: Intl.DateTimeFormat) {
     const parts = formatter.formatToParts(date);
-    const hour = parts.find(p => p.type === "hour")?.value ?? "";
-    const minute = parts.find(p => p.type === "minute")?.value ?? "";
-    const dayPeriod = parts.find(p => p.type === "dayPeriod")?.value ?? "";
+    const hour = parts.find((p) => p.type === 'hour')?.value ?? '';
+    const minute = parts.find((p) => p.type === 'minute')?.value ?? '';
+    const dayPeriod = parts.find((p) => p.type === 'dayPeriod')?.value ?? '';
     return { hour, minute, dayPeriod };
 }
 
@@ -54,9 +56,11 @@ export function getTimeRangeString(startTime: string, durationNs: number): [stri
     const start = new Date(startTime);
     const end = new Date(start.getTime() + durationNs / 1e6);
 
-    const locale = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase().startsWith("america") ? "en-US" : navigator.language || "zh";
+    const locale = Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase().startsWith('america')
+        ? 'en-US'
+        : navigator.language || 'zh';
     const formatter = getTimeFormatter(locale);
-    const isZh = locale.toLowerCase().startsWith("zh");
+    const isZh = locale.toLowerCase().startsWith('zh');
 
     const s = formatTimePartsLocal(start, formatter);
     const e = formatTimePartsLocal(end, formatter);
@@ -82,39 +86,25 @@ export function getTimeRangeString(startTime: string, durationNs: number): [stri
     return [`${sFull} - ${eFull}`, dateStr];
 }
 
-export function getTimeAgo(timestamp: string | number | Date): string {
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffSec = Math.floor(diffMs / 1000);
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import duration from 'dayjs/plugin/duration';
+import 'dayjs/locale/zh-cn';
 
-    if (diffSec < 60) {
-        return "刚刚";
-    }
-    const diffMin = Math.floor(diffSec / 60);
-    if (diffMin < 60) {
-        return `${diffMin} 分钟前`;
-    }
-    const diffHour = Math.floor(diffMin / 60);
-    if (diffHour < 24) {
-        return `${diffHour} 小时前`;
-    }
-    const diffDay = Math.floor(diffHour / 24);
-    if (diffDay < 30) {
-        return `${diffDay} 天前`;
-    }
-    const diffMonth = Math.floor(diffDay / 30);
-    if (diffMonth < 12) {
-        return `${diffMonth} 个月前`;
-    }
-    const diffYear = Math.floor(diffDay / 365);
-    return `${diffYear} 年前`;
+dayjs.extend(relativeTime);
+dayjs.extend(duration);
+dayjs.locale('zh-cn');
+
+export function getTimeAgo(timestamp: string | number | Date): string {
+    return dayjs(timestamp).fromNow();
 }
 
 export function getDurationString(durationNs: number): string {
-    const durationSec = Math.floor(durationNs / 1e9);
-    const minutes = Math.floor(durationSec / 60);
-    const seconds = durationSec % 60;
+    const durationMs = Math.floor(durationNs / 1e6);
+    const d = dayjs.duration(durationMs);
+    const minutes = d.minutes();
+    const seconds = d.seconds();
+
     if (minutes > 0) {
         return `${minutes} 分钟 ${seconds} 秒`;
     }

@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
 export interface HeaderContextType {
     // zone
@@ -17,7 +17,7 @@ export const HeaderContext = createContext<HeaderContextType | undefined>(undefi
 export const useHeaderContext = () => {
     const context = useContext(HeaderContext);
     if (context === undefined) {
-        throw new Error("useHeaderContext must be used within a HeaderProvider");
+        throw new Error('useHeaderContext must be used within a HeaderProvider');
     }
     return context;
 };

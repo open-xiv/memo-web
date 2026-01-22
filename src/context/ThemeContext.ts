@@ -1,3 +1,1 @@
-export const useTheme = () => {
-
-};
+export const useTheme = () => {};
