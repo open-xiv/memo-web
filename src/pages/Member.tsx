@@ -5,12 +5,14 @@ import FightDuty from "@/components/custom/fight/FightDuty.tsx";
 import { getMemberHiddenStatus } from "@/api/sumemo.ts";
 import { BarHidden } from "@/components/custom/bar/BarHidden.tsx";
 import { BarError } from "@/components/custom/bar/BarError.tsx";
-import { BarSavage } from "@/components/custom/bar/BarSavage";
+import { BarCategory, type RaidMode } from "@/components/custom/bar/BarCategory.tsx";
 import { BarLoading } from "@/components/custom/bar/BarLoading.tsx";
+import { BarContribution } from "@/components/custom/bar/BarContribution.tsx";
 
-const SAVAGE_NAME = { cn: "零式", en: "Savage" };
 const SAVAGE_INTEREST = [1321, 1323, 1325, 1327];
 const SAVAGE_PAST_INTEREST = [1257, 1259, 1261, 1263];
+
+const ULTIMATE_INTEREST = [777];
 
 export default function Member() {
     const { setMemberInfo } = useHeaderContext();
@@ -22,8 +24,15 @@ export default function Member() {
 
     const [isHidden, setIsHidden] = useState<boolean>(false);
 
+    const [mode, setMode] = useState<RaidMode>('savage');
     const [isHistoryMode, setIsHistoryMode] = useState<true | false>(false);
-    const interest = isHistoryMode ? SAVAGE_PAST_INTEREST : SAVAGE_INTEREST;
+    
+    let interest: number[] = [];
+    if (mode === 'savage') {
+        interest = isHistoryMode ? SAVAGE_PAST_INTEREST : SAVAGE_INTEREST;
+    } else {
+        interest = ULTIMATE_INTEREST;
+    }
 
     useEffect(() => {
         const fetchMemberHiddenStatus = async () => {
@@ -57,13 +66,20 @@ export default function Member() {
     return (
             <div className="flex flex-col gap-6">
 
-                {/* savage */}
-                <BarSavage message={SAVAGE_NAME.cn} detail={SAVAGE_NAME.en} setHistoryMode={setIsHistoryMode} />
+                {/* Category Selector */}
+                <BarCategory mode={mode} setMode={setMode} setHistoryMode={setIsHistoryMode} isHistoryMode={isHistoryMode} />
+
+                {/* Contribute */}
+                <BarContribution
+                        message="欢迎向我们贡献各类副本时间轴、机制等信息。"
+                        linkText="点击跳转"
+                        linkUrl="https://github.com/open-xiv/assets/tree/main/duty"
+                />
 
                 {/* Dev */}
-                {!isHistoryMode && <BarLoading message={`重量级 首周 仅提供粗粒度支持`} detail={`时长 & 血量进度`} />}
+                {mode === 'savage' && !isHistoryMode && <BarLoading message={`重量级 首周 仅提供粗粒度支持`} detail={`时长 & 血量进度`} />}
 
-                {/* savage zones */}
+                {/* zones */}
                 {
                     memberName && memberServer ? (
                             interest.map(zoneID => (
