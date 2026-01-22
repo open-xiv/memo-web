@@ -8,7 +8,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import FightCardNameplate from "@/components/custom/fight/card/FightCardNameplate.tsx";
 import { Link } from "react-router-dom";
 import { FightCardProgress } from "@/components/custom/fight/card/FightCardProgress.tsx";
-import {getTimeAgo, getTimeRangeString, getTimeString} from "@/lib/time.ts";
+import {getTimeAgo, getTimeRangeString, getTimeString, getDurationString} from "@/lib/time.ts";
 import { cn } from "@/lib/utils.ts";
 
 interface FightCardProps {
@@ -36,6 +36,9 @@ export default function FightCard({ fight }: FightCardProps) {
     // time string
     const timeString = fight.duration > 0 ? getTimeRangeString(fight.start_time, fight.duration) : getTimeString(fight.start_time);
     const timeAgo = getTimeAgo(fight.start_time);
+
+    // duration text
+    const durationText = fight.duration > 0 ? getDurationString(fight.duration) : "";
 
     // fight short comments
     const comments = crypto.randomUUID().slice(0, 4);
@@ -101,10 +104,13 @@ export default function FightCard({ fight }: FightCardProps) {
                     {/* time */}
                     <div className="flex flex-col items-end justify-start gap-0.5">
                         <span className="text-card-foreground text-sm font-medium">{timeString[0]}</span>
-                        <div className="flex items-center gap-1 text-card-ring text-xs font-normal">
-                            <span>{timeAgo}</span>
-                            <span>·</span>
-                            <span>{timeString[1]}</span>
+                        <div className="flex flex-col items-end gap-0 text-card-ring text-[10px] font-normal leading-tight">
+                            {durationText && <span>{durationText}</span>}
+                            <div className="flex items-center gap-1 opacity-80">
+                                <span>{timeAgo}</span>
+                                <span>·</span>
+                                <span>{timeString[1]}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

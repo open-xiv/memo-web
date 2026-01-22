@@ -110,3 +110,13 @@ export function getTimeAgo(timestamp: string | number | Date): string {
     const diffYear = Math.floor(diffDay / 365);
     return `${diffYear} 年前`;
 }
+
+export function getDurationString(durationNs: number): string {
+    const durationSec = Math.floor(durationNs / 1e9);
+    const minutes = Math.floor(durationSec / 60);
+    const seconds = durationSec % 60;
+    if (minutes > 0) {
+        return `${minutes} 分钟 ${seconds} 秒`;
+    }
+    return `${seconds} 秒`;
+}
