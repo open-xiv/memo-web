@@ -23,6 +23,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
 
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
     const [expandLatest, setExpandLatest] = useState<"min" | "max">("min");
+    const [limit, setLimit] = useState<number>(20);
 
     const [dutyName, setDutyName] = useState<string | null>(null);
     const [duty, setDuty] = useState<Duty | null>(null);
@@ -118,7 +119,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
 
                 const [bestProgress, latestProgresses] = await Promise.all([
                     getMemberZoneBestProgress(memberName, memberServer, zoneID),
-                    getMemberZoneLatestProgresses(memberName, memberServer, zoneID),
+                    getMemberZoneLatestProgresses(memberName, memberServer, zoneID, limit),
                 ]);
 
                 setBestFight(bestProgress?.fight || null);
@@ -140,7 +141,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
         };
 
         void fetchData();
-    }, [zoneID, memberName, memberServer]);
+    }, [zoneID, memberName, memberServer, limit]);
 
     if (isLoading) {
         return (
@@ -171,7 +172,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                         <div className={`w-0.5 bg-subparagraph`} />
                         <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20 transition-colors duration-300">
                             <span className="text-subparagraph-foreground font-medium"> 近期记录 </span>
-                            <span className="text-subparagraph-ring text-sm font-medium"> {expandLatest === "max" ? "最近的五十次进度" : "最近的三次进度"} </span>
+                            <span className="text-subparagraph-ring text-sm font-medium"> {expandLatest === "max" ? `最近的 ${limit} 次进度` : "最近的三次进度"} </span>
                         </div>
                     </div>
                     {expandLatest === "max" ? (
@@ -308,6 +309,23 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                                     </div>
                                 </div>
                             ))}
+                            {/* Load More Button */}
+                            {limit < 50 && latestFights.length >= limit && (
+                                <div 
+                                    className="group relative mx-1 flex h-10 items-center justify-center cursor-pointer transition-all duration-300"
+                                    onClick={() => setLimit(50)}
+                                >
+                                    {/* Background Layer */}
+                                    <div className="absolute inset-0 rounded-lg border border-card-border bg-card blur-[1px] transition-all duration-300 group-hover:border-primary-ring/50 group-hover:bg-accent/50" />
+                                    
+                                    {/* Content */}
+                                    <div className="relative z-10 flex items-center gap-2">
+                                        <span className="text-xs font-bold text-muted-foreground transition-colors duration-300 group-hover:text-primary-ring">
+                                            加载更多记录
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         latestFights.length > 0 && (
