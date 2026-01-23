@@ -10,7 +10,7 @@ interface FightCardProgressProps {
 export function FightCardProgress({ fight }: FightCardProgressProps) {
     // progress
     fight.progress.enemy_hp = fight.clear ? 0 : fight.progress.enemy_hp;
-    const progressHpRemain = fight.progress.enemy_hp ? Math.round(fight.progress.enemy_hp * 100) : undefined;
+    const progressHpRemain = fight.progress.enemy_hp ? (fight.progress.enemy_hp * 100).toFixed(1) : undefined;
 
     // progress string for dynamic color
     let progressString = fight.progress.phase ? fight.progress.phase : `${progressHpRemain}%`;
@@ -30,7 +30,7 @@ export function FightCardProgress({ fight }: FightCardProgressProps) {
                         {/* Unclear: Progress */}
                         {!fight.clear && (
                             <div className="flex gap-x-0.5 items-baseline">
-                                <span className={cn('text-right justify-start text-xs font-medium')}>剩余血量</span>
+                                <span className={cn('text-right justify-start text-[10px] font-medium')}>剩余血量</span>
                                 <span className={cn('text-right justify-start text-sm font-mono font-semibold')}>
                                     {progressHpRemain}
                                 </span>
