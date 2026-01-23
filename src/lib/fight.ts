@@ -12,6 +12,7 @@ export interface FightGroup {
     isClear: boolean;
     phase: string;
     enemyHp: number;
+    enemyId?: number;
 
     startTime: string;
     duration: number;
@@ -47,7 +48,7 @@ export function groupFightsByTeam(fights: Fight[]): FightGroup[] {
                 totalDeaths: {},
                 isClear: fight.clear,
                 phase: fight.progress.phase && fight.progress.phase !== 'N/A' ? fight.progress.phase : '',
-                enemyHp: fight.progress.enemy_hp || 100,
+                enemyHp: fight.progress.enemy_hp,
                 startTime: fight.start_time,
                 duration: fight.duration,
             });
@@ -78,17 +79,19 @@ export function groupFightsByTeam(fights: Fight[]): FightGroup[] {
             group.duration = (fightEndTime - new Date(group.startTime).getTime()) * 1e6;
         }
 
-        // update best progress logic
-        if (fight.clear) {
+        // update best progress: find fight with max enemy_id
+        const clearedFight = group.fights.find(f => f.clear);
+        if (clearedFight) {
             group.isClear = true;
             group.enemyHp = 0;
+            group.enemyId = clearedFight.progress.enemy_id;
+            group.phase = clearedFight.progress.phase && clearedFight.progress.phase !== 'N/A' ? clearedFight.progress.phase : '';
         } else {
-            if (fight.progress.phase && fight.progress.phase !== 'N/A' && (!group.phase || group.phase === 'N/A')) {
-                group.phase = fight.progress.phase;
-            }
-            if (fight.progress.enemy_hp !== undefined && fight.progress.enemy_hp < group.enemyHp) {
-                group.enemyHp = fight.progress.enemy_hp;
-            }
+            const maxEnemyId = Math.max(...group.fights.map(f => f.progress.enemy_id));
+            const bestFight = group.fights.find(f => f.progress.enemy_id === maxEnemyId)!;
+            group.enemyId = bestFight.progress.enemy_id;
+            group.enemyHp = bestFight.progress.enemy_hp;
+            group.phase = bestFight.progress.phase && bestFight.progress.phase !== 'N/A' ? bestFight.progress.phase : '';
         }
 
         fight.players.forEach((p) => {
