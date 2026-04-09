@@ -65,6 +65,7 @@ export default function Home() {
                             <img
                                 src={AttendanceImage}
                                 alt="Attendance Analysis"
+                                loading="lazy"
                                 className={cn('h-52 rounded-md transition-colors duration-300', isDark && 'invert')}
                             />
                             <figcaption
@@ -84,6 +85,7 @@ export default function Home() {
                             <img
                                 src={ClearImage}
                                 alt="Clear Rate Analysis"
+                                loading="lazy"
                                 className={cn('h-52 rounded-md transition-colors duration-300', isDark && 'invert')}
                             />
                             <figcaption
@@ -104,6 +106,7 @@ export default function Home() {
                             <img
                                 src={RateImage}
                                 alt="Pass Rate Analysis"
+                                loading="lazy"
                                 className={cn('h-52 rounded-md transition-colors duration-300', isDark && 'invert')}
                             />
                             <figcaption

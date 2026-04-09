@@ -1,6 +1,5 @@
 import {
     getDutyByID,
-    getDutyNameByID,
     getMemberZoneBestProgress,
     getMemberZoneLatestProgresses,
 } from '@/api/sumemo.ts';
@@ -27,7 +26,6 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
     const [expandLatest, setExpandLatest] = useState<'min' | 'max'>('min');
 
-    const [dutyName, setDutyName] = useState<string | null>(null);
     const [duty, setDuty] = useState<Duty | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -36,31 +34,16 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
         return groupFightsByTeam(latestFights);
     }, [latestFights]);
 
-    useEffect(() => {
-        const fetchZone = async () => {
-            try {
-                const dutyData = await getDutyByID(zoneID);
-                setDuty(dutyData);
-            } catch (error) {
-                console.error('Error fetching zone data:', error);
-                setDuty(null);
-            }
-        };
-
-        void fetchZone();
-    }, [zoneID]);
-
     const fetchData = useCallback(
         async (showLoading = true, currentLimit = 50) => {
             try {
-                const dutyName = await getDutyNameByID(zoneID);
-                setDutyName(dutyName);
-
-                const [bestProgress, latestProgresses] = await Promise.all([
+                const [dutyData, bestProgress, latestProgresses] = await Promise.all([
+                    getDutyByID(zoneID),
                     getMemberZoneBestProgress(memberName, memberServer, zoneID),
                     getMemberZoneLatestProgresses(memberName, memberServer, zoneID, currentLimit),
                 ]);
 
+                setDuty(dutyData);
                 setBestFight(bestProgress?.fight || null);
 
                 setLatestFights(
@@ -71,6 +54,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                 );
             } catch (err) {
                 console.error(`failed to fetch progress for zone ${zoneID}:`, err);
+                setDuty(null);
                 setBestFight(null);
                 setLatestFights([]);
             } finally {
@@ -84,7 +68,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
 
     useEffect(() => {
         void fetchData(true);
-    }, [zoneID, memberName, memberServer, fetchData]);
+    }, [fetchData]);
 
     function fightContent() {
         if (isLoading) {
@@ -113,7 +97,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                 </div>
                 {bestFight && (
                     <div className={`mx-1`}>
-                        <FightCard fight={bestFight} />
+                        <FightCard fight={bestFight} duty={duty} />
                     </div>
                 )}
 
@@ -133,7 +117,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                 {expandLatest === 'max' ? (
                     <FightGroup groups={groupFights} memberName={memberName} memberServer={memberServer} />
                 ) : (
-                    <FightList fights={latestFights} />
+                    <FightList fights={latestFights} duty={duty} />
                 )}
             </>
         );
@@ -142,7 +126,7 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
     return (
         <div className="flex flex-col items-start gap-4 w-full transition-[min-height] duration-300 ease-in-out">
             {/* Zone Name */}
-            {dutyName && <BarZone message={dutyName} detail={duty?.code} setExpand={setExpandLatest} />}
+            {duty?.name && <BarZone message={duty.name} detail={duty.code} setExpand={setExpandLatest} />}
 
             {/* Fight Content */}
             {fightContent()}

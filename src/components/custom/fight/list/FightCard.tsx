@@ -2,8 +2,7 @@ import type { Fight } from '@/types/fight.ts';
 import type { Duty } from '@/types/duty.ts';
 import { useHeaderContext } from '@/context/HeaderContext.ts';
 import { getJobIconByID, sortPlayersInFight } from '@/lib/job.ts';
-import { useEffect, useState } from 'react';
-import { getDutyByID } from '@/api/sumemo.ts';
+import { useMemo } from 'react';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card.tsx';
 import FightCardNameplate from '@/components/custom/fight/list/FightCardNameplate.tsx';
 import { Link } from 'react-router-dom';
@@ -13,54 +12,46 @@ import { cn } from '@/lib/utils.ts';
 
 interface FightCardProps {
     fight: Fight;
+    duty?: Duty | null;
 }
 
-export default function FightCard({ fight }: FightCardProps) {
+export default function FightCard({ fight, duty }: FightCardProps) {
     const { memberName, memberServer } = useHeaderContext();
 
-    const [duty, setDuty] = useState<Duty | null>(null);
-
-    // sort member by job role
-    fight = sortPlayersInFight(fight);
+    // sort member by job role (memoized)
+    const sortedFight = useMemo(() => sortPlayersInFight(fight), [fight]);
 
     // local player job icon
     const localPlayer =
         (memberName && memberServer
-            ? fight.players.find((p) => p.name === memberName && p.server === memberServer)
-            : fight.players[0]) || undefined;
+            ? sortedFight.players.find((p) => p.name === memberName && p.server === memberServer)
+            : sortedFight.players[0]) || undefined;
     const localJobIcon = localPlayer ? getJobIconByID(localPlayer.job_id) : undefined;
 
     // party job icons
-    const partyPlayers = fight.players.filter((p) => p.name !== localPlayer?.name);
+    const partyPlayers = sortedFight.players.filter((p) => p.name !== localPlayer?.name);
     const partyJobIcons = partyPlayers.map((p) => getJobIconByID(p.job_id)).filter(Boolean) as string[];
 
     // time string
     const timeString =
-        fight.duration > 0 ? getTimeRangeString(fight.start_time, fight.duration) : getTimeString(fight.start_time);
-    const timeAgo = getTimeAgo(fight.start_time);
+        sortedFight.duration > 0 ? getTimeRangeString(sortedFight.start_time, sortedFight.duration) : getTimeString(sortedFight.start_time);
+    const timeAgo = getTimeAgo(sortedFight.start_time);
 
     // duration text
-    const durationText = fight.duration > 0 ? getDurationString(fight.duration) : undefined;
+    const durationText = sortedFight.duration > 0 ? getDurationString(sortedFight.duration) : undefined;
 
-    // fight short comments
-    const comments = crypto.randomUUID().slice(0, 4);
+    // stable short id derived from fight data
+    const comments = useMemo(() => {
+        const raw = `${sortedFight.start_time}-${sortedFight.zone_id}`;
+        let hash = 0;
+        for (let i = 0; i < raw.length; i++) {
+            hash = ((hash << 5) - hash + raw.charCodeAt(i)) | 0;
+        }
+        return Math.abs(hash).toString(16).slice(0, 4);
+    }, [sortedFight.start_time, sortedFight.zone_id]);
 
     // name or alias
-    const zoneAlias = duty?.code || duty?.name.split(' ').at(-1) || `Zone ${fight.zone_id}`;
-
-    useEffect(() => {
-        const fetchZone = async () => {
-            try {
-                const zoneData = await getDutyByID(fight.zone_id);
-                setDuty(zoneData);
-            } catch (error) {
-                console.error('Error fetching zone data:', error);
-                setDuty(null);
-            }
-        };
-
-        void fetchZone();
-    }, [fight.zone_id]);
+    const zoneAlias = duty?.code || duty?.name.split(' ').at(-1) || `Zone ${sortedFight.zone_id}`;
 
     return (
         <div className="w-80 relative flex flex-col items-center p-4 gap-2">
@@ -143,7 +134,7 @@ export default function FightCard({ fight }: FightCardProps) {
                     ))}
                 </div>
                 {/* progress */}
-                <FightCardProgress fight={fight} />
+                <FightCardProgress fight={sortedFight} />
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils.ts';
 import { getJobIconByID } from '@/lib/job.ts';
 import type { Player } from '@/types/fight.ts';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { Crown } from 'lucide-react';
 
 interface PlayerCardProps {
@@ -20,15 +20,11 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
 
     const isDeathKing = deathCount === maxDeaths && maxDeaths > 0 && maxDeathCount <= 2;
 
-    const [isHover, setIsHover] = useState(false);
-
     return (
         <Link
             to={`/member/${playerSlub}`}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
             className={cn(
-                'relative flex w-60 items-center justify-center rounded-lg transition-colors duration-300 px-3',
+                'group relative flex w-60 items-center justify-center rounded-lg transition-colors duration-300 px-3',
             )}
         >
             <div
@@ -36,9 +32,7 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300 z-10',
                     isCurrentMember
                         ? 'border-primary-ring bg-primary'
-                        : isHover
-                          ? 'border-secondary-border bg-secondary'
-                          : 'border-border bg-transparent',
+                        : 'border-border bg-transparent group-hover:border-secondary-border group-hover:bg-secondary',
                 )}
             />
 
@@ -104,9 +98,11 @@ interface PlayerGridProps {
 }
 
 export function PlayerGrid({ players, totalDeaths, memberName, memberServer }: PlayerGridProps) {
-    const allDeaths = Object.values(totalDeaths);
-    const maxDeaths = Math.max(...allDeaths);
-    const maxDeathCount = allDeaths.filter((d) => d === maxDeaths).length;
+    const { maxDeaths, maxDeathCount } = useMemo(() => {
+        const allDeaths = Object.values(totalDeaths);
+        const max = Math.max(...allDeaths);
+        return { maxDeaths: max, maxDeathCount: allDeaths.filter((d) => d === max).length };
+    }, [totalDeaths]);
 
     return (
         <div className="w-fit grid grid-cols-2  lg:grid-cols-4 gap-3 py-2 transition-colors duration-300 items-start justify-items-start">
