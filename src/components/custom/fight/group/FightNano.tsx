@@ -3,21 +3,22 @@ import { sortPlayersInFight } from '@/lib/job.ts';
 import { FightCardProgress } from '@/components/custom/fight/list/FightCardProgress.tsx';
 import { getDurationString, getTimeRangeString, getTimeString } from '@/lib/time.ts';
 import { cn } from '@/lib/utils.ts';
+import { useMemo } from 'react';
 
 interface FightNanoProps {
     fight: Fight;
 }
 
 export default function FightNano({ fight }: FightNanoProps) {
-    // sort member by job role
-    fight = sortPlayersInFight(fight);
+    // sort member by job role (memoized)
+    const sortedFight = useMemo(() => sortPlayersInFight(fight), [fight]);
 
     // time string
     const timeString =
-        fight.duration > 0 ? getTimeRangeString(fight.start_time, fight.duration) : getTimeString(fight.start_time);
+        sortedFight.duration > 0 ? getTimeRangeString(sortedFight.start_time, sortedFight.duration) : getTimeString(sortedFight.start_time);
 
     // duration text
-    const durationText = fight.duration > 0 ? getDurationString(fight.duration) : undefined;
+    const durationText = sortedFight.duration > 0 ? getDurationString(sortedFight.duration) : undefined;
 
     return (
         <div className="w-80 relative flex flex-row items-baseline justify-between p-4 gap-2">
@@ -25,7 +26,7 @@ export default function FightNano({ fight }: FightNanoProps) {
 
             {/* progress  */}
             <div className="z-20">
-                <FightCardProgress fight={fight} />
+                <FightCardProgress fight={sortedFight} />
             </div>
 
             {/* time */}

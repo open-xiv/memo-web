@@ -17,6 +17,7 @@ const getFastestUrl = (): Promise<string> => {
             }
         }
 
+        let raceResolved = false;
         let failedCount = 0;
         BASE_URLS.forEach((url) => {
             axios
@@ -26,7 +27,11 @@ const getFastestUrl = (): Promise<string> => {
                         resolve(url);
                         resolved = true;
                     }
-                    if (typeof localStorage !== 'undefined') {
+                    // Always update cache with the fastest responding node,
+                    // so next page load uses the current best even if we
+                    // resolved from cache this time.
+                    if (!raceResolved && typeof localStorage !== 'undefined') {
+                        raceResolved = true;
                         localStorage.setItem(STORAGE_KEY, url);
                     }
                 })

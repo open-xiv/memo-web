@@ -1,12 +1,14 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import Home from '../pages/Home';
-import Member from '../pages/Member';
 import Header from '@/components/layout/Header.tsx';
 import { HeaderProvider } from '@/provider/HeaderProvider.tsx';
 import ErrorPage from '@/pages/ErrorPage';
-import Help from '@/pages/Help.tsx';
 import { ThemeProvider } from '@/provider/ThemeProvider.tsx';
 import Footer from '@/components/layout/Footer.tsx';
+
+const Home = lazy(() => import('../pages/Home'));
+const Member = lazy(() => import('../pages/Member'));
+const Help = lazy(() => import('../pages/Help'));
 
 const AppLayout = () => {
     return (
@@ -16,7 +18,9 @@ const AppLayout = () => {
                     <Header />
                     <main className="flex m-4 mt-1">
                         <div className={`mx-auto container`}>
-                            <Outlet />
+                            <Suspense>
+                                <Outlet />
+                            </Suspense>
                         </div>
                     </main>
                     <Footer />
