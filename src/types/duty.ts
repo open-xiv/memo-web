@@ -1,9 +1,4 @@
-export interface LogsZone {
-    zone: number;
-    encounter: number;
-}
-
-export interface Duty {
+export interface DutySummary {
     zone_id: number;
     name: string;
     name_en: string | undefined;
@@ -12,7 +7,14 @@ export interface Duty {
     party_size: number;
     level: number;
     logs_encounter: LogsEncounter | undefined;
+}
 
+export interface LogsZone {
+    zone: number;
+    encounter: number;
+}
+
+export interface Duty extends DutySummary {
     timeline: Timeline | undefined;
 }
 

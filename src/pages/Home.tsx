@@ -10,6 +10,28 @@ import { cn } from '@/lib/utils.ts';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { BarSearchGuide } from '@/components/custom/bar/BarSearchGuide.tsx';
 import { Kbd } from '@/components/ui/kbd.tsx';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
+import { useState } from 'react';
+
+function AnalysisImage({ src, alt, isDark }: { src: string; alt: string; isDark: boolean }) {
+    const [loaded, setLoaded] = useState(false);
+    return (
+        <div className="relative h-52">
+            {!loaded && <Skeleton className="absolute inset-0 h-52 w-full rounded-md" />}
+            <img
+                src={src}
+                alt={alt}
+                loading="lazy"
+                onLoad={() => setLoaded(true)}
+                className={cn(
+                    'h-52 rounded-md transition-all duration-300',
+                    isDark && 'invert',
+                    !loaded && 'opacity-0',
+                )}
+            />
+        </div>
+    );
+}
 
 export default function Home() {
     const { theme } = useTheme();
@@ -62,12 +84,7 @@ export default function Home() {
                     <div className="w-max h-full flex items-center justify-start gap-4 z-20 mb-2">
                         {/* Attendance */}
                         <figure key="attendance-analysis">
-                            <img
-                                src={AttendanceImage}
-                                alt="Attendance Analysis"
-                                loading="lazy"
-                                className={cn('h-52 rounded-md transition-colors duration-300', isDark && 'invert')}
-                            />
+                            <AnalysisImage src={AttendanceImage} alt="Attendance Analysis" isDark={isDark} />
                             <figcaption
                                 className={`text-card-foreground mt-2 mx-2 flex items-baseline justify-start font-medium`}
                             >
@@ -82,12 +99,7 @@ export default function Home() {
 
                         {/* Clear */}
                         <figure key="clear-analysis">
-                            <img
-                                src={ClearImage}
-                                alt="Clear Rate Analysis"
-                                loading="lazy"
-                                className={cn('h-52 rounded-md transition-colors duration-300', isDark && 'invert')}
-                            />
+                            <AnalysisImage src={ClearImage} alt="Clear Rate Analysis" isDark={isDark} />
                             <figcaption
                                 className={`text-card-foreground mt-2 mx-2 flex items-baseline justify-start font-medium`}
                             >
@@ -103,12 +115,7 @@ export default function Home() {
 
                         {/* Pass Rate */}
                         <figure key="rate-analysis">
-                            <img
-                                src={RateImage}
-                                alt="Pass Rate Analysis"
-                                loading="lazy"
-                                className={cn('h-52 rounded-md transition-colors duration-300', isDark && 'invert')}
-                            />
+                            <AnalysisImage src={RateImage} alt="Pass Rate Analysis" isDark={isDark} />
                             <figcaption
                                 className={`text-card-foreground mt-2 mx-2 flex items-baseline justify-start font-medium`}
                             >

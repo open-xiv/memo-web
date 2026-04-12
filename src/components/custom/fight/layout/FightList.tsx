@@ -1,10 +1,10 @@
 import type { Fight } from '@/types/fight.ts';
-import type { Duty } from '@/types/duty.ts';
+import type { DutySummary } from '@/types/duty.ts';
 import FightCard from '@/components/custom/fight/list/FightCard.tsx';
 
 interface FightListProps {
     fights: Fight[];
-    duty?: Duty | null;
+    duty?: DutySummary | null;
 }
 
 export function FightList({ fights, duty }: FightListProps) {
