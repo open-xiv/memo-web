@@ -1,74 +1,75 @@
 import {
-    getDutyByID,
-    getMemberZoneBestProgress,
     getMemberZoneLatestProgresses,
 } from '@/api/sumemo.ts';
 import type { Fight } from '@/types/fight.ts';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import FightCard from '@/components/custom/fight/list/FightCard.tsx';
-import type { Duty } from '@/types/duty.ts';
+import type { DutySummary } from '@/types/duty.ts';
 import { BarZone } from '@/components/custom/bar/BarZone.tsx';
 import { BarLoading } from '@/components/custom/bar/BarLoading.tsx';
 import { BarLogsNav } from '@/components/custom/bar/BarLogsNav.tsx';
 import { FightGroup } from '@/components/custom/fight/layout/FightGroup.tsx';
 import { FightList } from '@/components/custom/fight/layout/FightList.tsx';
 import { groupFightsByTeam } from '@/lib/fight.ts';
+import type { MemberZoneProgress } from '@/types/member.ts';
 
 interface ZoneProgressRowProps {
     zoneID: number;
     memberName: string;
     memberServer: string;
+    initialDuty?: DutySummary;
+    initialBest?: MemberZoneProgress | null;
 }
 
-export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProgressRowProps) {
-    const [bestFight, setBestFight] = useState<Fight | null>(null);
+export default function FightDuty({ zoneID, memberName, memberServer, initialDuty, initialBest }: ZoneProgressRowProps) {
+    const [bestFight, setBestFight] = useState<Fight | null>(initialBest?.fight || null);
 
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
     const [expandLatest, setExpandLatest] = useState<'min' | 'max'>('min');
+    const [latestLoaded, setLatestLoaded] = useState(false);
 
-    const [duty, setDuty] = useState<Duty | null>(null);
+    const [duty, setDuty] = useState<DutySummary | null>(initialDuty || null);
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(!initialDuty);
 
     const groupFights = useMemo(() => {
         return groupFightsByTeam(latestFights);
     }, [latestFights]);
 
-    const fetchData = useCallback(
-        async (showLoading = true, currentLimit = 50) => {
-            try {
-                const [dutyData, bestProgress, latestProgresses] = await Promise.all([
-                    getDutyByID(zoneID),
-                    getMemberZoneBestProgress(memberName, memberServer, zoneID),
-                    getMemberZoneLatestProgresses(memberName, memberServer, zoneID, currentLimit),
-                ]);
-
-                setDuty(dutyData);
-                setBestFight(bestProgress?.fight || null);
-
-                setLatestFights(
-                    latestProgresses
-                        .map((p) => p.fight)
-                        .filter((f): f is Fight => f !== null)
-                        .sort((a, b) => new Date(b.start_time).getTime() - new Date(a.start_time).getTime()),
-                );
-            } catch (err) {
-                console.error(`failed to fetch progress for zone ${zoneID}:`, err);
-                setDuty(null);
-                setBestFight(null);
-                setLatestFights([]);
-            } finally {
-                if (showLoading) {
-                    setIsLoading(false);
-                }
-            }
-        },
-        [zoneID, memberName, memberServer],
-    );
-
+    // Update state when overview data arrives asynchronously
     useEffect(() => {
-        void fetchData(true);
-    }, [fetchData]);
+        if (initialDuty) {
+            setDuty(initialDuty);
+            setIsLoading(false);
+        }
+        if (initialBest !== undefined) {
+            setBestFight(initialBest?.fight || null);
+        }
+    }, [initialDuty, initialBest]);
+
+    // Fetch latest fights on demand (when user expands)
+    const fetchLatest = useCallback(async () => {
+        if (latestLoaded) return;
+        try {
+            const latestProgresses = await getMemberZoneLatestProgresses(memberName, memberServer, zoneID, 50);
+            setLatestFights(
+                latestProgresses
+                    .map((p) => p.fight)
+                    .filter((f): f is Fight => f !== null)
+                    .sort((a, b) => new Date(b.start_time).getTime() - new Date(a.start_time).getTime()),
+            );
+            setLatestLoaded(true);
+        } catch (err) {
+            console.error(`failed to fetch latest progresses for zone ${zoneID}:`, err);
+        }
+    }, [zoneID, memberName, memberServer, latestLoaded]);
+
+    // Trigger latest fetch when expanded
+    useEffect(() => {
+        if (expandLatest === 'max') {
+            void fetchLatest();
+        }
+    }, [expandLatest, fetchLatest]);
 
     function fightContent() {
         if (isLoading) {
@@ -108,14 +109,20 @@ export default function FightDuty({ zoneID, memberName, memberServer }: ZoneProg
                         <span className="text-subparagraph-ring text-sm font-medium">
                             {' '}
                             {expandLatest === 'max'
-                                ? `最近的 ${latestFights.length} 次进度`
-                                : `最近的 ${Math.min(latestFights.length, 3)} 次进度`}{' '}
+                                ? latestLoaded
+                                    ? `最近的 ${latestFights.length} 次进度`
+                                    : `加载中...`
+                                : `展开查看`}{' '}
                         </span>
                     </div>
                 </div>
 
                 {expandLatest === 'max' ? (
-                    <FightGroup groups={groupFights} memberName={memberName} memberServer={memberServer} />
+                    latestLoaded ? (
+                        <FightGroup groups={groupFights} memberName={memberName} memberServer={memberServer} />
+                    ) : (
+                        <BarLoading message={`近期记录加载中`} />
+                    )
                 ) : (
                     <FightList fights={latestFights} duty={duty} />
                 )}

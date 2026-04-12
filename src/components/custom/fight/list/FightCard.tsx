@@ -1,5 +1,5 @@
 import type { Fight } from '@/types/fight.ts';
-import type { Duty } from '@/types/duty.ts';
+import type { DutySummary } from '@/types/duty.ts';
 import { useHeaderContext } from '@/context/HeaderContext.ts';
 import { getJobIconByID, sortPlayersInFight } from '@/lib/job.ts';
 import { useMemo } from 'react';
@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils.ts';
 
 interface FightCardProps {
     fight: Fight;
-    duty?: Duty | null;
+    duty?: DutySummary | null;
 }
 
 export default function FightCard({ fight, duty }: FightCardProps) {
