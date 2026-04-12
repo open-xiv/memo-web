@@ -9,6 +9,7 @@ const getFastestUrl = (): Promise<string> => {
     return new Promise((resolve) => {
         let resolved = false;
 
+        // Use cached node immediately if available
         if (typeof localStorage !== 'undefined') {
             const cached = localStorage.getItem(STORAGE_KEY);
             if (cached && BASE_URLS.includes(cached)) {
@@ -17,30 +18,23 @@ const getFastestUrl = (): Promise<string> => {
             }
         }
 
+        // No cache: resolve with default immediately, update in background
+        if (!resolved) {
+            resolve(BASE_URLS[0]);
+        }
+
+        // Always race in background to find and cache the fastest node
         let raceResolved = false;
-        let failedCount = 0;
         BASE_URLS.forEach((url) => {
             axios
                 .get(`${url}/status`, { timeout: 5000 })
                 .then(() => {
-                    if (!resolved) {
-                        resolve(url);
-                        resolved = true;
-                    }
-                    // Always update cache with the fastest responding node,
-                    // so next page load uses the current best even if we
-                    // resolved from cache this time.
                     if (!raceResolved && typeof localStorage !== 'undefined') {
                         raceResolved = true;
                         localStorage.setItem(STORAGE_KEY, url);
                     }
                 })
-                .catch(() => {
-                    failedCount++;
-                    if (failedCount === BASE_URLS.length && !resolved) {
-                        resolve(BASE_URLS[0]);
-                    }
-                });
+                .catch(() => {});
         });
     });
 };
