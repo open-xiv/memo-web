@@ -53,6 +53,11 @@
     --color-zone-border: var(--zone-border);
     --color-zone-ring: var(--zone-ring);
 
+    --color-sync: var(--sync);
+    --color-sync-foreground: var(--sync-foreground);
+    --color-sync-border: var(--sync-border);
+    --color-sync-ring: var(--sync-ring);
+
     --color-paragraph: var(--paragraph);
     --color-paragraph-foreground: var(--paragraph-foreground);
     --color-paragraph-ring: var(--paragraph-ring);
@@ -140,6 +145,11 @@
     --zone-foreground: var(--color-teal-950);
     --zone-border: var(--color-teal-300);
     --zone-ring: var(--color-teal-600);
+
+    --sync: var(--color-sky-50);
+    --sync-foreground: var(--color-sky-900);
+    --sync-border: var(--color-sky-300);
+    --sync-ring: var(--color-sky-500);
 
     --paragraph: var(--color-red-400);
     --paragraph-foreground: var(--color-red-950);
@@ -231,6 +241,11 @@
     --zone-border: var(--color-teal-700);
     --zone-ring: var(--color-teal-400);
 
+    --sync: var(--color-sky-950);
+    --sync-foreground: var(--color-sky-200);
+    --sync-border: var(--color-sky-700);
+    --sync-ring: var(--color-sky-400);
+
     --paragraph: var(--color-red-500);
     --paragraph-foreground: var(--color-red-200);
     --paragraph-ring: var(--color-red-300);
@@ -283,4 +298,14 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+}
+
+@keyframes breathe {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.08; }
+}
+
+@keyframes breathe-sm {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.05; }
 }

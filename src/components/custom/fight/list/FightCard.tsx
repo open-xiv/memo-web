@@ -13,9 +13,10 @@ import { cn } from '@/lib/utils.ts';
 interface FightCardProps {
     fight: Fight;
     duty?: DutySummary | null;
+    selected?: boolean;
 }
 
-export default function FightCard({ fight, duty }: FightCardProps) {
+export default function FightCard({ fight, duty, selected }: FightCardProps) {
     const { memberName, memberServer } = useHeaderContext();
 
     // sort member by job role (memoized)
@@ -50,12 +51,17 @@ export default function FightCard({ fight, duty }: FightCardProps) {
         return Math.abs(hash).toString(16).slice(0, 4);
     }, [sortedFight.start_time, sortedFight.zone_id]);
 
-    // name or alias
-    const zoneAlias = duty?.code || duty?.name.split(' ').at(-1) || `Zone ${sortedFight.zone_id}`;
+    // name or alias — prefer full name for overview display
+    const zoneAlias = duty?.name || duty?.code || `Zone ${sortedFight.zone_id}`;
 
     return (
-        <div className="w-80 relative flex flex-col items-center p-4 gap-2">
-            <div className="w-full h-full absolute inset-0 bg-card rounded-lg border border-card-border blur-[2px] z-10"></div>
+        <div className="group w-80 relative flex flex-col items-center p-4 gap-2">
+            <div className={cn(
+                'w-full h-full absolute inset-0 rounded-lg border blur-[2px] z-10 transition-all duration-300',
+                selected
+                    ? 'bg-primary/30 border-primary-border'
+                    : 'bg-card border-card-border group-hover:border-secondary-border group-hover:bg-secondary/30',
+            )} />
 
             {/* local job icon - zone - time */}
             <div className="w-full flex items-start justify-between z-20">

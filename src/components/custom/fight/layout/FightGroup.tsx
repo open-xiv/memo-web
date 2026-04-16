@@ -49,9 +49,9 @@ function FightGroupItem({ group, memberName, memberServer }: FightGroupItemProps
                             <span className={cn('text-secondary-foreground font-medium')}>
                                 {getTimeAgo(group.startTime)}
                             </span>
-                            <span className="text-muted-foreground">·</span>
-                            <span className="text-muted-foreground">{date}</span>
-                            <span className="text-muted-foreground">{timeRange}</span>
+                            <span className="hidden sm:inline text-muted-foreground">·</span>
+                            <span className="hidden sm:inline text-muted-foreground">{date}</span>
+                            <span className="hidden sm:inline text-muted-foreground">{timeRange}</span>
                         </div>
                     </div>
 
