@@ -1,12 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useHeaderContext } from '@/context/HeaderContext.ts';
-import FightDuty from '@/components/custom/fight/FightDuty.tsx';
 import { getMemberOverview } from '@/api/sumemo.ts';
 import { BarHidden } from '@/components/custom/bar/BarHidden.tsx';
 import { BarError } from '@/components/custom/bar/BarError.tsx';
 import { BarCategory, type RaidMode } from '@/components/custom/bar/BarCategory.tsx';
 import { BarContribution } from '@/components/custom/bar/BarContribution.tsx';
+import { FightOverview } from '@/components/custom/fight/layout/FightOverview.tsx';
+import { FightDetail } from '@/components/custom/fight/layout/FightDetail.tsx';
 import type { MemberOverview } from '@/types/member.ts';
 
 const SAVAGE_INTEREST = [1321, 1323, 1325, 1327];
@@ -25,6 +26,7 @@ export default function Member() {
 
     const [mode, setMode] = useState<RaidMode>('savage');
     const [isHistoryMode, setIsHistoryMode] = useState<true | false>(false);
+    const [selectedZone, setSelectedZone] = useState<number | null>(null);
 
     let interest: number[];
     if (mode === 'savage') {
@@ -32,6 +34,11 @@ export default function Member() {
     } else {
         interest = ULTIMATE_INTEREST;
     }
+
+    // Reset selected zone when switching modes
+    useEffect(() => {
+        setSelectedZone(null);
+    }, [mode, isHistoryMode]);
 
     useEffect(() => {
         const fetchOverview = async () => {
@@ -73,6 +80,8 @@ export default function Member() {
         return <BarHidden />;
     }
 
+    const selectedDuty = selectedZone ? overview?.zones[String(selectedZone)]?.duty : undefined;
+
     return (
         <div className="flex flex-col gap-6">
             {/* Category Selector */}
@@ -87,21 +96,26 @@ export default function Member() {
             <BarContribution />
 
             {/* zones */}
-            {memberName && memberServer ? (
-                interest.map((zoneID) => {
-                    const zoneData = overview?.zones[String(zoneID)];
-                    return (
-                        <FightDuty
-                            key={`${memberName}-${memberServer}-${zoneID}`}
-                            zoneID={zoneID}
+            {memberName && memberServer && overview ? (
+                <>
+                    <FightOverview
+                        overview={overview}
+                        interest={interest}
+                        selectedZone={selectedZone}
+                        onSelectZone={setSelectedZone}
+                    />
+
+                    {selectedZone && (
+                        <FightDetail
+                            key={`${memberName}-${memberServer}-${selectedZone}`}
+                            zoneID={selectedZone}
                             memberName={memberName}
                             memberServer={memberServer}
-                            initialDuty={zoneData?.duty}
-                            initialBest={zoneData?.best}
+                            duty={selectedDuty}
                         />
-                    );
-                })
-            ) : (
+                    )}
+                </>
+            ) : memberName && memberServer ? null : (
                 <BarError message="无效信息" />
             )}
         </div>

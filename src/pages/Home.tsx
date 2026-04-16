@@ -9,6 +9,7 @@ import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils.ts';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { BarSearchGuide } from '@/components/custom/bar/BarSearchGuide.tsx';
+import { SyncStatus } from '@/components/custom/sync/SyncStatus.tsx';
 import { Kbd } from '@/components/ui/kbd.tsx';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 import { useState } from 'react';
@@ -141,6 +142,9 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
+
+                {/* Sync Status */}
+                <SyncStatus />
 
                 {/* Guide */}
                 <BarSearchGuide message={`使用指南`} />

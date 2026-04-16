@@ -105,7 +105,7 @@ export function PlayerGrid({ players, totalDeaths, memberName, memberServer }: P
     }, [totalDeaths]);
 
     return (
-        <div className="w-fit grid grid-cols-2  lg:grid-cols-4 gap-3 py-2 transition-colors duration-300 items-start justify-items-start">
+        <div className="w-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 py-2 transition-colors duration-300 items-start justify-items-start">
             {players.map((player) => {
                 const playerSlub = `${player.name}@${player.server}`;
                 const deaths = totalDeaths[playerSlub] || 0;
