@@ -55,7 +55,7 @@ export default function FightCard({ fight, duty, selected }: FightCardProps) {
     const zoneAlias = duty?.name || duty?.code || `Zone ${sortedFight.zone_id}`;
 
     return (
-        <div className="group w-80 relative flex flex-col items-center p-4 gap-2">
+        <div className="group min-w-80 relative flex flex-col items-center p-4 gap-2">
             <div className={cn(
                 'w-full h-full absolute inset-0 rounded-lg border blur-[2px] z-10 transition-all duration-300',
                 selected
@@ -71,33 +71,11 @@ export default function FightCard({ fight, duty, selected }: FightCardProps) {
                     {/* zone */}
                     <div className="flex flex-col items-start justify-center gap-0.5">
                         <div className={`flex gap-0.5 items-center`}>
-                            <span className="text-card-foreground text-sm font-medium">{zoneAlias}</span>
+                            <span className="text-card-foreground text-sm font-medium whitespace-nowrap">{zoneAlias}</span>
                         </div>
                         <span className="text-card-ring text-xs font-normal font-mono">#{comments}</span>
                     </div>
 
-                    {/* death */}
-                    {localPlayer?.death_count != undefined && localPlayer.death_count !== 0 && (
-                        <div
-                            className={cn(
-                                'relative flex items-center justify-center rounded-lg transition-all duration-300 px-2.5 py-1 opacity-80',
-                            )}
-                        >
-                            <div
-                                className={cn(
-                                    'absolute inset-0 rounded-lg border blur-[1px] transition-all duration-300',
-                                    'bg-secondary border-secondary-border',
-                                )}
-                            />
-
-                            <div className="relative z-20 flex h-full items-baseline justify-center gap-1 transition-colors duration-300">
-                                <span className="text-secondary-foreground text-sm font-medium">
-                                    {localPlayer?.death_count}
-                                </span>
-                                <span className="text-secondary-ring text-xs font-medium">次倒地</span>
-                            </div>
-                        </div>
-                    )}
                 </div>
 
                 {/* time */}
