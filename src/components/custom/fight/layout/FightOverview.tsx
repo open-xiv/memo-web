@@ -79,7 +79,7 @@ function EmptyFightCard({ duty, selected }: { duty?: DutySummary; selected?: boo
     const icons = useRandomParty();
 
     return (
-        <div className="group w-80 relative flex flex-col items-center p-4 gap-2">
+        <div className="group min-w-80 relative flex flex-col items-center p-4 gap-2">
             <div
                 className={cn(
                     'w-full h-full absolute inset-0 rounded-lg border blur-[2px] z-10 transition-all duration-300',
