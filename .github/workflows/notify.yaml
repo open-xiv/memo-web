@@ -1,0 +1,71 @@
+# memo-web's actual deploy is owned by Cloudflare Pages (auto-builds on
+# push). This workflow runs the same `npm ci && npm run build` sequence
+# CF Pages does, purely as a build canary — if our build passes, CF's
+# very-likely passes too. The status reported to #开发 reflects this
+# canary; CF's own pipeline runs in parallel and we don't gate on it.
+name: build-and-notify
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**/*.md"
+      - ".gitignore"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute version
+        id: version
+        run: |
+          raw=$(git describe --tags --always 2>/dev/null || echo "${GITHUB_SHA::7}")
+          case "$raw" in
+            *-g*) base=${raw%-g*}; n=${base##*-}; tag=${base%-*}; pretty="$tag+$n" ;;
+            *)    pretty="$raw" ;;
+          esac
+          echo "version=$pretty" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build
+
+  notify:
+    needs: [build]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute status
+        id: s
+        run: |
+          if [[ "${{ needs.build.result }}" == "success" ]]; then
+            echo "status=success" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=failure" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: open-xiv/gha-actions/notify-deploy@v1
+        with:
+          status: ${{ steps.s.outputs.status }}
+          service: memo-web
+          kind: deploy
+          version: ${{ needs.build.outputs.version }}
+          cluster: cloudflare-pages
+          build: ${{ needs.build.result }}
+          webhook_token: ${{ secrets.GHA_WEBHOOK_TOKEN }}
