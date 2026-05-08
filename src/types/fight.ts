@@ -9,8 +9,8 @@ export interface Player {
 }
 
 export interface FightProgress {
-    phase: string;
-    subphase: string;
+    phase: number;
+    phase_name?: string;
 
     enemy_id: number;
     enemy_hp: number;
@@ -25,4 +25,8 @@ export interface Fight {
 
     clear: boolean;
     progress: FightProgress;
+
+    comments?: string[] | null;
+    tags?: string[] | null;
+    meta?: Record<string, unknown> | null;
 }

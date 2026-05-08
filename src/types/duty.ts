@@ -9,27 +9,10 @@ export interface DutySummary {
     logs_encounter: LogsEncounter | undefined;
 }
 
-export interface LogsZone {
-    zone: number;
-    encounter: number;
-}
-
-export interface Duty extends DutySummary {
-    timeline: Timeline | undefined;
-}
-
 export interface LogsEncounter {
     zone: number;
     encounter: number;
     difficulty: number | undefined;
 }
 
-export interface Timeline {
-    start_phase: string;
-    phases: Phase[];
-}
-
-export interface Phase {
-    name: string;
-    checkpoints: string[];
-}
+export type Duty = DutySummary;

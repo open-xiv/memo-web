@@ -13,7 +13,7 @@ export function FightCardProgress({ fight }: FightCardProgressProps) {
     const progressHpRemain = fight.progress.enemy_hp ? (fight.progress.enemy_hp * 100).toFixed(1) : undefined;
 
     // progress string for dynamic color
-    let progressString = fight.progress.phase ? fight.progress.phase : `${progressHpRemain}%`;
+    let progressString = fight.progress.phase_name || `${progressHpRemain}%`;
     progressString = fight.clear ? `已完成` : progressString;
 
     return (
@@ -45,7 +45,7 @@ export function FightCardProgress({ fight }: FightCardProgressProps) {
                     </div>
                 </TooltipTrigger>
 
-                {!fight.clear && fight.progress.phase !== 'N/A' && (
+                {!fight.clear && fight.progress.phase_name && (
                     <TooltipContent>
                         <span
                             className={cn(
@@ -53,7 +53,7 @@ export function FightCardProgress({ fight }: FightCardProgressProps) {
                                 getTextGradient(progressString),
                             )}
                         >
-                            {fight.progress.phase}
+                            {fight.progress.phase_name}
                         </span>
                     </TooltipContent>
                 )}

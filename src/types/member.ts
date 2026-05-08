@@ -10,7 +10,6 @@ export interface MemberZoneProgress {
     name: string;
     server: string;
     zone_id: number;
-    fight_id?: number;
     clear: boolean;
     progress: FightProgress;
     fight?: Fight;

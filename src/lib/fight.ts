@@ -47,7 +47,7 @@ export function groupFightsByTeam(fights: Fight[]): FightGroup[] {
                 fights: [],
                 totalDeaths: {},
                 isClear: fight.clear,
-                phase: fight.progress.phase && fight.progress.phase !== 'N/A' ? fight.progress.phase : '',
+                phase: fight.progress.phase_name || '',
                 enemyHp: fight.progress.enemy_hp,
                 startTime: fight.start_time,
                 duration: fight.duration,
@@ -85,14 +85,14 @@ export function groupFightsByTeam(fights: Fight[]): FightGroup[] {
             group.isClear = true;
             group.enemyHp = 0;
             group.enemyId = clearedFight.progress.enemy_id;
-            group.phase = clearedFight.progress.phase && clearedFight.progress.phase !== 'N/A' ? clearedFight.progress.phase : '';
+            group.phase = clearedFight.progress.phase_name || '';
         } else {
             const maxEnemyId = Math.max(...group.fights.map(f => f.progress.enemy_id));
             const fightsWithMaxEnemy = group.fights.filter(f => f.progress.enemy_id === maxEnemyId);
             const bestFight = fightsWithMaxEnemy.reduce((best, f) => f.progress.enemy_hp < best.progress.enemy_hp ? f : best);
             group.enemyId = bestFight.progress.enemy_id;
             group.enemyHp = bestFight.progress.enemy_hp;
-            group.phase = bestFight.progress.phase && bestFight.progress.phase !== 'N/A' ? bestFight.progress.phase : '';
+            group.phase = bestFight.progress.phase_name || '';
         }
 
         fight.players.forEach((p) => {
