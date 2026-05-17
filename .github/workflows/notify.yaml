@@ -66,6 +66,7 @@ jobs:
           service: memo-web
           kind: deploy
           version: ${{ needs.build.outputs.version }}
-          cluster: cloudflare-pages
+          cluster: ''
           build: ${{ needs.build.result }}
-          webhook_token: ${{ secrets.GHA_WEBHOOK_TOKEN }}
+          webhook_url: ${{ secrets.BOT_WEBHOOK_URL }}
+          webhook_token: ${{ secrets.BOT_WEBHOOK_TOKEN }}
