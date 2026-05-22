@@ -1,5 +1,4 @@
 import axios from 'axios';
-import type { Duty } from '@/types/duty.ts';
 import type { MemberOverview, MemberSearchResult, MemberZoneProgress } from '@/types/member.ts';
 
 const BASE_URLS = ['https://api.sumemo.dev', 'https://sumemo.diemoe.net'];
@@ -52,16 +51,6 @@ apiClient.interceptors.request.use(async (config) => {
     config.baseURL = await baseUrlPromise;
     return config;
 });
-
-export const getDutyByID = async (zoneID: number): Promise<Duty> => {
-    const res = await apiClient.get(`/duty/${zoneID}`);
-    return res.data;
-};
-
-export const getDutyNameByID = async (zoneID: number): Promise<string> => {
-    const res = await apiClient.get(`/duty/${zoneID}/name`);
-    return res.data.name;
-};
 
 export const getMemberHiddenStatus = async (name: string, server: string): Promise<boolean> => {
     const res = await apiClient.get(`/member/${name}@${server}/hidden`);
