@@ -14,9 +14,10 @@ interface FightCardProps {
     fight: Fight;
     duty?: DutySummary | null;
     selected?: boolean;
+    showPhase?: boolean;
 }
 
-export default function FightCard({ fight, duty, selected }: FightCardProps) {
+export default function FightCard({ fight, duty, selected, showPhase }: FightCardProps) {
     const { memberName, memberServer } = useHeaderContext();
 
     // sort member by job role (memoized)
@@ -118,7 +119,7 @@ export default function FightCard({ fight, duty, selected }: FightCardProps) {
                     ))}
                 </div>
                 {/* progress */}
-                <FightCardProgress fight={sortedFight} />
+                <FightCardProgress fight={sortedFight} showPhase={showPhase} />
             </div>
         </div>
     );

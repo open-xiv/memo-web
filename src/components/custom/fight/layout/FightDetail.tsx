@@ -13,9 +13,10 @@ interface FightDetailProps {
     memberName: string;
     memberServer: string;
     duty?: DutySummary;
+    showPhase?: boolean;
 }
 
-export function FightDetail({ zoneID, memberName, memberServer, duty }: FightDetailProps) {
+export function FightDetail({ zoneID, memberName, memberServer, duty, showPhase }: FightDetailProps) {
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [expand, setExpand] = useState<'min' | 'max'>('min');
@@ -44,6 +45,11 @@ export function FightDetail({ zoneID, memberName, memberServer, duty }: FightDet
         void fetchLatest();
     }, [fetchLatest]);
 
+    // No records to show — hide the detail entirely
+    if (!isLoading && displayGroups.length === 0 && !duty?.logs_encounter) {
+        return null;
+    }
+
     return (
         <div className="flex flex-col items-start gap-4 w-full">
             {duty?.name && (
@@ -53,7 +59,7 @@ export function FightDetail({ zoneID, memberName, memberServer, duty }: FightDet
             {isLoading ? (
                 <BarLoading message="近期记录加载中" />
             ) : displayGroups.length > 0 ? (
-                <FightGroup groups={displayGroups} memberName={memberName} memberServer={memberServer} />
+                <FightGroup groups={displayGroups} memberName={memberName} memberServer={memberServer} showPhase={showPhase} />
             ) : duty?.logs_encounter ? (
                 <BarLogsNav
                     memberName={memberName}
@@ -61,9 +67,7 @@ export function FightDetail({ zoneID, memberName, memberServer, duty }: FightDet
                     zone={duty.logs_encounter.zone}
                     encounter={duty.logs_encounter.encounter}
                 />
-            ) : (
-                <div className="text-sm text-muted-foreground ml-3">暂无近期记录</div>
-            )}
+            ) : null}
         </div>
     );
 }

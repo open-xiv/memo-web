@@ -1,63 +1,47 @@
 import { cn } from '@/lib/utils.ts';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip.tsx';
 import { getTextGradient } from '@/lib/gradient.ts';
 import type { Fight } from '@/types/fight.ts';
 
 interface FightCardProgressProps {
     fight: Fight;
+    // Phase is only meaningful for ultimate; savage just shows remaining hp.
+    showPhase?: boolean;
 }
 
-export function FightCardProgress({ fight }: FightCardProgressProps) {
+export function FightCardProgress({ fight, showPhase = false }: FightCardProgressProps) {
     // progress
     fight.progress.enemy_hp = fight.clear ? 0 : fight.progress.enemy_hp;
     const progressHpRemain = fight.progress.enemy_hp ? (fight.progress.enemy_hp * 100).toFixed(1) : undefined;
 
-    // progress string for dynamic color
-    let progressString = fight.progress.phase_name || `${progressHpRemain}%`;
-    progressString = fight.clear ? `已完成` : progressString;
+    const phaseName = fight.progress.phase_name;
+    const hasPhase = showPhase && !!phaseName;
 
     return (
-        <div className={`flex gap-x-1 gap-y-1 items-center justify-end`}>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    {/* default */}
-                    <div
-                        className={cn(
-                            'flex items-baseline justify-end gap-x-1 transition-colors duration-300 text-secondary-foreground',
-                            fight.clear ? 'text-primary-foreground' : 'text-secondary-foreground', //cn("bg-clip-text text-transparent", getTextGradient(progressString)),
-                        )}
-                    >
-                        {/* Unclear: Progress */}
-                        {!fight.clear && (
-                            <div className="flex gap-x-0.5 items-baseline">
-                                <span className={cn('text-right justify-start text-[10px] font-medium')}>剩余血量</span>
-                                <span className={cn('text-right justify-start text-sm font-mono font-semibold')}>
-                                    {progressHpRemain}
-                                </span>
-                                <span className={cn('text-right justify-start text-xs font-medium')}>%</span>
-                            </div>
-                        )}
-
-                        {/* Clear */}
-                        {fight.clear && (
-                            <span className={cn('text-right justify-start text-sm font-medium')}>已完成</span>
-                        )}
-                    </div>
-                </TooltipTrigger>
-
-                {!fight.clear && fight.progress.phase_name && (
-                    <TooltipContent>
+        <div className={cn('flex gap-x-1 items-baseline justify-end')}>
+            {fight.clear ? (
+                <span className={cn('text-sm font-medium text-primary-foreground')}>已完成</span>
+            ) : (
+                <div className="flex gap-x-1 items-baseline justify-end text-secondary-foreground">
+                    {/* Ultimate: phase */}
+                    {hasPhase && (
                         <span
                             className={cn(
-                                'text-right justify-start text-sm font-medium bg-clip-text text-transparent',
-                                getTextGradient(progressString),
+                                'text-sm font-medium bg-clip-text text-transparent',
+                                getTextGradient(phaseName),
                             )}
                         >
-                            {fight.progress.phase_name}
+                            {phaseName}
                         </span>
-                    </TooltipContent>
-                )}
-            </Tooltip>
+                    )}
+
+                    {/* remaining hp */}
+                    <div className="flex gap-x-0.5 items-baseline">
+                        <span className={cn('text-[10px] font-medium')}>余</span>
+                        <span className={cn('text-sm font-mono font-semibold')}>{progressHpRemain}</span>
+                        <span className={cn('text-xs font-medium')}>%</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

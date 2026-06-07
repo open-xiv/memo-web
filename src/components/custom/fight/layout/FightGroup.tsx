@@ -10,6 +10,7 @@ interface FightGroupProps {
     groups: FightGroupType[];
     memberName: string;
     memberServer: string;
+    showPhase?: boolean;
 }
 
 function getTimeRangeDisplay(startTime: string, duration: number): [string, string] {
@@ -28,9 +29,10 @@ interface FightGroupItemProps {
     group: FightGroupType;
     memberName: string;
     memberServer: string;
+    showPhase?: boolean;
 }
 
-function FightGroupItem({ group, memberName, memberServer }: FightGroupItemProps) {
+function FightGroupItem({ group, memberName, memberServer, showPhase }: FightGroupItemProps) {
     const [date, timeRange] = getTimeRangeDisplay(group.startTime, group.duration);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
@@ -76,7 +78,7 @@ function FightGroupItem({ group, memberName, memberServer }: FightGroupItemProps
                             >
                                 <div className="flex flex-col gap-2">
                                     {group.fights.map((fight) => (
-                                        <FightNano key={fight.start_time} fight={fight} />
+                                        <FightNano key={fight.start_time} fight={fight} showPhase={showPhase} />
                                     ))}
                                 </div>
                             </PopoverContent>
@@ -112,11 +114,17 @@ function FightGroupItem({ group, memberName, memberServer }: FightGroupItemProps
     );
 }
 
-export function FightGroup({ groups, memberName, memberServer }: FightGroupProps) {
+export function FightGroup({ groups, memberName, memberServer, showPhase }: FightGroupProps) {
     return (
         <div className="w-full flex flex-col gap-6">
             {groups.map((group) => (
-                <FightGroupItem key={group.key} group={group} memberName={memberName} memberServer={memberServer} />
+                <FightGroupItem
+                    key={group.key}
+                    group={group}
+                    memberName={memberName}
+                    memberServer={memberServer}
+                    showPhase={showPhase}
+                />
             ))}
         </div>
     );

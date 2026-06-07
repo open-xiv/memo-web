@@ -13,7 +13,7 @@ import type { MemberOverview } from '@/types/member.ts';
 const SAVAGE_INTEREST = [1321, 1323, 1325, 1327];
 const SAVAGE_PAST_INTEREST = [1257, 1259, 1261, 1263];
 
-const ULTIMATE_INTEREST = [777];
+const ULTIMATE_INTEREST = [1363, 777];
 
 export default function Member() {
     const { setMemberInfo } = useHeaderContext();
@@ -24,7 +24,7 @@ export default function Member() {
     const [isHidden, setIsHidden] = useState<boolean>(false);
     const [overview, setOverview] = useState<MemberOverview | null>(null);
 
-    const [mode, setMode] = useState<RaidMode>('savage');
+    const [mode, setMode] = useState<RaidMode>('ultimate');
     const [isHistoryMode, setIsHistoryMode] = useState<true | false>(false);
     const [selectedZone, setSelectedZone] = useState<number | null>(null);
 
@@ -35,9 +35,11 @@ export default function Member() {
         interest = ULTIMATE_INTEREST;
     }
 
-    // Reset selected zone when switching modes
+    // Default to expanding the first zone (detail mode) on mount and when switching modes
     useEffect(() => {
-        setSelectedZone(null);
+        const modeInterest =
+            mode === 'savage' ? (isHistoryMode ? SAVAGE_PAST_INTEREST : SAVAGE_INTEREST) : ULTIMATE_INTEREST;
+        setSelectedZone(modeInterest[0] ?? null);
     }, [mode, isHistoryMode]);
 
     useEffect(() => {
@@ -82,6 +84,9 @@ export default function Member() {
 
     const selectedDuty = selectedZone ? overview?.zones[String(selectedZone)]?.duty : undefined;
 
+    // phase progress is only shown for ultimate
+    const showPhase = mode === 'ultimate';
+
     return (
         <div className="flex flex-col gap-6">
             {/* Category Selector */}
@@ -103,6 +108,7 @@ export default function Member() {
                         interest={interest}
                         selectedZone={selectedZone}
                         onSelectZone={setSelectedZone}
+                        showPhase={showPhase}
                     />
 
                     {selectedZone && (
@@ -112,6 +118,7 @@ export default function Member() {
                             memberName={memberName}
                             memberServer={memberServer}
                             duty={selectedDuty}
+                            showPhase={showPhase}
                         />
                     )}
                 </>

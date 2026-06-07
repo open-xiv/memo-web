@@ -7,9 +7,10 @@ import { useMemo } from 'react';
 
 interface FightNanoProps {
     fight: Fight;
+    showPhase?: boolean;
 }
 
-export default function FightNano({ fight }: FightNanoProps) {
+export default function FightNano({ fight, showPhase }: FightNanoProps) {
     // sort member by job role (memoized)
     const sortedFight = useMemo(() => sortPlayersInFight(fight), [fight]);
 
@@ -26,7 +27,7 @@ export default function FightNano({ fight }: FightNanoProps) {
 
             {/* progress  */}
             <div className="z-20">
-                <FightCardProgress fight={sortedFight} />
+                <FightCardProgress fight={sortedFight} showPhase={showPhase} />
             </div>
 
             {/* time */}

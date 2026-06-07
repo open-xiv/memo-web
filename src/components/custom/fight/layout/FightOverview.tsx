@@ -10,6 +10,7 @@ interface FightOverviewProps {
     interest: number[];
     selectedZone: number | null;
     onSelectZone: (zoneID: number) => void;
+    showPhase?: boolean;
 }
 
 const GLITCH_CHARS = '0123456789ABCDEF:.-';
@@ -54,10 +55,26 @@ function rollParty() {
 
 const ALL_COMBAT_IDS = [...TANK_IDS, ...HEALER_IDS, ...DPS_IDS];
 
+// Preload every combat job icon once so the shuffle animation reuses cached
+// pngs instead of re-fetching a png on each swap.
+let combatIconsPreloaded = false;
+function preloadCombatIcons() {
+    if (combatIconsPreloaded) return;
+    combatIconsPreloaded = true;
+    for (const id of ALL_COMBAT_IDS) {
+        const src = getJobIconByID(id);
+        if (src) {
+            const img = new Image();
+            img.src = src;
+        }
+    }
+}
+
 function useRandomParty() {
     const [icons, setIcons] = useState(rollParty);
 
     useEffect(() => {
+        preloadCombatIcons();
         const id = setInterval(() => {
             setIcons((prev) => {
                 const next = [...prev];
@@ -138,7 +155,7 @@ function EmptyFightCard({ duty, selected }: { duty?: DutySummary; selected?: boo
     );
 }
 
-export function FightOverview({ overview, interest, selectedZone, onSelectZone }: FightOverviewProps) {
+export function FightOverview({ overview, interest, selectedZone, onSelectZone, showPhase }: FightOverviewProps) {
     return (
         <div className="flex flex-wrap gap-2">
             {interest.map((zoneID) => {
@@ -154,7 +171,7 @@ export function FightOverview({ overview, interest, selectedZone, onSelectZone }
                         onClick={() => onSelectZone(zoneID)}
                     >
                         {bestFight ? (
-                            <FightCard fight={bestFight} duty={duty} selected={isSelected} />
+                            <FightCard fight={bestFight} duty={duty} selected={isSelected} showPhase={showPhase} />
                         ) : (
                             <EmptyFightCard duty={duty} selected={isSelected} />
                         )}
