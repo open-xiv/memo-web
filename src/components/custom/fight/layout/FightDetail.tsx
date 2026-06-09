@@ -13,13 +13,14 @@ interface FightDetailProps {
     memberName: string;
     memberServer: string;
     duty?: DutySummary;
+    hasClear?: boolean;
     showPhase?: boolean;
 }
 
-export function FightDetail({ zoneID, memberName, memberServer, duty, showPhase }: FightDetailProps) {
+export function FightDetail({ zoneID, memberName, memberServer, duty, hasClear, showPhase }: FightDetailProps) {
     const [latestFights, setLatestFights] = useState<Fight[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [expand, setExpand] = useState<'min' | 'max'>('min');
+    const [expand, setExpand] = useState<'min' | 'max'>(hasClear ? 'min' : 'max');
 
     const groupFights = useMemo(() => groupFightsByTeam(latestFights), [latestFights]);
     const displayGroups = expand === 'min' ? groupFights.slice(0, 1) : groupFights;
@@ -53,7 +54,7 @@ export function FightDetail({ zoneID, memberName, memberServer, duty, showPhase 
     return (
         <div className="flex flex-col items-start gap-4 w-full">
             {duty?.name && (
-                <BarZone message={duty.name} detail={duty.code} setExpand={setExpand} />
+                <BarZone message={duty.name} detail={duty.code} expand={expand} setExpand={setExpand} />
             )}
 
             {isLoading ? (

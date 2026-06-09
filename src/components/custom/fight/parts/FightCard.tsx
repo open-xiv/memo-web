@@ -4,9 +4,9 @@ import { useHeaderContext } from '@/context/HeaderContext.ts';
 import { getJobIconByID, sortPlayersInFight } from '@/lib/job.ts';
 import { useMemo } from 'react';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card.tsx';
-import FightCardNameplate from '@/components/custom/fight/list/FightCardNameplate.tsx';
+import FightCardNameplate from '@/components/custom/fight/parts/FightCardNameplate.tsx';
 import { Link } from 'react-router-dom';
-import { FightCardProgress } from '@/components/custom/fight/list/FightCardProgress.tsx';
+import { FightProgress } from '@/components/custom/fight/parts/FightProgress.tsx';
 import { getDurationString, getTimeAgo, getTimeRangeString, getTimeString } from '@/lib/time.ts';
 import { cn } from '@/lib/utils.ts';
 
@@ -60,8 +60,8 @@ export default function FightCard({ fight, duty, selected, showPhase }: FightCar
             <div className={cn(
                 'w-full h-full absolute inset-0 rounded-lg border blur-[2px] z-10 transition-all duration-300',
                 selected
-                    ? 'bg-primary/30 border-primary-border'
-                    : 'bg-card border-card-border group-hover:border-secondary-border group-hover:bg-secondary/30',
+                    ? 'bg-accent-pink/30 border-accent-pink-border'
+                    : 'bg-surface-card border-surface-card-border group-hover:border-accent-amber-border group-hover:bg-accent-amber/30',
             )} />
 
             {/* local job icon - zone - time */}
@@ -72,18 +72,18 @@ export default function FightCard({ fight, duty, selected, showPhase }: FightCar
                     {/* zone */}
                     <div className="flex flex-col items-start justify-center gap-0.5">
                         <div className={`flex gap-0.5 items-center`}>
-                            <span className="text-card-foreground text-sm font-medium whitespace-nowrap">{zoneAlias}</span>
+                            <span className="text-on-surface-card text-sm font-medium whitespace-nowrap">{zoneAlias}</span>
                         </div>
-                        <span className="text-card-ring text-xs font-normal font-mono">#{comments}</span>
+                        <span className="text-surface-card-strong text-xs font-normal font-mono">#{comments}</span>
                     </div>
 
                 </div>
 
                 {/* time */}
                 <div className="flex flex-col items-end justify-start gap-0.5">
-                    <span className="text-card-foreground text-sm font-medium">{timeString[0]}</span>
-                    <div className="flex flex-col items-end gap-0 text-card-ring text-tiny">
-                        {durationText && <span className={cn('text-muted-foreground')}>{durationText}</span>}
+                    <span className="text-on-surface-card text-sm font-medium">{timeString[0]}</span>
+                    <div className="flex flex-col items-end gap-0 text-surface-card-strong text-tiny">
+                        {durationText && <span className={cn('text-on-surface-muted')}>{durationText}</span>}
                         <div className="flex items-center gap-1 opacity-80">
                             <span>{timeAgo}</span>
                             <span>·</span>
@@ -119,7 +119,7 @@ export default function FightCard({ fight, duty, selected, showPhase }: FightCar
                     ))}
                 </div>
                 {/* progress */}
-                <FightCardProgress fight={sortedFight} showPhase={showPhase} />
+                <FightProgress fight={sortedFight} showPhase={showPhase} />
             </div>
         </div>
     );

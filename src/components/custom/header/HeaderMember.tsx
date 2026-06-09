@@ -30,7 +30,7 @@ export function HeaderMember() {
         >
             <div
                 className={cn(
-                    'absolute inset-0 rounded-lg border blur-[2px] transition-colors duration-300 border-primary-border bg-primary',
+                    'absolute inset-0 rounded-lg border blur-[2px] transition-colors duration-300 border-accent-pink-border bg-accent-pink',
                 )}
             />
 
@@ -38,13 +38,13 @@ export function HeaderMember() {
                 <WrapperIcon
                     icon={UserIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--primary-ring)"
-                    secondary="var(--primary-foreground)"
+                    primary="var(--accent-pink-strong)"
+                    secondary="var(--on-accent-pink)"
                 />
 
                 <div
                     className={cn(
-                        'flex justify-start items-baseline gap-1 text-primary-foreground transition-colors duration-300 max-w-xs overflow-hidden',
+                        'flex justify-start items-baseline gap-1 text-on-accent-pink transition-colors duration-300 max-w-xs overflow-hidden',
                     )}
                 >
                     <div>

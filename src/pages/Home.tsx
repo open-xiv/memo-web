@@ -44,21 +44,21 @@ export default function Home() {
                 {/* Intro */}
                 <BarIntro message={`欢迎来到`} detail={`酥卷`} />
                 <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-card rounded-lg border border-card-border blur-[2px] z-10" />
+                    <div className="w-full h-full absolute bg-surface-card rounded-lg border border-surface-card-border blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <div className={`ml-2 flex flex-col gap-y-2.5 text-card-foreground`}>
+                        <div className={`ml-2 flex flex-col gap-y-2.5 text-on-surface-card`}>
                             <p>
-                                酥卷 <span className={`text-primary-ring text-sm font-mono`}>SuMeMo</span> 是 FFXIV 的{' '}
-                                <span className="text-category-ring">简化</span> 战斗记录平台，提供{' '}
-                                <span className="text-category-ring">当前版本</span> 的高难副本进度查询。
+                                酥卷 <span className={`text-accent-pink-strong text-sm font-mono`}>SuMeMo</span> 是 FFXIV 的{' '}
+                                <span className="text-accent-purple-strong">简化</span> 战斗记录平台，提供{' '}
+                                <span className="text-accent-purple-strong">当前版本</span> 的高难副本进度查询。
                             </p>
                             <p>
-                                本项目完全 <span className={`text-secondary-ring`}>用爱发电</span>，旨在解决{' '}
-                                <span className="text-category-ring">进度诈骗</span> 带来的痛苦。
+                                本项目完全 <span className={`text-accent-amber-strong`}>用爱发电</span>，旨在解决{' '}
+                                <span className="text-accent-purple-strong">进度诈骗</span> 带来的痛苦。
                             </p>
                             <div className={`flex items-center justify-start gap-x-2`}>
                                 <Link to={'/help'}>
-                                    <Badge variant="outline" className={`text-secondary-foreground`}>
+                                    <Badge variant="outline" className={`text-on-accent-amber`}>
                                         {' '}
                                         常见问题{' '}
                                     </Badge>
@@ -68,7 +68,7 @@ export default function Home() {
                                         'https://discord.com/channels/1387568839285280812/1387793471405821992/1445256557418905750'
                                     }
                                 >
-                                    <Badge variant="outline" className={`text-primary-foreground`}>
+                                    <Badge variant="outline" className={`text-on-accent-pink`}>
                                         {' '}
                                         原始统计数据{' '}
                                     </Badge>
@@ -81,17 +81,17 @@ export default function Home() {
                 {/* Analysis */}
                 <BarAnalysis message={`数据披露`} detail={`中量级`}></BarAnalysis>
                 <ScrollArea className="mx-4 w-11/12 relative flex items-center justify-center whitespace-nowrap">
-                    {/*<div className="w-full h-full absolute bg-card rounded-lg border border-card-border blur-[2px] z-10" />*/}
+                    {/*<div className="w-full h-full absolute bg-surface-card rounded-lg border border-surface-card-border blur-[2px] z-10" />*/}
                     <div className="w-max h-full flex items-center justify-start gap-4 z-20 mb-2">
                         {/* Attendance */}
                         <figure key="attendance-analysis">
                             <AnalysisImage src={AttendanceImage} alt="Attendance Analysis" isDark={isDark} />
                             <figcaption
-                                className={`text-card-foreground mt-2 mx-2 flex items-baseline justify-start font-medium`}
+                                className={`text-on-surface-card mt-2 mx-2 flex items-baseline justify-start font-medium`}
                             >
                                 <span className={`font-semibold mr-1`}> 1. </span>
                                 中量级参加人数
-                                <span className={`text-primary-foreground text-sm font-semibold ml-2`}>
+                                <span className={`text-on-accent-pink text-sm font-semibold ml-2`}>
                                     {' '}
                                     至少进入一次副本{' '}
                                 </span>
@@ -102,12 +102,12 @@ export default function Home() {
                         <figure key="clear-analysis">
                             <AnalysisImage src={ClearImage} alt="Clear Rate Analysis" isDark={isDark} />
                             <figcaption
-                                className={`text-card-foreground mt-2 mx-2 flex items-baseline justify-start font-medium`}
+                                className={`text-on-surface-card mt-2 mx-2 flex items-baseline justify-start font-medium`}
                             >
                                 <span className={`font-semibold mr-1`}> 2. </span>
                                 中量级通关人数
-                                <span className={`text-primary-foreground text-sm font-semibold ml-2`}> 完成 </span>
-                                <span className={`text-primary-foreground text-sm font-mono font-semibold ml-2`}>
+                                <span className={`text-on-accent-pink text-sm font-semibold ml-2`}> 完成 </span>
+                                <span className={`text-on-accent-pink text-sm font-mono font-semibold ml-2`}>
                                     {' '}
                                     m8s{' '}
                                 </span>
@@ -118,11 +118,11 @@ export default function Home() {
                         <figure key="rate-analysis">
                             <AnalysisImage src={RateImage} alt="Pass Rate Analysis" isDark={isDark} />
                             <figcaption
-                                className={`text-card-foreground mt-2 mx-2 flex items-baseline justify-start font-medium`}
+                                className={`text-on-surface-card mt-2 mx-2 flex items-baseline justify-start font-medium`}
                             >
                                 <span className={`font-semibold mr-1`}> 3. </span>
                                 中量级通关率
-                                <span className={`text-primary-foreground text-sm font-semibold ml-2`}>
+                                <span className={`text-on-accent-pink text-sm font-semibold ml-2`}>
                                     {' '}
                                     各层的通过率{' '}
                                 </span>
@@ -132,11 +132,11 @@ export default function Home() {
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
                 <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-card rounded-lg border border-card-border blur-[2px] z-10" />
+                    <div className="w-full h-full absolute bg-surface-card rounded-lg border border-surface-card-border blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <div className={`ml-2 flex flex-col gap-y-2.5 text-card-foreground`}>
+                        <div className={`ml-2 flex flex-col gap-y-2.5 text-on-surface-card`}>
                             <p>
-                                数据 <span className={`text-primary-foreground`}>仅供参考</span>，用于分析副本难度。
+                                数据 <span className={`text-on-accent-pink`}>仅供参考</span>，用于分析副本难度。
                             </p>
                             <p>统计数据源于玩家上报频率，存在少许误差。</p>
                         </div>
@@ -149,15 +149,15 @@ export default function Home() {
                 {/* Guide */}
                 <BarSearchGuide message={`使用指南`} />
                 <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-card rounded-lg border border-card-border blur-[2px] z-10" />
+                    <div className="w-full h-full absolute bg-surface-card rounded-lg border border-surface-card-border blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <div className={`ml-2 flex flex-col gap-y-2.5 text-card-foreground`}>
+                        <div className={`ml-2 flex flex-col gap-y-2.5 text-on-surface-card`}>
                             <p>
-                                点击 <span className="text-category-ring">顶部搜索栏</span>，输入角色名进行查询。
-                                <span className={`text-muted-foreground text-sm`}>「支持模糊搜索」</span>
+                                点击 <span className="text-accent-purple-strong">顶部搜索栏</span>，输入角色名进行查询。
+                                <span className={`text-on-surface-muted text-sm`}>「支持模糊搜索」</span>
                             </p>
                             <div className={`flex items-center justify-start gap-x-2`}>
-                                使用键盘 <Kbd className={`text-secondary-foreground`}>/</Kbd> 可以快速打开搜索。
+                                使用键盘 <Kbd className={`text-on-accent-amber`}>/</Kbd> 可以快速打开搜索。
                             </div>
                         </div>
                     </div>

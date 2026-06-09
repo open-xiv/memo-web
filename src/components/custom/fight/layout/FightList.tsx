@@ -1,6 +1,6 @@
 import type { Fight } from '@/types/fight.ts';
 import type { DutySummary } from '@/types/duty.ts';
-import FightCard from '@/components/custom/fight/list/FightCard.tsx';
+import FightCard from '@/components/custom/fight/parts/FightCard.tsx';
 
 interface FightListProps {
     fights: Fight[];

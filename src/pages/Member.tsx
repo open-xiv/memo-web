@@ -5,15 +5,13 @@ import { getMemberOverview } from '@/api/sumemo.ts';
 import { BarHidden } from '@/components/custom/bar/BarHidden.tsx';
 import { BarError } from '@/components/custom/bar/BarError.tsx';
 import { BarCategory, type RaidMode } from '@/components/custom/bar/BarCategory.tsx';
-import { BarContribution } from '@/components/custom/bar/BarContribution.tsx';
 import { FightOverview } from '@/components/custom/fight/layout/FightOverview.tsx';
 import { FightDetail } from '@/components/custom/fight/layout/FightDetail.tsx';
 import type { MemberOverview } from '@/types/member.ts';
 
 const SAVAGE_INTEREST = [1321, 1323, 1325, 1327];
-const SAVAGE_PAST_INTEREST = [1257, 1259, 1261, 1263];
 
-const ULTIMATE_INTEREST = [1363, 777];
+const ULTIMATE_INTEREST = [1363];
 
 export default function Member() {
     const { setMemberInfo } = useHeaderContext();
@@ -25,22 +23,15 @@ export default function Member() {
     const [overview, setOverview] = useState<MemberOverview | null>(null);
 
     const [mode, setMode] = useState<RaidMode>('ultimate');
-    const [isHistoryMode, setIsHistoryMode] = useState<true | false>(false);
     const [selectedZone, setSelectedZone] = useState<number | null>(null);
 
-    let interest: number[];
-    if (mode === 'savage') {
-        interest = isHistoryMode ? SAVAGE_PAST_INTEREST : SAVAGE_INTEREST;
-    } else {
-        interest = ULTIMATE_INTEREST;
-    }
+    const interest = mode === 'savage' ? SAVAGE_INTEREST : ULTIMATE_INTEREST;
 
     // Default to expanding the first zone (detail mode) on mount and when switching modes
     useEffect(() => {
-        const modeInterest =
-            mode === 'savage' ? (isHistoryMode ? SAVAGE_PAST_INTEREST : SAVAGE_INTEREST) : ULTIMATE_INTEREST;
+        const modeInterest = mode === 'savage' ? SAVAGE_INTEREST : ULTIMATE_INTEREST;
         setSelectedZone(modeInterest[0] ?? null);
-    }, [mode, isHistoryMode]);
+    }, [mode]);
 
     useEffect(() => {
         const fetchOverview = async () => {
@@ -82,7 +73,9 @@ export default function Member() {
         return <BarHidden />;
     }
 
-    const selectedDuty = selectedZone ? overview?.zones[String(selectedZone)]?.duty : undefined;
+    const selectedZoneData = selectedZone ? overview?.zones[String(selectedZone)] : undefined;
+    const selectedDuty = selectedZoneData?.duty;
+    const selectedHasClear = selectedZoneData?.best?.clear ?? false;
 
     // phase progress is only shown for ultimate
     const showPhase = mode === 'ultimate';
@@ -90,15 +83,7 @@ export default function Member() {
     return (
         <div className="flex flex-col gap-6">
             {/* Category Selector */}
-            <BarCategory
-                mode={mode}
-                setMode={setMode}
-                setHistoryMode={setIsHistoryMode}
-                isHistoryMode={isHistoryMode}
-            />
-
-            {/* Contribute */}
-            <BarContribution />
+            <BarCategory mode={mode} setMode={setMode} />
 
             {/* zones */}
             {memberName && memberServer && overview ? (
@@ -118,6 +103,7 @@ export default function Member() {
                             memberName={memberName}
                             memberServer={memberServer}
                             duty={selectedDuty}
+                            hasClear={selectedHasClear}
                             showPhase={showPhase}
                         />
                     )}

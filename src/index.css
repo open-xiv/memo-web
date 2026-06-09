@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/*@custom-variant dark (&:is(.dark *));*/
-
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
@@ -12,68 +10,111 @@
     --text-tiny: 0.625rem;
     --text-tiny--line-height: 0.95rem;
 
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
+    /* === Surface === */
+    --color-surface: var(--surface);
+    --color-on-surface: var(--on-surface);
+    --color-surface-card: var(--surface-card);
+    --color-on-surface-card: var(--on-surface-card);
+    --color-surface-card-border: var(--surface-card-border);
+    --color-surface-card-strong: var(--surface-card-strong);
+    --color-surface-overlay: var(--surface-overlay);
+    --color-on-surface-overlay: var(--on-surface-overlay);
+    --color-surface-input: var(--surface-input);
+    --color-surface-muted: var(--surface-muted);
 
-    --color-card: var(--card);
-    --color-card-foreground: var(--card-foreground);
-    --color-card-border: var(--card-border);
-    --color-card-ring: var(--card-ring);
+    /* === Surface (cont'd) — muted text on surface === */
+    --color-on-surface-muted: var(--on-surface-muted);
 
-    --color-popover: var(--popover);
-    --color-popover-foreground: var(--popover-foreground);
+    /* === Border === */
+    --color-border-default: var(--border-default);
+    --color-border-focus: var(--border-focus);
 
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary-border: var(--primary-border);
-    --color-primary-ring: var(--primary-ring);
+    /* === Status: success === */
+    --color-status-success: var(--status-success);
+    --color-on-status-success: var(--on-status-success);
+    --color-status-success-border: var(--status-success-border);
+    --color-status-success-strong: var(--status-success-strong);
 
-    --color-secondary: var(--secondary);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary-border: var(--secondary-border);
-    --color-secondary-ring: var(--secondary-ring);
+    /* === Status: danger === */
+    --color-status-danger: var(--status-danger);
+    --color-on-status-danger: var(--on-status-danger);
+    --color-status-danger-border: var(--status-danger-border);
+    --color-status-danger-strong: var(--status-danger-strong);
 
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-accent: var(--accent);
-    --color-accent-foreground: var(--accent-foreground);
+    /* === Status: warning === */
+    --color-status-warning: var(--status-warning);
+    --color-on-status-warning: var(--on-status-warning);
+    --color-status-warning-border: var(--status-warning-border);
+    --color-status-warning-strong: var(--status-warning-strong);
 
-    --color-destructive: var(--destructive);
-    --color-destructive-foreground: var(--destructive-foreground);
-    --color-destructive-border: var(--destructive-border);
-    --color-destructive-ring: var(--destructive-ring);
+    /* === Status: info === */
+    --color-status-info: var(--status-info);
+    --color-on-status-info: var(--on-status-info);
+    --color-status-info-border: var(--status-info-border);
+    --color-status-info-strong: var(--status-info-strong);
 
-    --color-category: var(--category);
-    --color-category-foreground: var(--category-foreground);
-    --color-category-border: var(--category-border);
-    --color-category-ring: var(--category-ring);
+    /* === Accent: pink === */
+    --color-accent-pink: var(--accent-pink);
+    --color-on-accent-pink: var(--on-accent-pink);
+    --color-accent-pink-border: var(--accent-pink-border);
+    --color-accent-pink-strong: var(--accent-pink-strong);
 
-    --color-zone: var(--zone);
-    --color-zone-foreground: var(--zone-foreground);
-    --color-zone-border: var(--zone-border);
-    --color-zone-ring: var(--zone-ring);
+    /* === Accent: amber === */
+    --color-accent-amber: var(--accent-amber);
+    --color-on-accent-amber: var(--on-accent-amber);
+    --color-accent-amber-border: var(--accent-amber-border);
+    --color-accent-amber-strong: var(--accent-amber-strong);
 
-    --color-sync: var(--sync);
-    --color-sync-foreground: var(--sync-foreground);
-    --color-sync-border: var(--sync-border);
-    --color-sync-ring: var(--sync-ring);
+    /* === Accent: purple === */
+    --color-accent-purple: var(--accent-purple);
+    --color-on-accent-purple: var(--on-accent-purple);
+    --color-accent-purple-border: var(--accent-purple-border);
+    --color-accent-purple-strong: var(--accent-purple-strong);
 
-    --color-paragraph: var(--paragraph);
-    --color-paragraph-foreground: var(--paragraph-foreground);
-    --color-paragraph-ring: var(--paragraph-ring);
+    /* === Accent: teal === */
+    --color-accent-teal: var(--accent-teal);
+    --color-on-accent-teal: var(--on-accent-teal);
+    --color-accent-teal-border: var(--accent-teal-border);
+    --color-accent-teal-strong: var(--accent-teal-strong);
 
-    --color-subparagraph: var(--subparagraph);
-    --color-subparagraph-foreground: var(--subparagraph-foreground);
-    --color-subparagraph-ring: var(--subparagraph-ring);
+    /* === Accent: red (replaces paragraph) === */
+    --color-accent-red: var(--accent-red);
+    --color-on-accent-red: var(--on-accent-red);
+    --color-accent-red-border: var(--accent-red-border);
+    --color-accent-red-strong: var(--accent-red-strong);
 
-    --color-border: var(--border);
-    --color-input: var(--input);
-    --color-ring: var(--ring);
+    /* === Accent: indigo (replaces subparagraph) === */
+    --color-accent-indigo: var(--accent-indigo);
+    --color-on-accent-indigo: var(--on-accent-indigo);
+    --color-accent-indigo-border: var(--accent-indigo-border);
+    --color-accent-indigo-strong: var(--accent-indigo-strong);
+
+    /* === Role: tank === */
+    --color-role-tank: var(--role-tank);
+    --color-on-role-tank: var(--on-role-tank);
+    --color-role-tank-border: var(--role-tank-border);
+    --color-role-tank-strong: var(--role-tank-strong);
+
+    /* === Role: healer === */
+    --color-role-healer: var(--role-healer);
+    --color-on-role-healer: var(--on-role-healer);
+    --color-role-healer-border: var(--role-healer-border);
+    --color-role-healer-strong: var(--role-healer-strong);
+
+    /* === Role: dps === */
+    --color-role-dps: var(--role-dps);
+    --color-on-role-dps: var(--on-role-dps);
+    --color-role-dps-border: var(--role-dps-border);
+    --color-role-dps-strong: var(--role-dps-strong);
+
+    /* === Chart (kept as-is) === */
     --color-chart-1: var(--chart-1);
     --color-chart-2: var(--chart-2);
     --color-chart-3: var(--chart-3);
     --color-chart-4: var(--chart-4);
     --color-chart-5: var(--chart-5);
+
+    /* === Sidebar (kept as-is) === */
     --color-sidebar: var(--sidebar);
     --color-sidebar-foreground: var(--sidebar-foreground);
     --color-sidebar-primary: var(--sidebar-primary);
@@ -82,21 +123,6 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
-
-    --color-tank: var(--tank);
-    --color-tank-foreground: var(--tank-foreground);
-    --color-tank-border: var(--tank-border);
-    --color-tank-ring: var(--tank-ring);
-
-    --color-healer: var(--healer);
-    --color-healer-foreground: var(--healer-foreground);
-    --color-healer-border: var(--healer-border);
-    --color-healer-ring: var(--healer-ring);
-
-    --color-dps: var(--dps);
-    --color-dps-foreground: var(--dps-foreground);
-    --color-dps-border: var(--dps-border);
-    --color-dps-ring: var(--dps-ring);
 }
 
 :root {
@@ -105,70 +131,110 @@
 
     --radius: 0.65rem;
 
-    --background: var(--color-slate-100);
-    --foreground: var(--color-slate-900);
+    /* === Surface === */
+    --surface: var(--color-slate-100);
+    --on-surface: var(--color-slate-900);
+    --surface-card: var(--color-zinc-50);
+    --on-surface-card: var(--color-zinc-950);
+    --surface-card-border: var(--color-zinc-500);
+    --surface-card-strong: var(--color-zinc-400);
+    --surface-overlay: oklch(1 0 0);
+    --on-surface-overlay: oklch(0.141 0.005 285.823);
+    --surface-input: oklch(0.92 0.004 286.32);
+    --surface-muted: oklch(0.967 0.001 286.375);
 
-    --card: var(--color-zinc-50);
-    --card-foreground: var(--color-zinc-950);
-    --card-border: var(--color-zinc-500);
-    --card-ring: var(--color-zinc-400);
+    --on-surface-muted: oklch(0.552 0.016 285.938);
 
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.141 0.005 285.823);
+    /* === Border === */
+    --border-default: var(--color-gray-500);
+    --border-focus: var(--color-pink-400);
 
-    --primary: var(--color-pink-50);
-    --primary-foreground: var(--color-pink-900);
-    --primary-border: var(--color-pink-300);
-    --primary-ring: var(--color-pink-500);
+    /* === Status: success (green) === */
+    --status-success: var(--color-green-50);
+    --on-status-success: var(--color-green-900);
+    --status-success-border: var(--color-green-300);
+    --status-success-strong: var(--color-green-600);
 
-    --secondary: var(--color-amber-50);
-    --secondary-foreground: var(--color-amber-950);
-    --secondary-border: var(--color-amber-300);
-    --secondary-ring: var(--color-amber-500);
+    /* === Status: danger (red) === */
+    --status-danger: var(--color-red-50);
+    --on-status-danger: var(--color-red-950);
+    --status-danger-border: var(--color-red-300);
+    --status-danger-strong: var(--color-red-600);
 
-    --muted: oklch(0.967 0.001 286.375);
-    --muted-foreground: oklch(0.552 0.016 285.938);
-    --accent: oklch(0.967 0.001 286.375);
-    --accent-foreground: oklch(0.21 0.006 285.885);
+    /* === Status: warning (amber) === */
+    --status-warning: var(--color-amber-50);
+    --on-status-warning: var(--color-amber-950);
+    --status-warning-border: var(--color-amber-300);
+    --status-warning-strong: var(--color-amber-600);
 
-    --destructive: var(--color-red-50);
-    --destructive-foreground: var(--color-red-950);
-    --destructive-border: var(--color-red-300);
-    --destructive-ring: var(--color-red-600);
+    /* === Status: info (sky) === */
+    --status-info: var(--color-sky-50);
+    --on-status-info: var(--color-sky-900);
+    --status-info-border: var(--color-sky-300);
+    --status-info-strong: var(--color-sky-500);
 
-    --category: var(--color-purple-50);
-    --category-foreground: var(--color-purple-950);
-    --category-border: var(--color-purple-300);
-    --category-ring: var(--color-purple-600);
+    /* === Accent: pink === */
+    --accent-pink: var(--color-pink-50);
+    --on-accent-pink: var(--color-pink-900);
+    --accent-pink-border: var(--color-pink-300);
+    --accent-pink-strong: var(--color-pink-500);
 
-    --zone: var(--color-teal-50);
-    --zone-foreground: var(--color-teal-950);
-    --zone-border: var(--color-teal-300);
-    --zone-ring: var(--color-teal-600);
+    /* === Accent: amber === */
+    --accent-amber: var(--color-amber-50);
+    --on-accent-amber: var(--color-amber-950);
+    --accent-amber-border: var(--color-amber-300);
+    --accent-amber-strong: var(--color-amber-500);
 
-    --sync: var(--color-sky-50);
-    --sync-foreground: var(--color-sky-900);
-    --sync-border: var(--color-sky-300);
-    --sync-ring: var(--color-sky-500);
+    /* === Accent: purple === */
+    --accent-purple: var(--color-purple-50);
+    --on-accent-purple: var(--color-purple-950);
+    --accent-purple-border: var(--color-purple-300);
+    --accent-purple-strong: var(--color-purple-600);
 
-    --paragraph: var(--color-red-400);
-    --paragraph-foreground: var(--color-red-950);
-    --paragraph-ring: var(--color-red-800);
+    /* === Accent: teal === */
+    --accent-teal: var(--color-teal-50);
+    --on-accent-teal: var(--color-teal-950);
+    --accent-teal-border: var(--color-teal-300);
+    --accent-teal-strong: var(--color-teal-600);
 
-    --subparagraph: var(--color-indigo-400);
-    --subparagraph-foreground: var(--color-indigo-950);
-    --subparagraph-ring: var(--color-indigo-800);
+    /* === Accent: red === */
+    --accent-red: var(--color-red-400);
+    --on-accent-red: var(--color-red-950);
+    --accent-red-border: var(--color-red-300);
+    --accent-red-strong: var(--color-red-800);
 
-    --border: var(--color-gray-500);
-    --input: oklch(0.92 0.004 286.32);
-    --ring: var(--color-pink-400);
+    /* === Accent: indigo === */
+    --accent-indigo: var(--color-indigo-400);
+    --on-accent-indigo: var(--color-indigo-950);
+    --accent-indigo-border: var(--color-indigo-300);
+    --accent-indigo-strong: var(--color-indigo-800);
 
+    /* === Role: tank === */
+    --role-tank: var(--color-blue-50);
+    --on-role-tank: var(--color-blue-950);
+    --role-tank-border: var(--color-blue-300);
+    --role-tank-strong: var(--color-blue-900);
+
+    /* === Role: healer === */
+    --role-healer: var(--color-green-50);
+    --on-role-healer: var(--color-green-950);
+    --role-healer-border: var(--color-green-300);
+    --role-healer-strong: var(--color-green-900);
+
+    /* === Role: dps === */
+    --role-dps: var(--color-red-50);
+    --on-role-dps: var(--color-red-950);
+    --role-dps-border: var(--color-red-300);
+    --role-dps-strong: var(--color-red-900);
+
+    /* === Chart === */
     --chart-1: var(--color-pink-50);
     --chart-2: var(--color-pink-200);
     --chart-3: var(--color-pink-400);
     --chart-4: var(--color-pink-700);
     --chart-5: var(--color-pink-900);
 
+    /* === Sidebar === */
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.141 0.005 285.823);
     --sidebar-primary: oklch(0.586 0.253 17.585);
@@ -177,21 +243,6 @@
     --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.712 0.194 13.428);
-
-    --tank: var(--color-blue-50);
-    --tank-foreground: var(--color-blue-950);
-    --tank-border: var(--color-blue-300);
-    --tank-ring: var(--color-blue-900);
-
-    --healer: var(--color-green-50);
-    --healer-foreground: var(--color-green-950);
-    --healer-border: var(--color-green-300);
-    --healer-ring: var(--color-green-900);
-
-    --dps: var(--color-red-50);
-    --dps-foreground: var(--color-red-950);
-    --dps-border: var(--color-red-300);
-    --dps-ring: var(--color-red-900);
 }
 
 .dark {
@@ -200,70 +251,110 @@
 
     --radius: 0.65rem;
 
-    --background: var(--color-slate-900);
-    --foreground: var(--color-slate-100);
+    /* === Surface === */
+    --surface: var(--color-slate-900);
+    --on-surface: var(--color-slate-100);
+    --surface-card: var(--color-zinc-900);
+    --on-surface-card: var(--color-zinc-200);
+    --surface-card-border: var(--color-zinc-700);
+    --surface-card-strong: var(--color-zinc-500);
+    --surface-overlay: oklch(0.21 0.006 285.885);
+    --on-surface-overlay: oklch(0.985 0 0);
+    --surface-input: oklch(1 0 0 / 15%);
+    --surface-muted: oklch(0.274 0.006 286.033);
 
-    --card: var(--color-zinc-900);
-    --card-foreground: var(--color-zinc-200);
-    --card-border: var(--color-zinc-700);
-    --card-ring: var(--color-zinc-500);
+    --on-surface-muted: oklch(0.705 0.015 286.067);
 
-    --popover: oklch(0.21 0.006 285.885);
-    --popover-foreground: oklch(0.985 0 0);
+    /* === Border === */
+    --border-default: var(--color-gray-400);
+    --border-focus: var(--color-pink-500);
 
-    --primary: var(--color-pink-950);
-    --primary-foreground: var(--color-pink-200);
-    --primary-border: var(--color-pink-600);
-    --primary-ring: var(--color-pink-300);
+    /* === Status: success === */
+    --status-success: var(--color-green-950);
+    --on-status-success: var(--color-green-200);
+    --status-success-border: var(--color-green-700);
+    --status-success-strong: var(--color-green-400);
 
-    --secondary: var(--color-amber-950);
-    --secondary-foreground: var(--color-amber-200);
-    --secondary-border: var(--color-amber-700);
-    --secondary-ring: var(--color-amber-400);
+    /* === Status: danger === */
+    --status-danger: var(--color-red-950);
+    --on-status-danger: var(--color-red-200);
+    --status-danger-border: var(--color-red-700);
+    --status-danger-strong: var(--color-red-400);
 
-    --muted: oklch(0.274 0.006 286.033);
-    --muted-foreground: oklch(0.705 0.015 286.067);
-    --accent: oklch(0.274 0.006 286.033);
-    --accent-foreground: oklch(0.985 0 0);
+    /* === Status: warning === */
+    --status-warning: var(--color-amber-950);
+    --on-status-warning: var(--color-amber-200);
+    --status-warning-border: var(--color-amber-700);
+    --status-warning-strong: var(--color-amber-400);
 
-    --destructive: var(--color-red-950);
-    --destructive-foreground: var(--color-red-200);
-    --destructive-border: var(--color-red-700);
-    --destructive-ring: var(--color-red-400);
+    /* === Status: info === */
+    --status-info: var(--color-sky-950);
+    --on-status-info: var(--color-sky-200);
+    --status-info-border: var(--color-sky-700);
+    --status-info-strong: var(--color-sky-400);
 
-    --category: var(--color-purple-950);
-    --category-foreground: var(--color-purple-200);
-    --category-border: var(--color-purple-700);
-    --category-ring: var(--color-purple-300);
+    /* === Accent: pink === */
+    --accent-pink: var(--color-pink-950);
+    --on-accent-pink: var(--color-pink-200);
+    --accent-pink-border: var(--color-pink-600);
+    --accent-pink-strong: var(--color-pink-300);
 
-    --zone: var(--color-teal-950);
-    --zone-foreground: var(--color-teal-200);
-    --zone-border: var(--color-teal-700);
-    --zone-ring: var(--color-teal-400);
+    /* === Accent: amber === */
+    --accent-amber: var(--color-amber-950);
+    --on-accent-amber: var(--color-amber-200);
+    --accent-amber-border: var(--color-amber-700);
+    --accent-amber-strong: var(--color-amber-400);
 
-    --sync: var(--color-sky-950);
-    --sync-foreground: var(--color-sky-200);
-    --sync-border: var(--color-sky-700);
-    --sync-ring: var(--color-sky-400);
+    /* === Accent: purple === */
+    --accent-purple: var(--color-purple-950);
+    --on-accent-purple: var(--color-purple-200);
+    --accent-purple-border: var(--color-purple-700);
+    --accent-purple-strong: var(--color-purple-300);
 
-    --paragraph: var(--color-red-500);
-    --paragraph-foreground: var(--color-red-200);
-    --paragraph-ring: var(--color-red-300);
+    /* === Accent: teal === */
+    --accent-teal: var(--color-teal-950);
+    --on-accent-teal: var(--color-teal-200);
+    --accent-teal-border: var(--color-teal-700);
+    --accent-teal-strong: var(--color-teal-400);
 
-    --subparagraph: var(--color-indigo-500);
-    --subparagraph-foreground: var(--color-indigo-200);
-    --subparagraph-ring: var(--color-indigo-300);
+    /* === Accent: red === */
+    --accent-red: var(--color-red-500);
+    --on-accent-red: var(--color-red-200);
+    --accent-red-border: var(--color-red-700);
+    --accent-red-strong: var(--color-red-300);
 
-    --border: var(--color-gray-400);
-    --input: oklch(1 0 0 / 15%);
-    --ring: var(--color-pink-500);
+    /* === Accent: indigo === */
+    --accent-indigo: var(--color-indigo-500);
+    --on-accent-indigo: var(--color-indigo-200);
+    --accent-indigo-border: var(--color-indigo-700);
+    --accent-indigo-strong: var(--color-indigo-300);
 
+    /* === Role: tank === */
+    --role-tank: var(--color-blue-950);
+    --on-role-tank: var(--color-blue-200);
+    --role-tank-border: var(--color-blue-700);
+    --role-tank-strong: var(--color-blue-300);
+
+    /* === Role: healer === */
+    --role-healer: var(--color-green-950);
+    --on-role-healer: var(--color-green-200);
+    --role-healer-border: var(--color-green-700);
+    --role-healer-strong: var(--color-green-300);
+
+    /* === Role: dps === */
+    --role-dps: var(--color-red-950);
+    --on-role-dps: var(--color-red-200);
+    --role-dps-border: var(--color-red-700);
+    --role-dps-strong: var(--color-red-300);
+
+    /* === Chart === */
     --chart-1: oklch(0.81 0.117 11.638);
     --chart-2: oklch(0.645 0.246 16.439);
     --chart-3: oklch(0.586 0.253 17.585);
     --chart-4: oklch(0.514 0.222 16.935);
     --chart-5: oklch(0.455 0.188 13.697);
 
+    /* === Sidebar === */
     --sidebar: oklch(0.21 0.006 285.885);
     --sidebar-foreground: oklch(0.985 0 0);
     --sidebar-primary: oklch(0.645 0.246 16.439);
@@ -272,21 +363,6 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.41 0.159 10.272);
-
-    --tank: var(--color-blue-950);
-    --tank-foreground: var(--color-blue-200);
-    --tank-border: var(--color-blue-700);
-    --tank-ring: var(--color-blue-300);
-
-    --healer: var(--color-green-950);
-    --healer-foreground: var(--color-green-200);
-    --healer-border: var(--color-green-700);
-    --healer-ring: var(--color-green-300);
-
-    --dps: var(--color-red-950);
-    --dps-foreground: var(--color-red-200);
-    --dps-border: var(--color-red-700);
-    --dps-ring: var(--color-red-300);
 }
 
 @layer utilities {
@@ -309,4 +385,3 @@
     0%, 100% { opacity: 0.2; }
     50% { opacity: 0.05; }
 }
-

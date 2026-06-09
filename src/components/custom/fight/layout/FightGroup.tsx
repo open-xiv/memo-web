@@ -1,10 +1,8 @@
 import { getTimeAgo, getTimeString } from '@/lib/time.ts';
 import type { FightGroup as FightGroupType } from '@/lib/fight.ts';
-import { PlayerGrid } from '@/components/custom/fight/group/PlayerGrid.tsx';
+import { PlayerGrid } from '@/components/custom/fight/parts/PlayerGrid.tsx';
 import { cn } from '@/lib/utils.ts';
-import FightNano from '@/components/custom/fight/group/FightNano.tsx';
-import { useState } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
+import FightNano from '@/components/custom/fight/parts/FightNano.tsx';
 
 interface FightGroupProps {
     groups: FightGroupType[];
@@ -34,57 +32,35 @@ interface FightGroupItemProps {
 
 function FightGroupItem({ group, memberName, memberServer, showPhase }: FightGroupItemProps) {
     const [date, timeRange] = getTimeRangeDisplay(group.startTime, group.duration);
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     return (
         <div className="mx-0.5 flex flex-col gap-3">
             {/* Team Header */}
             <div className="flex flex-wrap items-center justify-start gap-3">
                 <div className="flex items-center gap-2">
-                    <div className="w-0.5 h-4 bg-secondary-ring rounded-full" />
-                    <span className="text-sm font-semibold text-secondary-foreground">队伍阵容</span>
+                    <div className="w-0.5 h-4 bg-accent-amber-strong rounded-full" />
+                    <span className="text-sm font-semibold text-on-accent-amber">队伍阵容</span>
                 </div>
 
                 <div className={cn('flex gap-2')}>
-                    <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-secondary border border-secondary-border text-foreground shadow-sm transition-colors duration-300">
+                    <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-accent-amber border border-accent-amber-border text-on-surface shadow-sm transition-colors duration-300">
                         <div className="flex items-baseline gap-1.5 text-xs">
-                            <span className={cn('text-secondary-foreground font-medium')}>
+                            <span className={cn('text-on-accent-amber font-medium')}>
                                 {getTimeAgo(group.startTime)}
                             </span>
-                            <span className="hidden sm:inline text-muted-foreground">·</span>
-                            <span className="hidden sm:inline text-muted-foreground">{date}</span>
-                            <span className="hidden sm:inline text-muted-foreground">{timeRange}</span>
+                            <span className="hidden sm:inline text-on-surface-muted">·</span>
+                            <span className="hidden sm:inline text-on-surface-muted">{date}</span>
+                            <span className="hidden sm:inline text-on-surface-muted">{timeRange}</span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-                            <PopoverTrigger asChild>
-                                <div
-                                    className="flex items-baseline gap-2 px-2 py-1 rounded-md bg-zone border border-zone-border text-zone-foreground shadow-sm transition-colors duration-300 cursor-pointer hover:bg-zone/80"
-                                    onMouseEnter={() => setIsPopoverOpen(true)}
-                                    onMouseLeave={() => setIsPopoverOpen(false)}
-                                >
-                                    <span className="text-xs">总场次</span>
-                                    <span className="text-xs font-medium">{group.fights.length}</span>
-                                </div>
-                            </PopoverTrigger>
-                            <PopoverContent
-                                className="w-auto max-h-96 overflow-y-auto p-2 bg-zone border border-zone-foreground"
-                                onMouseEnter={() => setIsPopoverOpen(true)}
-                                onMouseLeave={() => setIsPopoverOpen(false)}
-                                side="bottom"
-                                align="start"
-                            >
-                                <div className="flex flex-col gap-2">
-                                    {group.fights.map((fight) => (
-                                        <FightNano key={fight.start_time} fight={fight} showPhase={showPhase} />
-                                    ))}
-                                </div>
-                            </PopoverContent>
-                        </Popover>
+                        <div className="flex items-baseline gap-2 px-2 py-1 rounded-md bg-accent-teal border border-accent-teal-border text-on-accent-teal shadow-sm transition-colors duration-300">
+                            <span className="text-xs">总场次</span>
+                            <span className="text-xs font-medium">{group.fights.length}</span>
+                        </div>
 
-                        <div className="flex items-baseline gap-2 px-2.5 py-1 rounded-md bg-primary border border-primary-border text-primary-foreground shadow-sm transition-colors duration-300">
+                        <div className="flex items-baseline gap-2 px-2.5 py-1 rounded-md bg-accent-pink border border-accent-pink-border text-on-accent-pink shadow-sm transition-colors duration-300">
                             <span className="text-xs">最远进度</span>
                             {group.isClear && <span className={cn('text-xs font-medium')}>已完成</span>}
                             {!group.isClear && group.phase && group.phase !== 'N/A' && (
@@ -92,7 +68,7 @@ function FightGroupItem({ group, memberName, memberServer, showPhase }: FightGro
                             )}
                             {!group.isClear && (
                                 <div className={cn('flex items-baseline gap-1')}>
-                                    <span className={cn('text-xs font-semibold text-primary-ring')}>
+                                    <span className={cn('text-xs font-semibold text-accent-pink-strong')}>
                                         {(group.enemyHp * 100).toFixed(1)}
                                     </span>
                                     <span className={cn('text-tiny font-medium')}>%</span>
@@ -110,6 +86,13 @@ function FightGroupItem({ group, memberName, memberServer, showPhase }: FightGro
                 memberName={memberName}
                 memberServer={memberServer}
             />
+
+            {/* Per-fight progress cards */}
+            <div className="flex flex-wrap gap-2 py-2">
+                {group.fights.map((fight) => (
+                    <FightNano key={fight.start_time} fight={fight} showPhase={showPhase} />
+                ))}
+            </div>
         </div>
     );
 }

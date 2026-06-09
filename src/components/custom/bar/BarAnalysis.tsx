@@ -13,7 +13,7 @@ export function BarAnalysis({ message, detail }: BarAnalysisProps) {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                    'bg-primary border-primary-border',
+                    'bg-accent-pink border-accent-pink-border',
                 )}
             />
 
@@ -21,12 +21,12 @@ export function BarAnalysis({ message, detail }: BarAnalysisProps) {
                 <WrapperIcon
                     icon={BarIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--primary-ring)"
-                    secondary="var(--primary-foreground)"
+                    primary="var(--accent-pink-strong)"
+                    secondary="var(--on-accent-pink)"
                 />
                 <div className={`flex flex-wrap gap-x-2 gap-y-1 transition-colors duration-300`}>
-                    <span className="text-primary-foreground font-medium">{message}</span>
-                    {detail && <span className="text-primary-ring font-medium">{detail}</span>}
+                    <span className="text-on-accent-pink font-medium">{message}</span>
+                    {detail && <span className="text-accent-pink-strong font-medium">{detail}</span>}
                 </div>
             </div>
         </div>

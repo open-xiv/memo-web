@@ -1,6 +1,4 @@
 import { cn } from '@/lib/utils.ts';
-import WrapperIcon from '@/components/custom/wrapper/WrapperIcon.tsx';
-import BackwardIcon from '@/assets/icon/backward.svg?react';
 import { useState } from 'react';
 
 export type RaidMode = 'savage' | 'ultimate';
@@ -14,7 +12,7 @@ export type RaidMode = 'savage' | 'ultimate';
 //                 <div
 //                         className={cn(
 //                                 "absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300",
-//                                 "bg-category border-category-border",
+//                                 "bg-accent-purple border-accent-purple-border",
 //                         )}
 //                 />
 //
@@ -23,8 +21,8 @@ export type RaidMode = 'savage' | 'ultimate';
 //                         className={cn(
 //                                 "z-20 size-6 shrink-0 transition-colors duration-300",
 //                         )}
-//                         primary="var(--category-ring)"
-//                         secondary="var(--category-foreground)"
+//                         primary="var(--accent-purple-strong)"
+//                         secondary="var(--on-accent-purple)"
 //                 />
 //
 //             </div>
@@ -45,7 +43,7 @@ function BarCategorySavage({ isActive, onClick }: BarCategorySavageProps) {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-colors duration-300',
-                    isHighlighted ? 'border-category-border bg-category' : 'border-border bg-transparent',
+                    isHighlighted ? 'border-accent-purple-border bg-accent-purple' : 'border-border-default bg-transparent',
                 )}
             />
 
@@ -56,14 +54,14 @@ function BarCategorySavage({ isActive, onClick }: BarCategorySavageProps) {
                 className={cn(
                     'text-sm font-medium transition-colors duration-300 z-20',
                     'flex flex-wrap items-baseline gap-x-2 gap-y-1',
-                    isHighlighted ? 'text-category-foreground' : 'text-muted-foreground',
+                    isHighlighted ? 'text-on-accent-purple' : 'text-on-surface-muted',
                 )}
             >
                 <span className="font-medium">零式</span>
                 <span
                     className={cn(
                         'text-xs transition-colors duration-300',
-                        isHighlighted ? 'text-category-ring' : 'text-muted-foreground/50',
+                        isHighlighted ? 'text-accent-purple-strong' : 'text-on-surface-muted/50',
                     )}
                 >
                     Savage
@@ -87,7 +85,7 @@ function BarCategoryUltimate({ isActive, onClick }: BarCategoryUltimateProps) {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-colors duration-300',
-                    isHighlighted ? 'border-category-border bg-category' : 'border-border bg-transparent',
+                    isHighlighted ? 'border-accent-purple-border bg-accent-purple' : 'border-border-default bg-transparent',
                 )}
             />
 
@@ -98,14 +96,14 @@ function BarCategoryUltimate({ isActive, onClick }: BarCategoryUltimateProps) {
                 className={cn(
                     'text-sm font-medium transition-colors duration-300 z-20',
                     'flex flex-wrap items-baseline gap-x-2 gap-y-1',
-                    isHighlighted ? 'text-category-foreground' : 'text-muted-foreground',
+                    isHighlighted ? 'text-on-accent-purple' : 'text-on-surface-muted',
                 )}
             >
                 <span className="font-medium">绝境战</span>
                 <span
                     className={cn(
                         'text-xs transition-colors duration-300',
-                        isHighlighted ? 'text-category-ring' : 'text-muted-foreground/50',
+                        isHighlighted ? 'text-accent-purple-strong' : 'text-on-surface-muted/50',
                     )}
                 >
                     Ultimate
@@ -115,54 +113,21 @@ function BarCategoryUltimate({ isActive, onClick }: BarCategoryUltimateProps) {
     );
 }
 
-interface BarCategoryHistoryProps {
-    isHistoryMode?: boolean;
-    setHistoryMode: (state: boolean) => void;
-}
-
-function BarCategoryHistory({ isHistoryMode, setHistoryMode }: BarCategoryHistoryProps) {
-    return (
-        <button
-            onClick={() => setHistoryMode(!isHistoryMode)}
-            className={cn(
-                'ml-auto hidden items-center gap-x-2 px-3 py-1 rounded-md transition-all duration-300 z-20',
-                'border border-transparent hover:bg-category-border/20',
-                isHistoryMode ? 'bg-category-border/20 text-category-foreground' : 'text-muted-foreground',
-            )}
-        >
-            <WrapperIcon
-                icon={BackwardIcon}
-                className={cn('size-4 transition-transform duration-300', isHistoryMode ? '-rotate-180' : '')}
-                primary={isHistoryMode ? 'var(--category-ring)' : 'currentColor'}
-                secondary={isHistoryMode ? 'var(--category-foreground)' : 'currentColor'}
-            />
-            <span className="text-xs font-medium">{isHistoryMode ? '当前版本' : '历史版本'}</span>
-        </button>
-    );
-}
-
 interface BarCategoryProps {
     mode: RaidMode;
     setMode: (mode: RaidMode) => void;
-    setHistoryMode?: (state: true | false) => void;
-    isHistoryMode?: boolean;
 }
 
-export function BarCategory({ mode, setMode, setHistoryMode, isHistoryMode }: BarCategoryProps) {
+export function BarCategory({ mode, setMode }: BarCategoryProps) {
     return (
         <div className={cn('flex items-center space-x-2')}>
             {/*<BarCategoryIcon />*/}
 
-            {/* Savage */}
-            <BarCategorySavage isActive={mode === 'savage'} onClick={() => setMode('savage')} />
-
             {/* Ultimate */}
             <BarCategoryUltimate isActive={mode === 'ultimate'} onClick={() => setMode('ultimate')} />
 
-            {/* History Mode Toggle */}
-            {setHistoryMode && isHistoryMode !== undefined && (
-                <BarCategoryHistory isHistoryMode={isHistoryMode} setHistoryMode={setHistoryMode} />
-            )}
+            {/* Savage */}
+            <BarCategorySavage isActive={mode === 'savage'} onClick={() => setMode('savage')} />
         </div>
     );
 }

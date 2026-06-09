@@ -13,7 +13,7 @@ export function HeaderIcon() {
         >
             <div className="relative z-20 flex h-full items-center justify-center gap-x-2">
                 <WrapperIcon icon={MemoIcon} className={cn('size-8 shrink-0 transition-colors duration-300')} />
-                <span className={cn('text-lg font-semibold text-primary-foreground')}>酥卷</span>
+                <span className={cn('text-lg font-semibold text-on-accent-pink')}>酥卷</span>
             </div>
         </Link>
     );

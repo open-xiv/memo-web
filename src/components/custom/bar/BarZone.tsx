@@ -6,10 +6,11 @@ import ToggleExpand from '@/components/custom/toggle/ToggleExpand.tsx';
 interface BarZoneProps {
     message: string;
     detail?: string;
+    expand: 'min' | 'max';
     setExpand: (state: 'min' | 'max') => void;
 }
 
-export function BarZone({ message, detail, setExpand }: BarZoneProps) {
+export function BarZone({ message, detail, expand, setExpand }: BarZoneProps) {
     return (
         <div
             className={cn(
@@ -20,7 +21,7 @@ export function BarZone({ message, detail, setExpand }: BarZoneProps) {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                    'bg-zone border-zone-border',
+                    'bg-accent-teal border-accent-teal-border',
                 )}
             />
 
@@ -28,17 +29,17 @@ export function BarZone({ message, detail, setExpand }: BarZoneProps) {
                 <WrapperIcon
                     icon={FightIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--zone-ring)"
-                    secondary="var(--zone-foreground)"
+                    primary="var(--accent-teal-strong)"
+                    secondary="var(--on-accent-teal)"
                 />
                 <div className={`flex flex-wrap gap-x-2 gap-y-1 items-baseline transition-colors duration-300`}>
-                    <span className="text-zone-foreground font-medium">{message}</span>
-                    {detail && <span className="text-zone-ring text-sm font-medium">{detail}</span>}
+                    <span className="text-on-accent-teal font-medium">{message}</span>
+                    {detail && <span className="text-accent-teal-strong text-sm font-medium">{detail}</span>}
                 </div>
             </div>
 
             <div className={cn('ml-auto hidden sm:block')}>
-                <ToggleExpand setExpand={setExpand} />
+                <ToggleExpand expand={expand} setExpand={setExpand} />
             </div>
         </div>
     );

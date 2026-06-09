@@ -3,7 +3,7 @@ import {
 } from '@/api/sumemo.ts';
 import type { Fight } from '@/types/fight.ts';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import FightCard from '@/components/custom/fight/list/FightCard.tsx';
+import FightCard from '@/components/custom/fight/parts/FightCard.tsx';
 import type { DutySummary } from '@/types/duty.ts';
 import { BarZone } from '@/components/custom/bar/BarZone.tsx';
 import { BarLoading } from '@/components/custom/bar/BarLoading.tsx';
@@ -90,10 +90,10 @@ export default function FightDuty({ zoneID, memberName, memberServer, initialDut
         return (
             <>
                 <div className={`mx-0.5 flex justify-start gap-2 transition-colors duration-300`}>
-                    <div className={`w-0.5 bg-paragraph`} />
+                    <div className={`w-0.5 bg-accent-red`} />
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20 transition-colors duration-300">
-                        <span className="text-paragraph-foreground font-medium"> 最优记录 </span>
-                        <span className="text-paragraph-ring text-sm font-medium"> 最远进度 </span>
+                        <span className="text-on-accent-red font-medium"> 最优记录 </span>
+                        <span className="text-accent-red-strong text-sm font-medium"> 最远进度 </span>
                     </div>
                 </div>
                 {bestFight && (
@@ -103,10 +103,10 @@ export default function FightDuty({ zoneID, memberName, memberServer, initialDut
                 )}
 
                 <div className={`mx-0.5 flex justify-start gap-2 transition-colors duration-300`}>
-                    <div className={`w-0.5 bg-subparagraph`} />
+                    <div className={`w-0.5 bg-accent-indigo`} />
                     <div className="w-full h-full flex flex-wrap items-baseline justify-start gap-x-2 gap-y-1 z-20 transition-colors duration-300">
-                        <span className="text-subparagraph-foreground font-medium"> 近期记录 </span>
-                        <span className="text-subparagraph-ring text-sm font-medium">
+                        <span className="text-on-accent-indigo font-medium"> 近期记录 </span>
+                        <span className="text-accent-indigo-strong text-sm font-medium">
                             {' '}
                             {expandLatest === 'max'
                                 ? latestLoaded
@@ -133,7 +133,9 @@ export default function FightDuty({ zoneID, memberName, memberServer, initialDut
     return (
         <div className="flex flex-col items-start gap-4 w-full transition-[min-height] duration-300 ease-in-out">
             {/* Zone Name */}
-            {duty?.name && <BarZone message={duty.name} detail={duty.code} setExpand={setExpandLatest} />}
+            {duty?.name && (
+                <BarZone message={duty.name} detail={duty.code} expand={expandLatest} setExpand={setExpandLatest} />
+            )}
 
             {/* Fight Content */}
             {fightContent()}

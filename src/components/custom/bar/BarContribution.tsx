@@ -9,7 +9,7 @@ export function BarContribution() {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                    'bg-primary border-primary-border',
+                    'bg-accent-pink border-accent-pink-border',
                 )}
             />
 
@@ -17,24 +17,24 @@ export function BarContribution() {
                 <WrapperIcon
                     icon={HeartIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--category-ring)"
-                    secondary="var(--category)"
+                    primary="var(--accent-purple-strong)"
+                    secondary="var(--accent-purple)"
                 />
                 <div className={`flex flex-wrap items-center gap-x-2 gap-y-1 transition-colors duration-300`}>
-                    <span className="text-primary-foreground font-medium">欢迎贡献</span>
-                    <span className="text-primary-ring font-medium">各类高难副本</span>
-                    <span className="text-primary-foreground font-medium">时间轴</span>
+                    <span className="text-on-accent-pink font-medium">欢迎贡献</span>
+                    <span className="text-accent-pink-strong font-medium">各类高难副本</span>
+                    <span className="text-on-accent-pink font-medium">时间轴</span>
                     <a
                         href="https://github.com/open-xiv/assets/tree/main/duty"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-category-ring font-medium hover:underline flex items-center gap-1 group transition-colors duration-300"
+                        className="text-accent-purple-strong font-medium hover:underline flex items-center gap-1 group transition-colors duration-300"
                     >
                         <WrapperIcon
                             icon={LinkIcon}
                             className={`size-4`}
-                            primary="var(--primary-foreground-ring)"
-                            secondary="var(--primary-foreground)"
+                            primary="var(--accent-pink-strong)"
+                            secondary="var(--on-accent-pink)"
                         />
                     </a>
                 </div>

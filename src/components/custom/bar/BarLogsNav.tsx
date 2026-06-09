@@ -28,7 +28,7 @@ export function BarLogsNav({ memberName, memberServer, zone, encounter }: BarLog
                 <div
                     className={cn(
                         'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                        'bg-destructive border-destructive-border',
+                        'bg-status-danger border-status-danger-border',
                     )}
                 />
 
@@ -36,12 +36,12 @@ export function BarLogsNav({ memberName, memberServer, zone, encounter }: BarLog
                     <WrapperIcon
                         icon={ErrorIcon}
                         className={cn('size-6 shrink-0 transition-colors duration-300')}
-                        primary="var(--destructive-ring)"
-                        secondary="var(--destructive-foreground)"
+                        primary="var(--status-danger-strong)"
+                        secondary="var(--on-status-danger)"
                     />
                     <div className={`flex flex-wrap gap-x-2 gap-y-1 transition-colors duration-300`}>
-                        <span className="text-destructive-foreground font-medium"> 未记录 </span>
-                        <span className="text-destructive-ring font-medium"> 请通过其他途径判断 </span>
+                        <span className="text-on-status-danger font-medium"> 未记录 </span>
+                        <span className="text-status-danger-strong font-medium"> 请通过其他途径判断 </span>
                     </div>
                 </div>
             </div>
@@ -49,17 +49,17 @@ export function BarLogsNav({ memberName, memberServer, zone, encounter }: BarLog
             {/*  link  */}
             {link && (
                 <a href={link} className="relative flex items-center justify-center p-3 opacity-80 px-4">
-                    <div className="w-full h-full absolute bg-primary rounded-lg border border-primary-border blur-[2px] z-10" />
+                    <div className="w-full h-full absolute bg-accent-pink rounded-lg border border-accent-pink-border blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-center gap-2 z-20">
                         <WrapperIcon
                             icon={LinkIcon}
                             className={`size-6`}
-                            primary="var(--primary-ring)"
-                            secondary="var(--primary-foreground)"
+                            primary="var(--accent-pink-strong)"
+                            secondary="var(--on-accent-pink)"
                         />
                         <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center`}>
-                            <span className="text-primary-foreground font-medium"> 快速跳转 </span>
-                            <span className="text-primary-ring font-medium"> FFLogs </span>
+                            <span className="text-on-accent-pink font-medium"> 快速跳转 </span>
+                            <span className="text-accent-pink-strong font-medium"> FFLogs </span>
                         </div>
                     </div>
                 </a>

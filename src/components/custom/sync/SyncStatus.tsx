@@ -37,28 +37,28 @@ export function SyncStatus() {
         <>
             <BarSync />
             <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                <div className="w-full h-full absolute bg-card rounded-lg border border-card-border blur-[2px] z-10" />
+                <div className="w-full h-full absolute bg-surface-card rounded-lg border border-surface-card-border blur-[2px] z-10" />
                 <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                    <div className="ml-2 flex flex-col gap-y-2.5 text-card-foreground w-full">
+                    <div className="ml-2 flex flex-col gap-y-2.5 text-on-surface-card w-full">
                         {/* Scanning */}
                         {isScanning && (
                             <>
                                 <div className="flex flex-col gap-1.5">
                                     <Progress
                                         value={pct}
-                                        className="h-1.5 bg-sync"
-                                        indicatorClassName="bg-sync-ring"
+                                        className="h-1.5 bg-status-info"
+                                        indicatorClassName="bg-status-info-strong"
                                     />
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs text-muted-foreground font-mono">
+                                        <span className="text-xs text-on-surface-muted font-mono">
                                             {scan.walked.toLocaleString()} / {total_members.toLocaleString()}
                                         </span>
                                         {scan.at_member && (
                                             <div className="flex items-baseline gap-1 max-w-48 overflow-hidden">
-                                                <span className="text-sm font-medium text-card-foreground whitespace-nowrap truncate">
+                                                <span className="text-sm font-medium text-on-surface-card whitespace-nowrap truncate">
                                                     {scan.at_member.name}
                                                 </span>
-                                                <span className="text-xs font-normal text-muted-foreground whitespace-nowrap">
+                                                <span className="text-xs font-normal text-on-surface-muted whitespace-nowrap">
                                                     {scan.at_member.server}
                                                 </span>
                                             </div>
@@ -67,15 +67,15 @@ export function SyncStatus() {
                                 </div>
                                 <p>
                                     本次扫描{' '}
-                                    <span className="font-mono font-semibold text-sync-ring">
+                                    <span className="font-mono font-semibold text-status-info-strong">
                                         {scan.counters.members_with_data.toLocaleString()}
                                     </span>{' '}
                                     位玩家
-                                    <span className="text-sm text-muted-foreground ml-1">
+                                    <span className="text-sm text-on-surface-muted ml-1">
                                         {scan.counters.fights_uploaded.toLocaleString()} 条新增战斗
                                     </span>
                                     {scan.counters.errors > 0 && (
-                                        <span className="text-destructive-ring text-sm ml-1">
+                                        <span className="text-status-danger-strong text-sm ml-1">
                                             {scan.counters.errors} 个错误
                                         </span>
                                     )}
@@ -89,19 +89,19 @@ export function SyncStatus() {
                                 {last_scan ? (
                                     <p>
                                         上次同步{' '}
-                                        <span className="font-mono font-semibold text-sync-ring">
+                                        <span className="font-mono font-semibold text-status-info-strong">
                                             {last_scan.counters.members_with_data.toLocaleString()}
                                         </span>{' '}
                                         名玩家
-                                        <span className="text-sm text-muted-foreground ml-1">
+                                        <span className="text-sm text-on-surface-muted ml-1">
                                             {last_scan.counters.fights_uploaded.toLocaleString()} 条新增战斗
                                         </span>
                                     </p>
                                 ) : (
-                                    <p className="text-muted-foreground">等待首次扫描</p>
+                                    <p className="text-on-surface-muted">等待首次扫描</p>
                                 )}
                                 {next_scan_at && (
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className="text-sm text-on-surface-muted">
                                         下次同步{' '}
                                         <span className="font-semibold">{getTimeAgo(next_scan_at)}</span>
                                     </p>

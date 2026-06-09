@@ -23,7 +23,7 @@ export function HeaderHelp() {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-colors duration-300',
-                    isHighlighted ? 'border-primary-border bg-primary' : 'border-border bg-transparent',
+                    isHighlighted ? 'border-accent-pink-border bg-accent-pink' : 'border-border-default bg-transparent',
                 )}
             />
 
@@ -31,8 +31,8 @@ export function HeaderHelp() {
                 <WrapperIcon
                     icon={HelpIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary={isHighlighted ? 'var(--primary-ring)' : 'var(--secondary-foreground)'}
-                    secondary={isHighlighted ? 'var(--primary-foreground)' : 'var(--muted-foreground)'}
+                    primary={isHighlighted ? 'var(--accent-pink-strong)' : 'var(--on-accent-amber)'}
+                    secondary={isHighlighted ? 'var(--on-accent-pink)' : 'var(--on-surface-muted)'}
                 />
             </div>
         </Link>

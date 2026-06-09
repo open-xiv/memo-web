@@ -8,7 +8,7 @@ const getFastestUrl = (): Promise<string> => {
     return new Promise((resolve) => {
         let resolved = false;
 
-        // Use cached node immediately if available
+        // use cached node immediately if available
         if (typeof localStorage !== 'undefined') {
             const cached = localStorage.getItem(STORAGE_KEY);
             if (cached && BASE_URLS.includes(cached)) {
@@ -17,12 +17,12 @@ const getFastestUrl = (): Promise<string> => {
             }
         }
 
-        // No cache: resolve with default immediately, update in background
+        // no cache: resolve with default immediately, update in background
         if (!resolved) {
             resolve(BASE_URLS[0]);
         }
 
-        // Always race in background to find and cache the fastest node
+        // always race in background to find and cache the fastest node
         let raceResolved = false;
         BASE_URLS.forEach((url) => {
             axios

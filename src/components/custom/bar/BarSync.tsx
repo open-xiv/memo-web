@@ -8,7 +8,7 @@ export function BarSync() {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                    'bg-sync border-sync-border',
+                    'bg-status-info border-status-info-border',
                 )}
             />
 
@@ -16,10 +16,10 @@ export function BarSync() {
                 <WrapperIcon
                     icon={DownrightIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--sync-foreground)"
-                    secondary="var(--sync-ring)"
+                    primary="var(--on-status-info)"
+                    secondary="var(--status-info-strong)"
                 />
-                <span className="text-sync-foreground font-medium transition-colors duration-300">数据同步</span>
+                <span className="text-on-status-info font-medium transition-colors duration-300">数据同步</span>
             </div>
         </div>
     );

@@ -13,7 +13,7 @@ export function BarLoading({ message, detail }: BarLoadingProps) {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                    'bg-secondary border-secondary-border',
+                    'bg-accent-amber border-accent-amber-border',
                 )}
             />
 
@@ -21,12 +21,12 @@ export function BarLoading({ message, detail }: BarLoadingProps) {
                 <WrapperIcon
                     icon={TargetIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--secondary-ring)"
-                    secondary="var(--secondary-foreground)"
+                    primary="var(--accent-amber-strong)"
+                    secondary="var(--on-accent-amber)"
                 />
                 <div className={`flex flex-wrap gap-x-2 gap-y-1 items-baseline transition-colors duration-300`}>
-                    <span className="text-secondary-foreground font-medium">{message}</span>
-                    {detail && <span className="text-secondary-ring text-sm font-medium">{detail}</span>}
+                    <span className="text-on-accent-amber font-medium">{message}</span>
+                    {detail && <span className="text-accent-amber-strong text-sm font-medium">{detail}</span>}
                 </div>
             </div>
         </div>

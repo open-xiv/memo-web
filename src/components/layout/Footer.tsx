@@ -4,7 +4,6 @@ import ChatIcon from '@/assets/icon/chat.svg?react';
 import { useEffect, useState } from 'react';
 import { getInviteLink } from '@/api/discord.ts';
 import HashIcon from '@/assets/icon/hash.svg?react';
-import LinkIcon from '@/assets/icon/link.svg?react';
 
 export default function Footer() {
     const [inviteLink, setInviteLink] = useState<string>('');
@@ -27,45 +26,23 @@ export default function Footer() {
             <div className={`mx-auto container flex flex-wrap items-center space-3 gap-3`}>
                 {/* Author */}
                 <div className="w-full sm:w-fit relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute rounded-lg border border-border blur-[2px] z-10" />
+                    <div className="w-full h-full absolute rounded-lg border border-border-default blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <WrapperIcon
                             icon={StarIcon}
                             className={`size-6`}
-                            primary="var(--primary)"
-                            secondary="var(--primary-foreground)"
+                            primary="var(--accent-pink)"
+                            secondary="var(--on-accent-pink)"
                         />
                         <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline pr-1`}>
                             <span className="font-medium"> Made by </span>
-                            <span className="text-secondary-foreground font-medium"> 蛋卷 </span>
+                            <span className="text-on-accent-amber font-medium"> 蛋卷 </span>
                             <span className="text-xs font-mono font-medium"> HaKu </span>
                             <span className="font-medium"> with </span>
-                            <span className="text-primary-foreground font-medium"> &hearts; </span>
+                            <span className="text-on-accent-pink font-medium"> &hearts; </span>
                         </div>
                     </div>
                 </div>
-
-                {/*  GitHub  */}
-                <a
-                    href="https://github.com/open-xiv"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-fit relative flex items-center justify-center p-3"
-                >
-                    <div className="w-full h-full absolute rounded-lg border border-border blur-[2px] z-10" />
-                    <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <WrapperIcon
-                            icon={LinkIcon}
-                            className={`size-6`}
-                            primary="var(--primary-foreground-ring)"
-                            secondary="var(--primary-foreground)"
-                        />
-                        <div className={`flex flex-wrap gap-x-2 gap-y-1 justify-center items-baseline pr-1`}>
-                            <span className="font-medium"> 贡献 </span>
-                            <span className="text-primary-foreground font-mono font-medium"> GitHub </span>
-                        </div>
-                    </div>
-                </a>
 
                 {/*  QQ Chat  */}
                 <a
@@ -74,17 +51,17 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     className="w-full sm:w-fit relative flex items-center justify-center p-3"
                 >
-                    <div className="w-full h-full absolute rounded-lg border border-border blur-[2px] z-10" />
+                    <div className="w-full h-full absolute rounded-lg border border-border-default blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <WrapperIcon
                             icon={ChatIcon}
                             className={`size-6`}
-                            primary="var(--primary)"
-                            secondary="var(--primary-foreground)"
+                            primary="var(--accent-pink)"
+                            secondary="var(--on-accent-pink)"
                         />
                         <div className={`flex flex-wrap gap-1 pr-1`}>
                             <span className="font-medium"> 加入 </span>
-                            <span className="text-primary-foreground font-medium"> 群聊 </span>
+                            <span className="text-on-accent-pink font-medium"> 群聊 </span>
                         </div>
                     </div>
                 </a>
@@ -97,17 +74,17 @@ export default function Footer() {
                         rel="noopener noreferrer"
                         className="w-full sm:w-fit relative flex items-center justify-center p-3"
                     >
-                        <div className="w-full h-full absolute rounded-lg border border-border blur-[2px] z-10" />
+                        <div className="w-full h-full absolute rounded-lg border border-border-default blur-[2px] z-10" />
                         <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                             <WrapperIcon
                                 icon={HashIcon}
                                 className={`size-6`}
-                                primary="var(--secondary-foreground)"
-                                secondary="var(--secondary-foreground)"
+                                primary="var(--on-accent-amber)"
+                                secondary="var(--on-accent-amber)"
                             />
                             <div className={`flex flex-wrap gap-1 pr-1`}>
                                 <span className="font-medium"> 加入 </span>
-                                <span className="text-secondary-foreground font-medium"> 频道 </span>
+                                <span className="text-on-accent-amber font-medium"> 频道 </span>
                             </div>
                         </div>
                     </a>

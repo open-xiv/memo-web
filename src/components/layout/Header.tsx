@@ -13,9 +13,6 @@ export default function Header() {
                     <HeaderIcon />
                 </div>
 
-                {/* Analysis */}
-                {/*<HeaderAnalysis />*/}
-
                 {/* Member */}
                 <HeaderMember />
 

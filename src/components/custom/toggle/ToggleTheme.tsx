@@ -19,11 +19,11 @@ export default function ToggleTheme() {
     const isDark = resolvedTheme === 'dark';
 
     return (
-        <div className="relative flex h-10 w-fit items-center justify-center rounded-lg bg-muted p-2">
-            <div className={`w-full h-full absolute rounded-lg border border-border bg-transparent blur-[2px]`} />
+        <div className="relative flex h-10 w-fit items-center justify-center rounded-lg bg-surface-muted p-2">
+            <div className={`w-full h-full absolute rounded-lg border border-border-default bg-transparent blur-[2px]`} />
 
             <div
-                className={`absolute size-7 rounded-md bg-background border shadow-md transition-all duration-300 ease-in-out 
+                className={`absolute size-7 rounded-md bg-surface border shadow-md transition-all duration-300 ease-in-out 
                             ${!isDark ? 'left-2' : 'left-9'}`}
             />
 

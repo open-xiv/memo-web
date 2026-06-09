@@ -14,7 +14,7 @@ const AppLayout = () => {
     return (
         <ThemeProvider attribute={'class'} defaultTheme={'dark'} enableSystem={false}>
             <HeaderProvider>
-                <div className="min-h-screen flex flex-col bg-background">
+                <div className="min-h-screen flex flex-col bg-surface">
                     <Header />
                     <main className="flex m-4 mt-1">
                         <div className={`mx-auto container`}>

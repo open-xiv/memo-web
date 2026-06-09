@@ -13,7 +13,7 @@ export function BarError({ message, detail }: BarErrorProps) {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                    'bg-destructive border-destructive-border',
+                    'bg-status-danger border-status-danger-border',
                 )}
             />
 
@@ -21,12 +21,12 @@ export function BarError({ message, detail }: BarErrorProps) {
                 <WrapperIcon
                     icon={ErrorIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--destructive-ring)"
-                    secondary="var(--destructive-foreground)"
+                    primary="var(--status-danger-strong)"
+                    secondary="var(--on-status-danger)"
                 />
                 <div className={`flex flex-wrap gap-x-2 gap-y-1 transition-colors duration-300`}>
-                    <span className="text-destructive-foreground font-medium">{message}</span>
-                    {detail && <span className="text-destructive-ring font-medium">{detail}</span>}
+                    <span className="text-on-status-danger font-medium">{message}</span>
+                    {detail && <span className="text-status-danger-strong font-medium">{detail}</span>}
                 </div>
             </div>
         </div>

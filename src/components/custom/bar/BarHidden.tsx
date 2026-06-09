@@ -8,7 +8,7 @@ export function BarHidden() {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                    'bg-destructive border-destructive-border',
+                    'bg-status-danger border-status-danger-border',
                 )}
             />
 
@@ -16,11 +16,11 @@ export function BarHidden() {
                 <WrapperIcon
                     icon={LockIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--destructive-ring)"
-                    secondary="var(--destructive-foreground)"
+                    primary="var(--status-danger-strong)"
+                    secondary="var(--on-status-danger)"
                 />
                 <div className={`flex flex-wrap gap-x-2 gap-y-1 transition-colors duration-300`}>
-                    <span className="text-destructive-foreground font-medium">玩家已将状态设为隐藏</span>
+                    <span className="text-on-status-danger font-medium">玩家已将状态设为隐藏</span>
                 </div>
             </div>
         </div>

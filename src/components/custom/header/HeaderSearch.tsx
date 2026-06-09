@@ -81,7 +81,7 @@ export function HeaderSearch() {
                 <div
                     className={cn(
                         'absolute inset-0 rounded-lg border blur-[2px] transition-colors duration-300',
-                        isHover ? 'border-primary-border bg-primary' : 'border-border bg-transparent',
+                        isHover ? 'border-accent-pink-border bg-accent-pink' : 'border-border-default bg-transparent',
                     )}
                 />
 
@@ -89,14 +89,14 @@ export function HeaderSearch() {
                     <WrapperIcon
                         icon={SearchIcon}
                         className={cn('size-6 shrink-0 transition-colors duration-300')}
-                        primary={isHover ? 'var(--primary-ring)' : 'var(--muted-foreground)'}
-                        secondary={isHover ? 'var(--primary-foreground)' : 'var(--muted-foreground)'}
+                        primary={isHover ? 'var(--accent-pink-strong)' : 'var(--on-surface-muted)'}
+                        secondary={isHover ? 'var(--on-accent-pink)' : 'var(--on-surface-muted)'}
                     />
                     <Badge
                         variant="outline"
                         className={cn(
-                            'hidden sm:block text-secondary-foreground',
-                            isHover ? 'border-secondary-border bg-secondary' : 'border-border bg-transparent',
+                            'hidden sm:block text-on-accent-amber',
+                            isHover ? 'border-accent-amber-border bg-accent-amber' : 'border-border-default bg-transparent',
                         )}
                     >
                         /
@@ -122,7 +122,7 @@ export function HeaderSearch() {
                                     className={`flex items-baseline m-2`}
                                 >
                                     <span className={`ml-2`}>{result.name}</span>
-                                    <span className="text-muted-foreground text-xs">{result.server}</span>
+                                    <span className="text-on-surface-muted text-xs">{result.server}</span>
                                 </CommandItem>
                             ))}
                         </CommandGroup>
@@ -132,7 +132,7 @@ export function HeaderSearch() {
                         <CommandItem className={`flex items-baseline m-2 text-xs`}>
                             <span className={`ml-2`}>打开搜索</span>
                             <CommandShortcut>
-                                <kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-tiny font-medium opacity-100 select-none">
+                                <kbd className="bg-surface-muted text-on-surface-muted pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-tiny font-medium opacity-100 select-none">
                                     <span className="text-xs">/</span>
                                 </kbd>
                             </CommandShortcut>
@@ -140,7 +140,7 @@ export function HeaderSearch() {
                         <CommandItem className={`flex items-baseline m-2 text-xs`}>
                             <span className={`ml-2`}>关闭搜索</span>
                             <CommandShortcut>
-                                <kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-tiny font-medium opacity-100 select-none">
+                                <kbd className="bg-surface-muted text-on-surface-muted pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-tiny font-medium opacity-100 select-none">
                                     <span className="text-xs">Esc</span>
                                 </kbd>
                             </CommandShortcut>

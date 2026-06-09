@@ -4,6 +4,7 @@ import { getJobIconByID } from '@/lib/job.ts';
 import type { Player } from '@/types/fight.ts';
 import { useMemo } from 'react';
 import { Crown } from 'lucide-react';
+import { ANONYMOUS_MODE } from '@/lib/dev.ts';
 
 interface PlayerCardProps {
     player: Player;
@@ -31,8 +32,8 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300 z-10',
                     isCurrentMember
-                        ? 'border-primary-ring bg-primary'
-                        : 'border-border bg-transparent group-hover:border-secondary-border group-hover:bg-secondary',
+                        ? 'border-accent-pink-strong bg-accent-pink'
+                        : 'border-border-default bg-transparent group-hover:border-accent-amber-border group-hover:bg-accent-amber',
                 )}
             />
 
@@ -41,11 +42,16 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
                 {icon && <img src={icon} alt={player.name} className="w-8 h-8 shrink-0" />}
 
                 {/* Name & Server */}
-                <div className="flex flex-col items-start justify-center min-w-0 flex-1">
+                <div
+                    className={cn(
+                        'flex flex-col items-start justify-center min-w-0 flex-1',
+                        ANONYMOUS_MODE && 'blur-md select-none',
+                    )}
+                >
                     <span
                         className={cn(
                             'text-sm font-medium truncate w-full',
-                            isCurrentMember ? 'text-primary-ring' : 'text-card-foreground',
+                            isCurrentMember ? 'text-accent-pink-strong' : 'text-on-surface-card',
                         )}
                     >
                         {player.name}
@@ -54,7 +60,7 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
                     <span
                         className={cn(
                             'text-tiny font-mono truncate w-full',
-                            isCurrentMember ? 'text-primary-ring' : 'text-muted-foreground',
+                            isCurrentMember ? 'text-accent-pink-strong' : 'text-on-surface-muted',
                         )}
                     >
                         {player.server}
@@ -64,7 +70,7 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
                 {/* Death Count */}
                 {deathCount > 0 && (
                     <div className={cn('flex items-center gap-1.5')}>
-                        {isDeathKing && <Crown className="size-4 text-secondary-foreground fill-current" />}
+                        {isDeathKing && <Crown className="size-4 text-on-accent-amber fill-current" />}
 
                         <div
                             className={cn(
@@ -74,13 +80,13 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
                             <div
                                 className={cn(
                                     'absolute inset-0 rounded-lg border blur-[1px] transition-all duration-300',
-                                    'bg-secondary border-secondary-border',
+                                    'bg-accent-amber border-accent-amber-border',
                                 )}
                             />
 
                             <div className="relative z-20 flex h-full items-baseline justify-center gap-1 transition-colors duration-300">
-                                <span className="text-secondary-foreground text-sm font-medium">{deathCount}</span>
-                                <span className="text-secondary-ring text-xs font-medium">次倒地</span>
+                                <span className="text-on-accent-amber text-sm font-medium">{deathCount}</span>
+                                <span className="text-accent-amber-strong text-xs font-medium">次倒地</span>
                             </div>
                         </div>
                     </div>

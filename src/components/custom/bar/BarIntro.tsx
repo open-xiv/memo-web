@@ -13,7 +13,7 @@ export function BarIntro({ message, detail }: BarIntroProps) {
             <div
                 className={cn(
                     'absolute inset-0 rounded-lg border blur-[2px] transition-all duration-300',
-                    'bg-category border-category-border',
+                    'bg-accent-purple border-accent-purple-border',
                 )}
             />
 
@@ -21,12 +21,12 @@ export function BarIntro({ message, detail }: BarIntroProps) {
                 <WrapperIcon
                     icon={PolygenIcon}
                     className={cn('size-6 shrink-0 transition-colors duration-300')}
-                    primary="var(--category-ring)"
-                    secondary="var(--category)"
+                    primary="var(--accent-purple-strong)"
+                    secondary="var(--accent-purple)"
                 />
                 <div className={`flex flex-wrap gap-x-2 gap-y-1 transition-colors duration-300`}>
-                    <span className="text-category-foreground font-medium">{message}</span>
-                    {detail && <span className="text-category-ring font-medium">{detail}</span>}
+                    <span className="text-on-accent-purple font-medium">{message}</span>
+                    {detail && <span className="text-accent-purple-strong font-medium">{detail}</span>}
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { MemberOverview } from '@/types/member.ts';
 import type { DutySummary } from '@/types/duty.ts';
-import FightCard from '@/components/custom/fight/list/FightCard.tsx';
+import FightCard from '@/components/custom/fight/parts/FightCard.tsx';
 import { cn } from '@/lib/utils.ts';
 import { getJobIconByID } from '@/lib/job.ts';
 
@@ -101,8 +101,8 @@ function EmptyFightCard({ duty, selected }: { duty?: DutySummary; selected?: boo
                 className={cn(
                     'w-full h-full absolute inset-0 rounded-lg border blur-[2px] z-10 transition-all duration-300',
                     selected
-                        ? 'bg-primary/30 border-primary-border'
-                        : 'bg-card border-card-border group-hover:border-secondary-border group-hover:bg-secondary/30',
+                        ? 'bg-accent-pink/30 border-accent-pink-border'
+                        : 'bg-surface-card border-surface-card-border group-hover:border-accent-amber-border group-hover:bg-accent-amber/30',
                 )}
             />
 
@@ -112,22 +112,22 @@ function EmptyFightCard({ duty, selected }: { duty?: DutySummary; selected?: boo
                     <img src={icons[0]} alt="job" className="w-9 h-9 opacity-30 grayscale" />
                     <div className="flex flex-col items-start justify-center gap-0.5">
                         <div className="flex gap-0.5 items-center">
-                            <span className="text-card-foreground text-sm font-medium">
+                            <span className="text-on-surface-card text-sm font-medium">
                                 {duty?.name ?? '未知副本'}
                             </span>
                         </div>
-                        <span className="text-destructive-ring text-xs font-normal">未记录</span>
+                        <span className="text-status-danger-strong text-xs font-normal">未记录</span>
                     </div>
                 </div>
 
                 <div className="flex flex-col items-end justify-start gap-0.5">
-                    <ScrambleText length={5} className="text-card-ring/40 text-sm font-medium" />
+                    <ScrambleText length={5} className="text-surface-card-strong/40 text-sm font-medium" />
                     <div className="flex flex-col items-end gap-0 text-tiny">
-                        <ScrambleText length={7} className="text-card-ring/25" />
+                        <ScrambleText length={7} className="text-surface-card-strong/25" />
                         <div className="flex items-center gap-1 opacity-80">
-                            <ScrambleText length={4} className="text-card-ring/25" />
-                            <span className="text-card-ring/25">·</span>
-                            <ScrambleText length={5} className="text-card-ring/25" />
+                            <ScrambleText length={4} className="text-surface-card-strong/25" />
+                            <span className="text-surface-card-strong/25">·</span>
+                            <ScrambleText length={5} className="text-surface-card-strong/25" />
                         </div>
                     </div>
                 </div>
@@ -146,9 +146,9 @@ function EmptyFightCard({ duty, selected }: { duty?: DutySummary; selected?: boo
                     ))}
                 </div>
                 <div className="flex gap-x-0.5 items-baseline">
-                    <ScrambleText length={4} className="text-card-ring/30 text-[10px]" />
-                    <ScrambleText length={4} className="text-card-ring/30 text-sm font-semibold" />
-                    <ScrambleText length={1} className="text-card-ring/30 text-xs" />
+                    <ScrambleText length={4} className="text-surface-card-strong/30 text-[10px]" />
+                    <ScrambleText length={4} className="text-surface-card-strong/30 text-sm font-semibold" />
+                    <ScrambleText length={1} className="text-surface-card-strong/30 text-xs" />
                 </div>
             </div>
         </div>
