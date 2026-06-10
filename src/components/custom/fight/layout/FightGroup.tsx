@@ -61,18 +61,21 @@ function FightGroupItem({ group, memberName, memberServer, showPhase }: FightGro
                         </div>
 
                         <div className="flex items-baseline gap-2 px-2.5 py-1 rounded-md bg-accent-pink border border-accent-pink-border text-on-accent-pink shadow-sm transition-colors duration-300">
-                            <span className="text-xs">最远进度</span>
-                            {group.isClear && <span className={cn('text-xs font-medium')}>已完成</span>}
-                            {!group.isClear && group.phase && group.phase !== 'N/A' && (
-                                <span className={cn('text-xs font-medium')}>{group.phase}</span>
-                            )}
-                            {!group.isClear && (
-                                <div className={cn('flex items-baseline gap-1')}>
-                                    <span className={cn('text-xs font-semibold text-accent-pink-strong')}>
-                                        {(group.enemyHp * 100).toFixed(1)}
-                                    </span>
-                                    <span className={cn('text-tiny font-medium')}>%</span>
-                                </div>
+                            {group.isClear ? (
+                                <span className={cn('text-xs font-medium')}>已完成</span>
+                            ) : (
+                                <>
+                                    <span className="text-xs">最远进度</span>
+                                    {group.phase && group.phase !== 'N/A' && (
+                                        <span className={cn('text-xs font-medium')}>{group.phase}</span>
+                                    )}
+                                    <div className={cn('flex items-baseline gap-1')}>
+                                        <span className={cn('text-xs font-semibold text-accent-pink-strong')}>
+                                            {(group.enemyHp * 100).toFixed(1)}
+                                        </span>
+                                        <span className={cn('text-tiny font-medium')}>%</span>
+                                    </div>
+                                </>
                             )}
                         </div>
                     </div>
