@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { MemberOverview, MemberSearchResult, MemberZoneProgress } from '@/types/member.ts';
+import type { Fight } from '@/types/fight.ts';
 
 const BASE_URLS = ['https://api.sumemo.dev', 'https://sumemo.diemoe.net'];
 const STORAGE_KEY = 'sumemo_best_node';
@@ -101,6 +102,28 @@ export const getMemberZoneLatestProgresses = async (
         }
         return progress;
     }) as [MemberZoneProgress];
+};
+
+// normalize death counts the same way member endpoints do: the wiping pull
+// registers a death for everyone, so drop one off non-clear fights.
+const normalizeFightDeaths = (fight: Fight): Fight => {
+    if (fight.clear || !fight.players) {
+        return fight;
+    }
+    return {
+        ...fight,
+        players: fight.players.map((p) => ({ ...p, death_count: Math.max(0, p.death_count - 1) })),
+    };
+};
+
+export const getZoneLeaderboard = async (zoneID: number, limit: number = 100): Promise<Fight[]> => {
+    const res = await apiClient.get<Fight[]>(`/fight/leaderboard/${zoneID}`, { params: { limit } });
+    return res.data.map(normalizeFightDeaths);
+};
+
+export const getZoneRecentFights = async (zoneID: number, limit: number = 50): Promise<Fight[]> => {
+    const res = await apiClient.get<Fight[]>(`/fight/recent/${zoneID}`, { params: { limit } });
+    return res.data.map(normalizeFightDeaths);
 };
 
 export const getMemberOverview = async (name: string, server: string): Promise<MemberOverview> => {

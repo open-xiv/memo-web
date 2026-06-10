@@ -2,42 +2,16 @@ import { BarIntro } from '@/components/custom/bar/BarIntro.tsx';
 import { Badge } from '@/components/ui/badge.tsx';
 import { Link } from 'react-router-dom';
 import { BarAnalysis } from '@/components/custom/bar/BarAnalysis.tsx';
-import AttendanceImage from '@/assets/analysis/attendance.png';
-import ClearImage from '@/assets/analysis/clear.png';
-import RateImage from '@/assets/analysis/rate.png';
-import { useTheme } from 'next-themes';
-import { cn } from '@/lib/utils.ts';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { BarSearchGuide } from '@/components/custom/bar/BarSearchGuide.tsx';
 import { SyncStatus } from '@/components/custom/sync/SyncStatus.tsx';
 import { Kbd } from '@/components/ui/kbd.tsx';
-import { Skeleton } from '@/components/ui/skeleton.tsx';
-import { useState } from 'react';
+import { Leaderboard } from '@/components/custom/fight/layout/Leaderboard.tsx';
+import { LatestFights } from '@/components/custom/fight/layout/LatestFights.tsx';
 
-function AnalysisImage({ src, alt, isDark }: { src: string; alt: string; isDark: boolean }) {
-    const [loaded, setLoaded] = useState(false);
-    return (
-        <div className="relative h-52">
-            {!loaded && <Skeleton className="absolute inset-0 h-52 w-full rounded-md" />}
-            <img
-                src={src}
-                alt={alt}
-                loading="lazy"
-                onLoad={() => setLoaded(true)}
-                className={cn(
-                    'h-52 rounded-md transition-all duration-300',
-                    isDark && 'invert',
-                    !loaded && 'opacity-0',
-                )}
-            />
-        </div>
-    );
-}
+// 妖星乱舞绝境战 (FRU) — the zone featured on the home page.
+const FEATURED_ZONE_ID = 1363;
 
 export default function Home() {
-    const { theme } = useTheme();
-    const isDark = theme === 'dark';
-
     return (
         <div className="flex flex-col gap-4">
             <div className={`w-full flex flex-col gap-4`}>
@@ -78,69 +52,27 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Analysis */}
-                <BarAnalysis message={`数据披露`} detail={`中量级`}></BarAnalysis>
-                <ScrollArea className="mx-4 w-11/12 relative flex items-center justify-center whitespace-nowrap">
-                    {/*<div className="w-full h-full absolute bg-surface-card rounded-lg border border-surface-card-border blur-[2px] z-10" />*/}
-                    <div className="w-max h-full flex items-center justify-start gap-4 z-20 mb-2">
-                        {/* Attendance */}
-                        <figure key="attendance-analysis">
-                            <AnalysisImage src={AttendanceImage} alt="Attendance Analysis" isDark={isDark} />
-                            <figcaption
-                                className={`text-on-surface-card mt-2 mx-2 flex items-baseline justify-start font-medium`}
-                            >
-                                <span className={`font-semibold mr-1`}> 1. </span>
-                                中量级参加人数
-                                <span className={`text-on-accent-pink text-sm font-semibold ml-2`}>
-                                    {' '}
-                                    至少进入一次副本{' '}
-                                </span>
-                            </figcaption>
-                        </figure>
-
-                        {/* Clear */}
-                        <figure key="clear-analysis">
-                            <AnalysisImage src={ClearImage} alt="Clear Rate Analysis" isDark={isDark} />
-                            <figcaption
-                                className={`text-on-surface-card mt-2 mx-2 flex items-baseline justify-start font-medium`}
-                            >
-                                <span className={`font-semibold mr-1`}> 2. </span>
-                                中量级通关人数
-                                <span className={`text-on-accent-pink text-sm font-semibold ml-2`}> 完成 </span>
-                                <span className={`text-on-accent-pink text-sm font-mono font-semibold ml-2`}>
-                                    {' '}
-                                    m8s{' '}
-                                </span>
-                            </figcaption>
-                        </figure>
-
-                        {/* Pass Rate */}
-                        <figure key="rate-analysis">
-                            <AnalysisImage src={RateImage} alt="Pass Rate Analysis" isDark={isDark} />
-                            <figcaption
-                                className={`text-on-surface-card mt-2 mx-2 flex items-baseline justify-start font-medium`}
-                            >
-                                <span className={`font-semibold mr-1`}> 3. </span>
-                                中量级通关率
-                                <span className={`text-on-accent-pink text-sm font-semibold ml-2`}>
-                                    {' '}
-                                    各层的通过率{' '}
-                                </span>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <ScrollBar orientation="horizontal" />
-                </ScrollArea>
+                {/* Leaderboard */}
+                <BarAnalysis message={`进度排名`} detail={`妖星乱舞绝境战`}></BarAnalysis>
+                <div className="mx-4 w-11/12">
+                    <Leaderboard zoneID={FEATURED_ZONE_ID} limit={10} />
+                </div>
                 <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
                     <div className="w-full h-full absolute bg-surface-card rounded-lg border border-surface-card-border blur-[2px] z-10" />
                     <div className="w-full h-full flex items-center justify-start gap-2 z-20">
                         <div className={`ml-2 flex flex-col gap-y-2.5 text-on-surface-card`}>
                             <p>
-                                数据 <span className={`text-on-accent-pink`}>仅供参考</span>，用于分析副本难度。
+                                排行榜按队伍 <span className={`text-on-accent-pink`}>最远进度</span> 排序，已通关的队伍优先。
                             </p>
-                            <p>统计数据源于玩家上报频率，存在少许误差。</p>
+                            <p>数据源于玩家上报，可能存在延迟或遗漏。</p>
                         </div>
                     </div>
+                </div>
+
+                {/* Latest Fights */}
+                <BarAnalysis message={`最新战斗`} detail={`妖星乱舞绝境战`}></BarAnalysis>
+                <div className="mx-4 w-11/12">
+                    <LatestFights zoneID={FEATURED_ZONE_ID} limit={10} />
                 </div>
 
                 {/* Sync Status */}
