@@ -79,7 +79,10 @@ export function groupFightsByTeam(fights: Fight[]): FightGroup[] {
             group.duration = (fightEndTime - new Date(group.startTime).getTime()) * 1e6;
         }
 
-        // update best progress: find fight with max enemy_id
+        // update best progress: rank by phase, then by remaining enemy hp.
+        // enemy_id is NOT a reliable progression key — a later phase can carry a
+        // *lower* npc id than earlier ones (e.g. FRU P4 boss 18475 < P1/P2/P3
+        // 19504/19506/19508), so Math.max(enemy_id) would skip the furthest phase.
         const clearedFight = group.fights.find(f => f.clear);
         if (clearedFight) {
             group.isClear = true;
@@ -87,9 +90,9 @@ export function groupFightsByTeam(fights: Fight[]): FightGroup[] {
             group.enemyId = clearedFight.progress.enemy_id;
             group.phase = clearedFight.progress.phase_name || '';
         } else {
-            const maxEnemyId = Math.max(...group.fights.map(f => f.progress.enemy_id));
-            const fightsWithMaxEnemy = group.fights.filter(f => f.progress.enemy_id === maxEnemyId);
-            const bestFight = fightsWithMaxEnemy.reduce((best, f) => f.progress.enemy_hp < best.progress.enemy_hp ? f : best);
+            const maxPhase = Math.max(...group.fights.map(f => f.progress.phase));
+            const fightsAtMaxPhase = group.fights.filter(f => f.progress.phase === maxPhase);
+            const bestFight = fightsAtMaxPhase.reduce((best, f) => f.progress.enemy_hp < best.progress.enemy_hp ? f : best);
             group.enemyId = bestFight.progress.enemy_id;
             group.enemyHp = bestFight.progress.enemy_hp;
             group.phase = bestFight.progress.phase_name || '';
