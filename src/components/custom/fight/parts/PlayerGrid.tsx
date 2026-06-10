@@ -25,7 +25,7 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
         <Link
             to={`/member/${playerSlub}`}
             className={cn(
-                'group relative flex w-60 items-center justify-center rounded-lg transition-colors duration-300 px-3',
+                'group relative flex w-full sm:w-60 items-center justify-center rounded-lg transition-colors duration-300 px-3',
             )}
         >
             <div
@@ -67,9 +67,9 @@ function PlayerCard({ player, deathCount, isCurrentMember, maxDeaths, maxDeathCo
                     </span>
                 </div>
 
-                {/* Death Count */}
+                {/* Death Count — hidden on phones (2-col layout has no room) */}
                 {deathCount > 0 && (
-                    <div className={cn('flex items-center gap-1.5')}>
+                    <div className={cn('hidden sm:flex items-center gap-1.5')}>
                         {isDeathKing && <Crown className="size-4 text-on-accent-amber fill-current" />}
 
                         <div
@@ -111,7 +111,7 @@ export function PlayerGrid({ players, totalDeaths, memberName, memberServer }: P
     }, [totalDeaths]);
 
     return (
-        <div className="w-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 py-2 transition-colors duration-300 items-start justify-items-start">
+        <div className="w-full sm:w-fit grid grid-cols-2 lg:grid-cols-4 gap-3 py-2 transition-colors duration-300 items-start justify-items-start">
             {players.map((player) => {
                 const playerSlub = `${player.name}@${player.server}`;
                 const deaths = totalDeaths[playerSlub] || 0;
