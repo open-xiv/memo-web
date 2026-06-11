@@ -62,7 +62,7 @@ export default function Home() {
 
                 {/* Progress distribution */}
                 <BarAnalysis message={`进度分布`} detail={`妖星乱舞绝境战`}></BarAnalysis>
-                <div className="mx-4 w-11/12 flex flex-col lg:flex-row gap-4 items-start">
+                <div className="mx-4 w-11/12 flex flex-col lg:flex-row gap-4 items-center">
                     <Suspense fallback={<BarLoading message="进度分布加载中" />}>
                         <ProgressDistribution zoneID={FEATURED_ZONE_ID} />
                     </Suspense>
