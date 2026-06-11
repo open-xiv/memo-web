@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { MemberOverview, MemberSearchResult, MemberZoneProgress } from '@/types/member.ts';
 import type { Fight } from '@/types/fight.ts';
+import type { ZoneProgress, ZoneJob } from '@/types/stats.ts';
 
 const BASE_URLS = ['https://api.sumemo.dev', 'https://sumemo.diemoe.net'];
 const STORAGE_KEY = 'sumemo_best_node';
@@ -124,6 +125,16 @@ export const getZoneLeaderboard = async (zoneID: number, limit: number = 100): P
 export const getZoneRecentFights = async (zoneID: number, limit: number = 50): Promise<Fight[]> => {
     const res = await apiClient.get<Fight[]>(`/fight/recent/${zoneID}`, { params: { limit } });
     return res.data.map(normalizeFightDeaths);
+};
+
+export const getZoneProgress = async (zoneID: number): Promise<ZoneProgress[]> => {
+    const res = await apiClient.get<ZoneProgress[]>(`/stats/zone/${zoneID}/progress`);
+    return res.data;
+};
+
+export const getZoneJobs = async (zoneID: number): Promise<ZoneJob[]> => {
+    const res = await apiClient.get<ZoneJob[]>(`/stats/zone/${zoneID}/jobs`);
+    return res.data;
 };
 
 export const getMemberOverview = async (name: string, server: string): Promise<MemberOverview> => {

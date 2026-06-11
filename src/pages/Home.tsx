@@ -5,10 +5,18 @@ import { BarAnalysis } from '@/components/custom/bar/BarAnalysis.tsx';
 import { BarSearchGuide } from '@/components/custom/bar/BarSearchGuide.tsx';
 import { SyncStatus } from '@/components/custom/sync/SyncStatus.tsx';
 import { Kbd } from '@/components/ui/kbd.tsx';
+import { lazy, Suspense } from 'react';
 import { Leaderboard } from '@/components/custom/fight/layout/Leaderboard.tsx';
 import { LatestFights } from '@/components/custom/fight/layout/LatestFights.tsx';
+import { BarLoading } from '@/components/custom/bar/BarLoading.tsx';
+import { JobDistribution } from '@/components/custom/stats/JobDistribution.tsx';
 
-// 妖星乱舞绝境战 (FRU) — the zone featured on the home page.
+const ProgressDistribution = lazy(() =>
+    import('@/components/custom/stats/ProgressDistribution.tsx').then((m) => ({
+        default: m.ProgressDistribution,
+    })),
+);
+
 const FEATURED_ZONE_ID = 1363;
 
 export default function Home() {
@@ -50,6 +58,15 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {/* Progress distribution */}
+                <BarAnalysis message={`进度分布`} detail={`妖星乱舞绝境战`}></BarAnalysis>
+                <div className="mx-4 w-11/12 flex flex-col lg:flex-row gap-4 items-start">
+                    <Suspense fallback={<BarLoading message="进度分布加载中" />}>
+                        <ProgressDistribution zoneID={FEATURED_ZONE_ID} />
+                    </Suspense>
+                    <JobDistribution zoneID={FEATURED_ZONE_ID} />
                 </div>
 
                 {/* Leaderboard */}
