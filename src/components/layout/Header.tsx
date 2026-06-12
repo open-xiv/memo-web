@@ -2,6 +2,7 @@ import ToggleTheme from '@/components/custom/toggle/ToggleTheme.tsx';
 import { HeaderMember } from '@/components/custom/header/HeaderMember.tsx';
 import { HeaderSearch } from '@/components/custom/header/HeaderSearch.tsx';
 import { HeaderHelp } from '@/components/custom/header/HeaderHelp.tsx';
+import { HeaderLeaderboard } from '@/components/custom/header/HeaderLeaderboard.tsx';
 import { HeaderIcon } from '@/components/custom/header/HeaderIcon.tsx';
 
 export default function Header() {
@@ -23,6 +24,9 @@ export default function Header() {
                 <div className="ml-auto">
                     <ToggleTheme />
                 </div>
+
+                {/* Leaderboard — kept visible on mobile too, since it's the only entry point */}
+                <HeaderLeaderboard />
 
                 {/* Help */}
                 <div className="hidden sm:block">

@@ -9,6 +9,7 @@ import Footer from '@/components/layout/Footer.tsx';
 const Home = lazy(() => import('../pages/Home'));
 const Member = lazy(() => import('../pages/Member'));
 const Help = lazy(() => import('../pages/Help'));
+const Leaderboard = lazy(() => import('../pages/Leaderboard'));
 
 const AppLayout = () => {
     return (
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home />,
+            },
+            {
+                path: '/leaderboard',
+                element: <Leaderboard />,
             },
             {
                 path: '/member/:player',

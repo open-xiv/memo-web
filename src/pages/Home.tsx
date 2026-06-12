@@ -6,7 +6,6 @@ import { BarSearchGuide } from '@/components/custom/bar/BarSearchGuide.tsx';
 import { SyncStatus } from '@/components/custom/sync/SyncStatus.tsx';
 import { Kbd } from '@/components/ui/kbd.tsx';
 import { lazy, Suspense } from 'react';
-import { Leaderboard } from '@/components/custom/fight/layout/Leaderboard.tsx';
 import { LatestFights } from '@/components/custom/fight/layout/LatestFights.tsx';
 import { BarLoading } from '@/components/custom/bar/BarLoading.tsx';
 import { JobDistribution } from '@/components/custom/stats/JobDistribution.tsx';
@@ -67,23 +66,6 @@ export default function Home() {
                         <ProgressDistribution zoneID={FEATURED_ZONE_ID} />
                     </Suspense>
                     <JobDistribution zoneID={FEATURED_ZONE_ID} />
-                </div>
-
-                {/* Leaderboard */}
-                <BarAnalysis message={`进度排名`} detail={`妖星乱舞绝境战`}></BarAnalysis>
-                <div className="mx-4 w-11/12">
-                    <Leaderboard zoneID={FEATURED_ZONE_ID} limit={10} />
-                </div>
-                <div className="mx-4 w-11/12 relative flex items-center justify-center p-3">
-                    <div className="w-full h-full absolute bg-surface-card rounded-lg border border-surface-card-border blur-[2px] z-10" />
-                    <div className="w-full h-full flex items-center justify-start gap-2 z-20">
-                        <div className={`ml-2 flex flex-col gap-y-2.5 text-on-surface-card`}>
-                            <p>
-                                排行榜按队伍 <span className={`text-on-accent-pink`}>最远进度</span> 排序，已通关的队伍优先。
-                            </p>
-                            <p>数据源于玩家上报，可能存在延迟或遗漏。</p>
-                        </div>
-                    </div>
                 </div>
 
                 {/* Latest Fights */}
